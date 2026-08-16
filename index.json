@@ -2,7 +2,7 @@
   "registry_name": "Attune Standard Pack Index",
   "registry_url": "https://github.com/attune-system/index",
   "version": "1.0",
-  "last_updated": "2026-08-16T02:56:56Z",
+  "last_updated": "2026-08-16T02:57:08Z",
   "packs": [
     {
       "ref": "activedirectory",
@@ -5381,13 +5381,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/salesforce.git",
-          "ref": "5efb9bafcfc1ef552b9d46598b39e0ed38200020",
-          "checksum": "sha256:094c675cc8efb42989e878921e7b9619103a3c9ac6acd5ac8656fad2a61841c1"
+          "ref": "122e19f7396f8a9ff458287d874d567056d6c928",
+          "checksum": "sha256:95de3fa8a7cd2c6b789911414cdc2318d630516db9b0a2673d3ef77927b00630"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/salesforce/tar.gz/5efb9bafcfc1ef552b9d46598b39e0ed38200020",
-          "checksum": "sha256:64b8058fb4ccb4881daf6fb6293f55f0c19047dc6922f697c19a789d48c14a97"
+          "url": "https://codeload.github.com/attune-packs/salesforce/tar.gz/122e19f7396f8a9ff458287d874d567056d6c928",
+          "checksum": "sha256:e04e9310ab122d953ccd9c9b5a472fc03dfc2ce0c5d25ef08dc8cadfb27de299"
         }
       ],
       "contents": {
@@ -5516,7 +5516,7 @@
       "meta": {
         "category": "integration",
         "default_branch": "main",
-        "commit": "5efb9bafcfc1ef552b9d46598b39e0ed38200020",
+        "commit": "122e19f7396f8a9ff458287d874d567056d6c928",
         "stars": 0
       },
       "repository": "https://github.com/attune-packs/salesforce",
