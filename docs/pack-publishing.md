@@ -40,6 +40,9 @@ workflow directly to each default branch:
 
 The rollout script is intentionally dry-run by default. If protected branches
 are enabled, use the template in normal pull requests instead of `--apply`.
+Applying the rollout requires `gh` for repository discovery and SSH Git write
+access to the selected pack repositories. It does not require the local `gh`
+OAuth token to have the broad `workflow` scope.
 
 ## Pack Requirements
 

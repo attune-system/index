@@ -4,7 +4,8 @@ set -euo pipefail
 org="attune-packs"
 apply=false
 workflow_path=".github/workflows/publish-pack-index.yml"
-template="templates/publish-pack-index.yml"
+repository_root=$(pwd)
+template="$repository_root/templates/publish-pack-index.yml"
 
 if [[ "${1:-}" == "--apply" ]]; then
   apply=true
@@ -14,10 +15,12 @@ elif [[ $# -ne 0 ]]; then
 fi
 
 command -v gh >/dev/null || { echo "gh is required" >&2; exit 1; }
-command -v base64 >/dev/null || { echo "base64 is required" >&2; exit 1; }
+command -v git >/dev/null || { echo "git is required" >&2; exit 1; }
 [[ -f "$template" ]] || { echo "run from the index repository root" >&2; exit 1; }
 
-content=$(base64 -w 0 "$template")
+rollout_root=$(mktemp -d "${TMPDIR:-/tmp}/attune-index-rollout.XXXXXX")
+trap 'rm -rf "$rollout_root"' EXIT
+
 gh repo list "$org" --limit 100 --source --no-archived --json nameWithOwner,defaultBranchRef \
   --jq '.[] | [.nameWithOwner, .defaultBranchRef.name] | @tsv' |
 while IFS=$'\t' read -r repository branch; do
@@ -29,9 +32,13 @@ while IFS=$'\t' read -r repository branch; do
     echo "would add $workflow_path to $repository@$branch"
     continue
   fi
-  gh api --method PUT "repos/$repository/contents/$workflow_path" \
-    -f message="Add standard pack index publishing" \
-    -f content="$content" \
-    -f branch="$branch" >/dev/null
+
+  checkout="$rollout_root/${repository#*/}"
+  git clone --quiet --depth 1 --branch "$branch" "git@github.com:$repository.git" "$checkout"
+  mkdir -p "$checkout/.github/workflows"
+  cp "$template" "$checkout/$workflow_path"
+  git -C "$checkout" add "$workflow_path"
+  git -C "$checkout" commit --quiet -m "Add standard pack index publishing"
+  git -C "$checkout" push --quiet origin "$branch"
   echo "added $workflow_path to $repository@$branch"
 done
