@@ -2,7 +2,7 @@
   "registry_name": "Attune Standard Pack Index",
   "registry_url": "https://github.com/attune-system/index",
   "version": "1.0",
-  "last_updated": "2026-08-16T02:55:49Z",
+  "last_updated": "2026-08-16T02:56:04Z",
   "packs": [
     {
       "ref": "activedirectory",
@@ -4280,13 +4280,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/openstack.git",
-          "ref": "72f02b34aec2bd34955fb3356ad8a9abc31bdf26",
-          "checksum": "sha256:da0eb4946eaf6357fe11f0241a31a8976aa9b4b5eec8a60f3c6ac2250b3033cb"
+          "ref": "b3f889703f8c5d07343afd28034aea8825108a1c",
+          "checksum": "sha256:aab6c464ae3c23db613de9cdfe9c3fe6616b51bfc828a402c0a2a183bcc2d31c"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/openstack/tar.gz/72f02b34aec2bd34955fb3356ad8a9abc31bdf26",
-          "checksum": "sha256:5029866ab6ad513a3a28db6d9ca24560f22bf9708ef0518ed5113a0a8b03c464"
+          "url": "https://codeload.github.com/attune-packs/openstack/tar.gz/b3f889703f8c5d07343afd28034aea8825108a1c",
+          "checksum": "sha256:74092e68d24c5cd2ec145c80c3934a5e96d076bcea1a9fcb6b0a47d85e46e527"
         }
       ],
       "contents": {
@@ -4444,7 +4444,7 @@
       "meta": {
         "category": "integration",
         "default_branch": "main",
-        "commit": "72f02b34aec2bd34955fb3356ad8a9abc31bdf26",
+        "commit": "b3f889703f8c5d07343afd28034aea8825108a1c",
         "stars": 0
       },
       "repository": "https://github.com/attune-packs/openstack",
