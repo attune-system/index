@@ -58,12 +58,13 @@ controls listed in [Pack Publishing](pack-publishing.md#release-based-publishing
 
 ## Rollout Status
 
-The caller-workflow rollout script currently identifies all 44 repositories as
-needing `.github/workflows/publish-pack-index.yml`. Do not apply the rollout
-until:
+The caller workflow was deployed to all 44 repositories on 2026-08-15. The
+Slack pilot and every rollout-triggered caller run successfully consumed the
+`ATTUNE_INDEX_TOKEN` organization secret and dispatched an index refresh. A
+full post-rollout sync verified that all 44 indexed commits match their pack
+repositories' `main` HEAD.
 
-- `attune-system/index` has been created and populated.
-- Its `main` workflow permissions allow the sync workflow to write.
-- The `ATTUNE_INDEX_TOKEN` organization secret exists in `attune-packs` and is
-  scoped to every participating repository.
-- A single-pack pilot has successfully dispatched and published an update.
+The dry-run mode in `scripts/rollout_pack_workflow.sh` now reports every
+eligible repository as already configured. Keep the organization secret
+available to all participating repositories and use the scheduled full sync as
+the recovery path for missed or coalesced dispatch events.
