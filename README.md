@@ -9,7 +9,10 @@ The consumable index is [`index.json`](index.json):
 https://raw.githubusercontent.com/attune-system/index/main/index.json
 ```
 
-Add it to Attune with:
+Current Attune database migrations add this URL as a managed index so fresh and
+upgraded installations can browse standard packs immediately. Administrators
+can reorder, disable, or permanently delete it. On older installations, or to
+restore a deleted row, add it with:
 
 ```sh
 attune pack index add \
