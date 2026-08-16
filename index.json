@@ -2,7 +2,7 @@
   "registry_name": "Attune Standard Pack Index",
   "registry_url": "https://github.com/attune-system/index",
   "version": "1.0",
-  "last_updated": "2026-08-16T02:53:39Z",
+  "last_updated": "2026-08-16T02:55:36Z",
   "packs": [
     {
       "ref": "activedirectory",
@@ -1548,13 +1548,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/docker.git",
-          "ref": "6fd21672371ca36edcb67577d0d6d9ce0a89b4dc",
-          "checksum": "sha256:1c6e7c81ad938325f419e0f193b04766a2cf2482abb45135d3ccca5d625f5f93"
+          "ref": "f4d5e2a14a9ec9b15dfa990dd10578018b03604a",
+          "checksum": "sha256:d4ffac11067795419a9c3f49c9a34a90528e6df7fc47a4da1fa4dcbb21474e48"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/docker/tar.gz/6fd21672371ca36edcb67577d0d6d9ce0a89b4dc",
-          "checksum": "sha256:4c3fdc1b870da3428b8a96595e606e5e40b4f5dcca331fa2ea077b147a1b44bb"
+          "url": "https://codeload.github.com/attune-packs/docker/tar.gz/f4d5e2a14a9ec9b15dfa990dd10578018b03604a",
+          "checksum": "sha256:92abe8f97fbb6089798ab853bb359506d3e1485934f30615623639d9935ee06d"
         }
       ],
       "contents": {
@@ -1624,7 +1624,7 @@
       "meta": {
         "category": "infrastructure",
         "default_branch": "main",
-        "commit": "6fd21672371ca36edcb67577d0d6d9ce0a89b4dc",
+        "commit": "f4d5e2a14a9ec9b15dfa990dd10578018b03604a",
         "stars": 0
       },
       "repository": "https://github.com/attune-packs/docker",
