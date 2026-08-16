@@ -10,6 +10,9 @@ The workflow only commits when generated pack entries change. The
 `last_updated` value is preserved on no-op builds, so scheduled runs do not
 create timestamp-only commits.
 
+The complete maintainer and pack-repository expectations are defined in the
+[Standard Index Automation Contract](automation-contract.md).
+
 ## Required Repository Settings
 
 - Enable GitHub Actions.

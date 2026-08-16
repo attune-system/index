@@ -84,3 +84,9 @@ than potentially stale manifest values.
 Breaking field changes require a new format version and coordinated Attune
 client support. Adding optional metadata should remain compatible with the
 existing Rust structures and this repository's schema.
+
+## Operating Contract
+
+The trigger guarantees, maintainer responsibilities, credential boundary,
+failure behavior, and repository lifecycle are defined in
+[Standard Index Automation Contract](automation-contract.md).

@@ -45,7 +45,7 @@ refresh through the reusable workflow in this repository.
 | `.github/workflows/sync.yml` | Scheduled and event-driven index refresh |
 | `.github/workflows/publish-pack.yml` | Reusable workflow called by pack repositories |
 | `templates/publish-pack-index.yml` | Thin caller workflow for pack repositories |
-| `docs/` | Architecture, inventory, custom-index, publishing, and operations guides |
+| `docs/` | Automation contract, architecture, inventory, custom-index, publishing, and operations guides |
 
 ## Local Development
 
@@ -67,3 +67,7 @@ for the standard-index onboarding flow.
 
 The initial organization inventory and known metadata gaps are recorded in
 [Current State](docs/current-state.md).
+
+Maintainers of the index and participating pack repositories should also read
+the [Automation Contract](docs/automation-contract.md), which defines triggers,
+ownership, guarantees, recovery behavior, and credential expectations.
