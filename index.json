@@ -2,7 +2,7 @@
   "registry_name": "Attune Standard Pack Index",
   "registry_url": "https://github.com/attune-system/index",
   "version": "1.0",
-  "last_updated": "2026-08-16T01:36:47Z",
+  "last_updated": "2026-08-16T02:53:39Z",
   "packs": [
     {
       "ref": "activedirectory",
@@ -5797,13 +5797,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/slack.git",
-          "ref": "e10e97429896cc20b5b3f5bbce0131a862a26ee4",
-          "checksum": "sha256:705d68a091fcb2edb90d3f0869fb05c190804fe62bd026937b26a8052ea00ea1"
+          "ref": "b4144fc19850f57f8eba2f9ab44c3548488c5d46",
+          "checksum": "sha256:9e643e0a523255cdbd13a55dd268a1611f39bbce19657a9734d51184971ea4ca"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/slack/tar.gz/e10e97429896cc20b5b3f5bbce0131a862a26ee4",
-          "checksum": "sha256:53f4322cc92d3a85c25e2db1b62d674fd8aaffdfa1f5459ddb7b7c1d348c5afe"
+          "url": "https://codeload.github.com/attune-packs/slack/tar.gz/b4144fc19850f57f8eba2f9ab44c3548488c5d46",
+          "checksum": "sha256:4611ab076c60f42a315a30bd70444e88328c4b433346e6af2be3846609988b51"
         }
       ],
       "contents": {
@@ -5847,7 +5847,7 @@
       "meta": {
         "category": "integration",
         "default_branch": "main",
-        "commit": "e10e97429896cc20b5b3f5bbce0131a862a26ee4",
+        "commit": "b4144fc19850f57f8eba2f9ab44c3548488c5d46",
         "stars": 0
       },
       "repository": "https://github.com/attune-packs/slack",
