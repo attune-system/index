@@ -1,0 +1,29 @@
+name: Request standard index refresh
+
+on:
+  workflow_call:
+    secrets:
+      index_token:
+        description: Fine-grained token with Contents write access to attune-system/index
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  request-refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dispatch pack update
+        env:
+          GH_TOKEN: ${{ secrets.index_token }}
+          PACK_REPOSITORY: ${{ github.repository }}
+          PACK_REF: ${{ github.ref }}
+          PACK_SHA: ${{ github.sha }}
+        run: |
+          jq -n \
+            --arg repository "$PACK_REPOSITORY" \
+            --arg ref "$PACK_REF" \
+            --arg sha "$PACK_SHA" \
+            '{event_type: "pack-updated", client_payload: {repository: $repository, ref: $ref, sha: $sha}}' \
+            | gh api --method POST repos/attune-system/index/dispatches --input -
