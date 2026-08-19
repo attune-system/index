@@ -2,7 +2,7 @@
   "registry_name": "Attune Standard Pack Index",
   "registry_url": "https://github.com/attune-system/index",
   "version": "1.0",
-  "last_updated": "2026-08-16T02:58:09Z",
+  "last_updated": "2026-08-19T00:27:14Z",
   "packs": [
     {
       "ref": "activedirectory",
@@ -26,13 +26,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/activedirectory.git",
-          "ref": "f57a219dfbb42004cb52714c772cafcd19fe8c78",
-          "checksum": "sha256:cc6b09394051a497a5dd0de7c8949b03ae83340d7ea05553429c5aa09a33d8c1"
+          "ref": "46138a46583653a427c05b0b728d9cd29b24f215",
+          "checksum": "sha256:a6a61de3cd7937388f3b97a4e703fcd7907955c1db78308d8489288b69af265c"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/activedirectory/tar.gz/f57a219dfbb42004cb52714c772cafcd19fe8c78",
-          "checksum": "sha256:a7db43f33644f5fe9f9bf70ba815beb029255a0468ad1b2587d9d26980962ee6"
+          "url": "https://codeload.github.com/attune-packs/activedirectory/tar.gz/46138a46583653a427c05b0b728d9cd29b24f215",
+          "checksum": "sha256:6fe468b678602ede7de18d1bd829199f4a097164b4f962c01ec1697609e468dd"
         }
       ],
       "contents": {
@@ -222,7 +222,7 @@
       "meta": {
         "category": "identity",
         "default_branch": "main",
-        "commit": "f57a219dfbb42004cb52714c772cafcd19fe8c78",
+        "commit": "46138a46583653a427c05b0b728d9cd29b24f215",
         "stars": 0
       },
       "repository": "https://github.com/attune-packs/activedirectory",
