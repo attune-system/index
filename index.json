@@ -2,7 +2,7 @@
   "registry_name": "Attune Standard Pack Index",
   "registry_url": "https://github.com/attune-system/index",
   "version": "1.0",
-  "last_updated": "2026-08-19T00:27:50Z",
+  "last_updated": "2026-08-19T00:28:19Z",
   "packs": [
     {
       "ref": "activedirectory",
@@ -6171,13 +6171,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/vault.git",
-          "ref": "2fb48eb6b7974e26620fba394e00b668bee300d5",
-          "checksum": "sha256:f479133daf1aacea817ae200c33ee5cc113cfe537be4f24e9d297045b1861060"
+          "ref": "6a73b3aecd2a8b0510477851e394722dcf8464f5",
+          "checksum": "sha256:31b318be1dc0be6e52478e11c4ad0baa7c8f37dca3ab211f72813776554c8950"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/vault/tar.gz/2fb48eb6b7974e26620fba394e00b668bee300d5",
-          "checksum": "sha256:57ccf2482cce974220782cba6cbf6c9337f26db6e1b2bd22c500a3f7891d8c42"
+          "url": "https://codeload.github.com/attune-packs/vault/tar.gz/6a73b3aecd2a8b0510477851e394722dcf8464f5",
+          "checksum": "sha256:ee518da5bc90ac665fbe2d74c0947ee63bf1501f2eb776132e93f5c1a650c170"
         }
       ],
       "contents": {
@@ -6279,7 +6279,7 @@
       "meta": {
         "category": "security",
         "default_branch": "main",
-        "commit": "2fb48eb6b7974e26620fba394e00b668bee300d5",
+        "commit": "6a73b3aecd2a8b0510477851e394722dcf8464f5",
         "stars": 0
       },
       "repository": "https://github.com/attune-packs/vault",
