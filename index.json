@@ -2,7 +2,7 @@
   "registry_name": "Attune Standard Pack Index",
   "registry_url": "https://github.com/attune-system/index",
   "version": "1.0",
-  "last_updated": "2026-08-19T00:27:14Z",
+  "last_updated": "2026-08-19T00:27:25Z",
   "packs": [
     {
       "ref": "activedirectory",
@@ -1402,13 +1402,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/datadog.git",
-          "ref": "5da27996999f58e5da977acdba829dcb63eb9095",
-          "checksum": "sha256:eed513cff1ee82062612bf3b7f0a4fea23c2faf679e2467ea1097a3cfdd70be6"
+          "ref": "e64eca72b5935e056429ce506fce0acbfc46a233",
+          "checksum": "sha256:b3f2fe18b3283d0ca60797e6a3e517a9b6c1acb71e24237d3305eb5d160e5a83"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/datadog/tar.gz/5da27996999f58e5da977acdba829dcb63eb9095",
-          "checksum": "sha256:1bb43dcca800808f9d0ba0ad7ccc99c105a77c2a49674352c9ba40838885af6c"
+          "url": "https://codeload.github.com/attune-packs/datadog/tar.gz/e64eca72b5935e056429ce506fce0acbfc46a233",
+          "checksum": "sha256:e42ef2eb024704551e7fc0ed920795a19ef65f33ebd5d8ec03f5ed14f04b6699"
         }
       ],
       "contents": {
@@ -1518,7 +1518,7 @@
       "meta": {
         "category": "monitoring",
         "default_branch": "main",
-        "commit": "5da27996999f58e5da977acdba829dcb63eb9095",
+        "commit": "e64eca72b5935e056429ce506fce0acbfc46a233",
         "stars": 0
       },
       "repository": "https://github.com/attune-packs/datadog",
