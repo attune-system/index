@@ -2,7 +2,7 @@
   "registry_name": "Attune Standard Pack Index",
   "registry_url": "https://github.com/attune-system/index",
   "version": "1.0",
-  "last_updated": "2026-08-21T21:21:55Z",
+  "last_updated": "2026-08-21T21:29:37Z",
   "packs": [
     {
       "ref": "activedirectory",
@@ -5965,13 +5965,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/sql.git",
-          "ref": "9b88eb7d44e33e7b49d16c9f1f327f9318c1e347",
-          "checksum": "sha256:474e14a61aa83d0e0d80eb4df834cd220faa797aa60cb4efe18756d958ae8799"
+          "ref": "68d5b783883a33aab850700258a5e6cccc314b75",
+          "checksum": "sha256:bf83dfe62e35ec197c2e08e10d420876ac0227bfae842684f77093f1fd36fe4d"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/sql/tar.gz/9b88eb7d44e33e7b49d16c9f1f327f9318c1e347",
-          "checksum": "sha256:4f3192ca56d355390b43ade845202da3065d571a6498ffeb66bd00ff8e60bdac"
+          "url": "https://codeload.github.com/attune-packs/sql/tar.gz/68d5b783883a33aab850700258a5e6cccc314b75",
+          "checksum": "sha256:d3ba774969315595af6fee76ae5d5bea9890d4226b0d06251f3c601badfaa35e"
         }
       ],
       "contents": {
@@ -6005,7 +6005,7 @@
       "meta": {
         "category": "integration",
         "default_branch": "main",
-        "commit": "9b88eb7d44e33e7b49d16c9f1f327f9318c1e347",
+        "commit": "68d5b783883a33aab850700258a5e6cccc314b75",
         "stars": 0
       },
       "repository": "https://github.com/attune-packs/sql",
