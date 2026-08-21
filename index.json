@@ -2,7 +2,7 @@
   "registry_name": "Attune Standard Pack Index",
   "registry_url": "https://github.com/attune-system/index",
   "version": "1.0",
-  "last_updated": "2026-08-19T01:56:22Z",
+  "last_updated": "2026-08-21T17:06:02Z",
   "packs": [
     {
       "ref": "activedirectory",
@@ -236,7 +236,7 @@
       "ref": "ansible",
       "label": "Ansible",
       "description": "Confined, guarded Ansible CLI actions for reviewed automation artifacts",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "author": "Attune",
       "license": "Apache-2.0",
       "keywords": [
@@ -252,13 +252,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/ansible.git",
-          "ref": "e21ba6e084b8b93e2a46bb976d6c83ea9cc54cd4",
-          "checksum": "sha256:563d6c8d310f078562450805097c8a61fa1861bdbb8392be7d6116bf09fd8eac"
+          "ref": "1fa23cbb289f30682bc3990a37999a9c282ae9ba",
+          "checksum": "sha256:d828fda13798344bfa7229a73656b4f36e384995bc2013b87528c900fbe7c4f5"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/ansible/tar.gz/e21ba6e084b8b93e2a46bb976d6c83ea9cc54cd4",
-          "checksum": "sha256:03f719356491370fadee1ede3680a4e268f96d4d5d3d7f2bc67c2025db0e1dbe"
+          "url": "https://codeload.github.com/attune-packs/ansible/tar.gz/1fa23cbb289f30682bc3990a37999a9c282ae9ba",
+          "checksum": "sha256:6ba7dfca01b287fb525c04c6ada95ea64ad58917879b25f3f7e05c4015e7faf8"
         }
       ],
       "contents": {
@@ -336,7 +336,7 @@
       "meta": {
         "category": "infrastructure",
         "default_branch": "main",
-        "commit": "e21ba6e084b8b93e2a46bb976d6c83ea9cc54cd4",
+        "commit": "1fa23cbb289f30682bc3990a37999a9c282ae9ba",
         "stars": 0
       },
       "repository": "https://github.com/attune-packs/ansible",
