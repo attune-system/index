@@ -2,7 +2,7 @@
   "registry_name": "Attune Standard Pack Index",
   "registry_url": "https://github.com/attune-system/index",
   "version": "1.0",
-  "last_updated": "2026-08-21T21:21:28Z",
+  "last_updated": "2026-08-21T21:21:55Z",
   "packs": [
     {
       "ref": "activedirectory",
@@ -5547,13 +5547,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/salt.git",
-          "ref": "e23ce8c1ac597ab6b1ab7e43526f3e7e31756096",
-          "checksum": "sha256:f2a99df504fddaa93f303637428b4ef274f012895343eef0a5b31cf282ce16b0"
+          "ref": "8148dae52dfd32bcaa3e0de9617aaa6655f2cf1a",
+          "checksum": "sha256:0fe552605c869ac7fff0c4c30802989dce692e7561e3c7534fc5c508864dcb66"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/salt/tar.gz/e23ce8c1ac597ab6b1ab7e43526f3e7e31756096",
-          "checksum": "sha256:0557d107e0bb1fa0ff8e5d18bda87d95e7bca3d53ff6ca4834ab37a2ba4bfcea"
+          "url": "https://codeload.github.com/attune-packs/salt/tar.gz/8148dae52dfd32bcaa3e0de9617aaa6655f2cf1a",
+          "checksum": "sha256:ca41c30e72cc2ca328292c469058e7d81f070aa254c4f388fd88ab2fccba7d87"
         }
       ],
       "contents": {
@@ -5619,7 +5619,7 @@
       "meta": {
         "category": "integration",
         "default_branch": "main",
-        "commit": "e23ce8c1ac597ab6b1ab7e43526f3e7e31756096",
+        "commit": "8148dae52dfd32bcaa3e0de9617aaa6655f2cf1a",
         "stars": 0
       },
       "repository": "https://github.com/attune-packs/salt",
