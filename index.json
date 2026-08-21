@@ -2,7 +2,7 @@
   "registry_name": "Attune Standard Pack Index",
   "registry_url": "https://github.com/attune-system/index",
   "version": "1.0",
-  "last_updated": "2026-08-21T21:21:17Z",
+  "last_updated": "2026-08-21T21:21:28Z",
   "packs": [
     {
       "ref": "activedirectory",
@@ -1946,13 +1946,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/freeipa.git",
-          "ref": "2fa5ddb187b0fba4271bc01bb0eddd21dd5f6292",
-          "checksum": "sha256:d2884cf30e979b994087139ae3db1c14f9779990a6bf0e32bec26ae4a7195639"
+          "ref": "593ab9d6dee8e2a6abdaf53b89e46fa0e4b37184",
+          "checksum": "sha256:39a67ccfcebc2deb3bccbb30e23b2404bc7a6ce2947cebb42dcaef75078ae67b"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/freeipa/tar.gz/2fa5ddb187b0fba4271bc01bb0eddd21dd5f6292",
-          "checksum": "sha256:8de64785d03ede7c329c037a00c6cde4d8fbaea04d31b5e09083840bd3ecca5a"
+          "url": "https://codeload.github.com/attune-packs/freeipa/tar.gz/593ab9d6dee8e2a6abdaf53b89e46fa0e4b37184",
+          "checksum": "sha256:fb31916d2a967ba8865b4d3f6b83abb2d06c5798f45b75417c47a96e9fed8b3e"
         }
       ],
       "contents": {
@@ -2258,7 +2258,7 @@
       "meta": {
         "category": "integration",
         "default_branch": "main",
-        "commit": "2fa5ddb187b0fba4271bc01bb0eddd21dd5f6292",
+        "commit": "593ab9d6dee8e2a6abdaf53b89e46fa0e4b37184",
         "stars": 0
       },
       "repository": "https://github.com/attune-packs/freeipa",
