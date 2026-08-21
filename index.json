@@ -2,7 +2,7 @@
   "registry_name": "Attune Standard Pack Index",
   "registry_url": "https://github.com/attune-system/index",
   "version": "1.0",
-  "last_updated": "2026-08-21T17:06:02Z",
+  "last_updated": "2026-08-21T21:03:41Z",
   "packs": [
     {
       "ref": "activedirectory",
@@ -4544,13 +4544,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/pagerduty.git",
-          "ref": "bd4d7c2b2e54dd7edcb8c9fdfb33ea94928ed8fd",
-          "checksum": "sha256:d1eeaa3b921732f48b387d8ee67ca36d1fa780a79a3b1eef221f68a5a630da5b"
+          "ref": "706b944c9b630e1e54b58953216185e71e8baf8a",
+          "checksum": "sha256:a6fab9e9b13793f0338eaf0e8d8aba1d86b236207d56b74e8915bfea2909c0db"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/pagerduty/tar.gz/bd4d7c2b2e54dd7edcb8c9fdfb33ea94928ed8fd",
-          "checksum": "sha256:679dcd00c2c503d382cdc589701626ccde97a890abb335a8e7dc697fb4015662"
+          "url": "https://codeload.github.com/attune-packs/pagerduty/tar.gz/706b944c9b630e1e54b58953216185e71e8baf8a",
+          "checksum": "sha256:aafafecdcfd51f2803d8c53f8f5cc6f61d3d739241978e0507c764a50299e498"
         }
       ],
       "contents": {
@@ -4824,7 +4824,7 @@
       "meta": {
         "category": "integration",
         "default_branch": "main",
-        "commit": "bd4d7c2b2e54dd7edcb8c9fdfb33ea94928ed8fd",
+        "commit": "706b944c9b630e1e54b58953216185e71e8baf8a",
         "stars": 0
       },
       "repository": "https://github.com/attune-packs/pagerduty",
