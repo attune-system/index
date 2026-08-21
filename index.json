@@ -2,7 +2,7 @@
   "registry_name": "Attune Standard Pack Index",
   "registry_url": "https://github.com/attune-system/index",
   "version": "1.0",
-  "last_updated": "2026-08-21T21:03:41Z",
+  "last_updated": "2026-08-21T21:21:17Z",
   "packs": [
     {
       "ref": "activedirectory",
@@ -3446,13 +3446,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/kafka.git",
-          "ref": "f4d27de80d5f9c39f79381b75af4967a0ccba955",
-          "checksum": "sha256:39cde60a4e34cd2b99fa171dbe873dd0a16e7b5f8d7de41410c6f3ad97044141"
+          "ref": "ce8f098fb932c42c7594ea532a7be61462755dd8",
+          "checksum": "sha256:289ff86a4f5d2d11e552e97af31ea2fec63dd408d9569bee172470ca5dd316a5"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/kafka/tar.gz/f4d27de80d5f9c39f79381b75af4967a0ccba955",
-          "checksum": "sha256:816ca7e80eba18fe3d5b8f51f08ac4120c6350e6dd58768b93e9ba174c61ebc3"
+          "url": "https://codeload.github.com/attune-packs/kafka/tar.gz/ce8f098fb932c42c7594ea532a7be61462755dd8",
+          "checksum": "sha256:3c888d099bd77ca2ad84b4ab977636750190efb3a25fb4d4e05f2539892fd30f"
         }
       ],
       "contents": {
@@ -3484,7 +3484,7 @@
       "meta": {
         "category": "integration",
         "default_branch": "main",
-        "commit": "f4d27de80d5f9c39f79381b75af4967a0ccba955",
+        "commit": "ce8f098fb932c42c7594ea532a7be61462755dd8",
         "stars": 0
       },
       "repository": "https://github.com/attune-packs/kafka",
