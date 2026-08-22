@@ -2,7 +2,7 @@
   "registry_name": "Attune Standard Pack Index",
   "registry_url": "https://github.com/attune-system/index",
   "version": "1.0",
-  "last_updated": "2026-08-22T01:53:58Z",
+  "last_updated": "2026-08-22T21:47:20Z",
   "packs": [
     {
       "ref": "activedirectory",
@@ -2791,7 +2791,7 @@
       "ref": "hyperv",
       "label": "Microsoft Hyper-V",
       "description": "Curated Hyper-V management through reviewed PowerShell over verified WinRM HTTPS",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "author": "Attune; adapted from work by Encore Technologies and StackStorm Exchange contributors",
       "license": "Apache-2.0",
       "keywords": [
@@ -2809,13 +2809,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/hyperv.git",
-          "ref": "eaaeafa5808a392df5c36f5e6c5c1137ef829c12",
-          "checksum": "sha256:fe0f92368256fa3be50cd54b14e21c83c427c53195931edeca842ce72a3589d1"
+          "ref": "6f20c8d3b82f3d8444cbde16972c96af36922e67",
+          "checksum": "sha256:ac8d49198c4bc036299ed223cde6569ffc10b4b0d3814e16f7b6b68c5c6ae0ff"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/hyperv/tar.gz/eaaeafa5808a392df5c36f5e6c5c1137ef829c12",
-          "checksum": "sha256:37328bd7f8e7771a81fbc4460163e567a26e7c6a793516cf95eee71d24b4874e"
+          "url": "https://codeload.github.com/attune-packs/hyperv/tar.gz/6f20c8d3b82f3d8444cbde16972c96af36922e67",
+          "checksum": "sha256:0014dea10f39210abfbbff73ba2de56c880dc368d80911bef5b385021bd64372"
         }
       ],
       "contents": {
@@ -2937,7 +2937,7 @@
       "meta": {
         "category": "virtualization",
         "default_branch": "main",
-        "commit": "eaaeafa5808a392df5c36f5e6c5c1137ef829c12",
+        "commit": "6f20c8d3b82f3d8444cbde16972c96af36922e67",
         "stars": 0
       },
       "repository": "https://github.com/attune-packs/hyperv",
