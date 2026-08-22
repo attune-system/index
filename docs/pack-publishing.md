@@ -63,7 +63,16 @@ meta:
   license: Apache-2.0
   documentation_url: https://github.com/attune-packs/example
   repository_url: https://github.com/attune-packs/example
+  tested_attune_versions: ["0.1.0"]
 ```
+
+The builder reads discovery terms from canonical top-level `tags`, falling
+back to top-level `keywords` and then `meta.keywords` only when the preceding
+field is absent. It similarly prefers top-level `license`, `homepage`, and
+`use_case` over their `meta` fallbacks. JSON-compatible custom `meta` fields are
+preserved; GitHub-derived branch, commit, and star fields are added by this
+standard-index builder. Null, boolean, object, and non-finite values are not
+coerced into scalar or list metadata; malformed values fail generation.
 
 The repository must not contain symbolic links because Attune rejects links
 during checksum and installation safety checks.
@@ -73,7 +82,8 @@ during checksum and installation safety checks.
 Update `pack.yaml.version` in the same commit as the corresponding behavior
 change. A push to `main` requests an index upsert. The published install source
 uses that exact commit even though the pack's semantic version is read from
-the manifest.
+the manifest. Attune rejects the registry install if the downloaded
+`pack.yaml` ref or version does not match the selected index entry.
 
 If publishing fails:
 

@@ -9,10 +9,10 @@ The consumable index is [`index.json`](index.json):
 https://raw.githubusercontent.com/attune-system/index/main/index.json
 ```
 
-Current Attune database migrations add this URL as a managed index so fresh and
-upgraded installations can browse standard packs immediately. Administrators
-can reorder, disable, or permanently delete it. On older installations, or to
-restore a deleted row, add it with:
+This is the live publishing feed. Attune database migrations seed an immutable
+snapshot from the Attune release instead, so catalog contents cannot change
+independently of that release. Administrators can add this live URL separately
+when automatic catalog updates are explicitly desired:
 
 ```sh
 attune pack index add \
@@ -21,7 +21,9 @@ attune pack index add \
 ```
 
 The Attune deployment must allow `raw.githubusercontent.com`, `github.com`,
-and `codeload.github.com` in its pack registry public-host policy.
+and `codeload.github.com` in its pack registry public-host policy. The codeload
+host is required because Attune falls back from a failed Git source to the
+entry's independently checksummed GitHub archive.
 
 ## Publishing Model
 
@@ -30,9 +32,13 @@ Each index entry represents the `version` declared by a pack's root
 entry provides two verified sources:
 
 - A Git URL pinned to the 40-character commit SHA, with an Attune directory
-  checksum.
+  checksum generated with Attune's framed path-and-content algorithm.
 - A GitHub source archive pinned to the same commit, with a SHA-256 checksum
   of the downloaded archive.
+
+Attune binds the entry ref and version to the installed `pack.yaml`. If Git
+fails, it verifies and installs the archive fallback, and records that archive's
+checksum as provenance.
 
 The index is rebuilt on a schedule. Pack repositories can request an immediate
 refresh through the reusable workflow in this repository.
@@ -43,7 +49,7 @@ refresh through the reusable workflow in this repository.
 | --- | --- |
 | `index.json` | Generated standard index consumed by Attune |
 | `schema/index.schema.json` | Machine-readable index format contract |
-| `scripts/build_index.py` | Deterministic GitHub organization index builder |
+| `scripts/build_index.py` | Deterministic, atomic GitHub organization index builder |
 | `scripts/validate_index.py` | Schema and standard-index policy validation |
 | `.github/workflows/sync.yml` | Scheduled and event-driven index refresh |
 | `.github/workflows/publish-pack.yml` | Reusable workflow called by pack repositories |

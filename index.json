@@ -2,13 +2,13 @@
   "registry_name": "Attune Standard Pack Index",
   "registry_url": "https://github.com/attune-system/index",
   "version": "1.0",
-  "last_updated": "2026-08-22T21:47:20Z",
+  "last_updated": "2026-08-22T21:48:45Z",
   "packs": [
     {
       "ref": "activedirectory",
       "label": "Microsoft Active Directory",
       "description": "Curated Active Directory administration through reviewed PowerShell over verified WinRM HTTPS",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "author": "Attune; adapted from work by Encore Technologies and StackStorm Exchange contributors",
       "license": "Apache-2.0",
       "keywords": [
@@ -26,13 +26,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/activedirectory.git",
-          "ref": "0ca87f5d99b7e82c145a3d5c4ef5fb0b8228c5c2",
-          "checksum": "sha256:dd59734f1f73978cd6e6c9b2415db4f7aeaa0813180eb3dfbe2714d2247250d1"
+          "ref": "acd594e6e4bd1023d3eac28c35fa5c0c63a61e11",
+          "checksum": "sha256:db9d9f7061935af61c0a58edf871891b5e33d6cd5cb8ee3125dbe49cae632e38"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/activedirectory/tar.gz/0ca87f5d99b7e82c145a3d5c4ef5fb0b8228c5c2",
-          "checksum": "sha256:0d260c8b6c5fea4550bf0ae2ac23f8015502b6e053cb869614b58df29775698a"
+          "url": "https://codeload.github.com/attune-packs/activedirectory/tar.gz/acd594e6e4bd1023d3eac28c35fa5c0c63a61e11",
+          "checksum": "sha256:8b23b7a501dec1280ba94351bdb99f81a37ed3de7018d56d11997349c5e8100f"
         }
       ],
       "contents": {
@@ -221,8 +221,14 @@
       },
       "meta": {
         "category": "identity",
+        "documentation_url": "https://learn.microsoft.com/en-us/powershell/module/activedirectory/?view=windowsserver2025-ps",
+        "repository_url": "https://github.com/attune-packs/activedirectory",
+        "source_repository": "https://github.com/StackStorm-Exchange/stackstorm-activedirectory",
+        "source_revision": "2bdf09685f3d80e514eb5b586b344d41b35f063c",
+        "source_version": "1.0.1",
+        "license": "Apache-2.0",
         "default_branch": "main",
-        "commit": "0ca87f5d99b7e82c145a3d5c4ef5fb0b8228c5c2",
+        "commit": "acd594e6e4bd1023d3eac28c35fa5c0c63a61e11",
         "stars": 0
       },
       "repository": "https://github.com/attune-packs/activedirectory",
@@ -335,6 +341,12 @@
       },
       "meta": {
         "category": "infrastructure",
+        "documentation_url": "https://github.com/attune-packs/ansible",
+        "repository_url": "https://github.com/attune-packs/ansible",
+        "source_revision": "9d505b4ba2ce1af70f42698e77508eea559a67af",
+        "source_version": "1.1.0",
+        "license": "Apache-2.0",
+        "ansible_core_baseline": "2.21.3",
         "default_branch": "main",
         "commit": "1fa23cbb289f30682bc3990a37999a9c282ae9ba",
         "stars": 0
@@ -357,8 +369,7 @@
         "api",
         "attune",
         "automation",
-        "meta-pack",
-        "openapi"
+        "meta"
       ],
       "runtime_deps": [
         "python"
@@ -582,6 +593,20 @@
       },
       "meta": {
         "category": "system",
+        "keywords": [
+          "attune",
+          "api",
+          "meta-pack",
+          "automation",
+          "openapi"
+        ],
+        "documentation_url": "https://docs.attune.io/packs/attune",
+        "repository_url": "https://github.com/attune-io/attune",
+        "python_dependencies": [
+          "attrs>=23.2.0",
+          "httpx>=0.27.0",
+          "python-dateutil>=2.9.0"
+        ],
         "default_branch": "main",
         "commit": "0c23fdced0d5850eabd8c5ea94aaaa811dcbeb4f",
         "stars": 0
@@ -818,6 +843,17 @@
       },
       "meta": {
         "category": "integration",
+        "documentation_url": "https://boto3.amazonaws.com/v1/documentation/api/1.43.72/reference/services/index.html",
+        "repository_url": "https://github.com/attune-packs/aws",
+        "source_repository": "https://github.com/StackStorm-Exchange/stackstorm-aws",
+        "source_version": "2.0.2",
+        "source_revision": "cc8ff4fa335229178ec24586aff4a69f9a270ecb",
+        "api_baseline": "boto3/botocore 1.43.72",
+        "license": "Apache-2.0",
+        "python_dependencies": [
+          "attune-sdk>=0.1.0",
+          "boto3>=1.43.72,<2.0.0"
+        ],
         "default_branch": "main",
         "commit": "c9099596b5acb43e69ddf21e4266a9de38c18ab9",
         "stars": 0
@@ -1235,6 +1271,15 @@
       },
       "meta": {
         "category": "integration",
+        "documentation_url": "https://developers.cloudflare.com/api/",
+        "repository_url": "https://github.com/attune-packs/cloudflare",
+        "source_version": "1.0.1 (5d7f7c25768251430754c71a171f9786e48d4ab7)",
+        "source_revision": "5d7f7c25768251430754c71a171f9786e48d4ab7",
+        "license": "Apache-2.0",
+        "python_dependencies": [
+          "attune-sdk>=0.1.0",
+          "requests>=2.32.0,<3.0.0"
+        ],
         "default_branch": "main",
         "commit": "fb6e30f9aad38f24a885603463a23dca70cb3885",
         "stars": 0
@@ -1370,6 +1415,11 @@
       },
       "meta": {
         "category": "integration",
+        "documentation_url": "https://developer.hashicorp.com/consul/api-docs",
+        "repository_url": "https://github.com/attune-packs/consul",
+        "source_revision": "54507fd18111e30307370c13a92357da32d61dab",
+        "source_version": "2.0.1",
+        "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "c76fb7698b0e1b3d85f4309a0be808b4bae773be",
         "stars": 0
@@ -1517,6 +1567,14 @@
       },
       "meta": {
         "category": "monitoring",
+        "documentation_url": "https://docs.datadoghq.com/api/latest/",
+        "repository_url": "https://github.com/attune-packs/datadog",
+        "source_repository": "https://github.com/StackStorm-Exchange/stackstorm-datadog",
+        "source_version": "1.0.2",
+        "source_revision": "8ade8fd35cdd30f124206425abfa8738438bd3bc",
+        "source_revision_date": "2024-09-30T21:44:34Z",
+        "api_review_date": "2026-08-14",
+        "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "6bece8faaec6bbedc4cfee321e9b356924af0335",
         "stars": 0
@@ -1623,6 +1681,12 @@
       },
       "meta": {
         "category": "infrastructure",
+        "documentation_url": "https://github.com/attune-packs/docker",
+        "repository_url": "https://github.com/attune-packs/docker",
+        "source_repository": "https://github.com/StackStorm-Exchange/stackstorm-docker",
+        "source_version": "1.0.0",
+        "source_revision": "50cebd7f7d59272d09cd34261257327bff17f97e",
+        "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "dad0ffaf190754f4f7d3927c50fd3d1f6366d782",
         "stars": 0
@@ -1643,8 +1707,8 @@
       "license": "Apache-2.0",
       "keywords": [
         "elasticsearch",
-        "ilm",
-        "snapshots"
+        "operations",
+        "search"
       ],
       "runtime_deps": [
         "python3"
@@ -1704,6 +1768,19 @@
       },
       "meta": {
         "category": "data",
+        "keywords": [
+          "elasticsearch",
+          "ilm",
+          "snapshots"
+        ],
+        "source_url": "https://github.com/StackStorm-Exchange/stackstorm-elasticsearch",
+        "source_version": "v2.0.1",
+        "source_revision": "9aba2b68da26ec356b6c533d902e560ff76c4980",
+        "source_license": "Apache-2.0",
+        "compatibility": [
+          "Elasticsearch 8",
+          "Elasticsearch 9"
+        ],
         "default_branch": "main",
         "commit": "5c5b378c93e542873fc80bf9a1cfbf8fc63748ac",
         "stars": 0
@@ -1911,6 +1988,11 @@
       },
       "meta": {
         "category": "integration",
+        "documentation_url": "https://apidocs.theforeman.org/foreman/latest/apidoc/v2.html",
+        "repository_url": "https://github.com/attune-packs/foreman",
+        "source_revision": "7b71c642283b7c69613a3b23fb31917087a593e8",
+        "source_version": "2.1.1",
+        "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "92ab199e623f8baa5f22214c9ce729a1a138af28",
         "stars": 0
@@ -2257,6 +2339,17 @@
       },
       "meta": {
         "category": "integration",
+        "documentation_url": "https://freeipa.readthedocs.io/en/latest/api/jsonrpc_usage.html",
+        "repository_url": "https://github.com/attune-packs/freeipa",
+        "source_repository": "https://github.com/StackStorm-Exchange/stackstorm-freeipa",
+        "source_revision": "1f1c5baf3dbd79494d5212139691b4f4d40a84ed",
+        "source_version": "1.0.0 (post-release master)",
+        "api_baseline": "FreeIPA 4.13.2 / API 2.257",
+        "api_revision": "1f6e8c02370c4840d8b0ad8b5540e4c7ee654d8e",
+        "license": "Apache-2.0",
+        "python_dependencies": [
+          "attune-sdk @ git+https://github.com/attune-system/python-attune-sdk.git@841298f132d9f6af6b7afc2f7091db1f3460b9c9"
+        ],
         "default_branch": "main",
         "commit": "593ab9d6dee8e2a6abdaf53b89e46fa0e4b37184",
         "stars": 0
@@ -2344,6 +2437,11 @@
       },
       "meta": {
         "category": "integration",
+        "documentation_url": "https://github.com/attune-packs/git",
+        "repository_url": "https://github.com/attune-packs/git",
+        "source_revision": "e291834ae9f5fda45ae5c089f004a7e9fb631594",
+        "source_version": "2.0.0",
+        "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "92b0f6c17d6e15089d1d6da7879b186c6d896e7f",
         "stars": 0
@@ -2665,6 +2763,13 @@
       },
       "meta": {
         "category": "integration",
+        "documentation_url": "https://docs.github.com/en/rest",
+        "repository_url": "https://github.com/attune-packs/github",
+        "source_repository": "https://github.com/StackStorm-Exchange/stackstorm-github",
+        "source_revision": "fc8e45bd25bcfdd891f3e88e0b87f7592fe7f634",
+        "source_version": "2.1.5",
+        "api_version": "2026-03-10",
+        "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "e9d9931ffc5531a9ea5caae1a9d09e2cac89830f",
         "stars": 0
@@ -2776,6 +2881,11 @@
       },
       "meta": {
         "category": "integration",
+        "documentation_url": "https://github.com/attune-packs/gitlab",
+        "repository_url": "https://github.com/attune-packs/gitlab",
+        "source_revision": "77b62e6db46d6ba8e0ccbcaddef9818cdffb257e",
+        "source_version": "1.0.1",
+        "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "1c0826596193a6ab7333b0889602cee7db312582",
         "stars": 0
@@ -2936,6 +3046,12 @@
       },
       "meta": {
         "category": "virtualization",
+        "documentation_url": "https://learn.microsoft.com/en-us/powershell/module/hyper-v/?view=windowsserver2025-ps",
+        "repository_url": "https://github.com/attune-packs/hyperv",
+        "source_repository": "https://github.com/StackStorm-Exchange/stackstorm-hyperv",
+        "source_revision": "32dfae76bfc9bdf8412bb96701e2d563f9e82023",
+        "source_version": "1.0.0",
+        "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "6f20c8d3b82f3d8444cbde16972c96af36922e67",
         "stars": 0
@@ -3073,6 +3189,15 @@
       },
       "meta": {
         "category": "integration",
+        "documentation_url": "https://ipam.illinois.edu/wapidoc/",
+        "repository_url": "https://github.com/attune-packs/infoblox",
+        "source_version": "1.1.1 (49ab61fed17ed05bb72b4c4506890f88aa873569)",
+        "source_revision": "49ab61fed17ed05bb72b4c4506890f88aa873569",
+        "license": "Apache-2.0",
+        "python_dependencies": [
+          "attune-sdk>=0.1.0",
+          "requests>=2.32.0,<3.0.0"
+        ],
         "default_branch": "main",
         "commit": "d8f8ec53b8e3a40fb17b0fa3f8b6e9adcf43ff0b",
         "stars": 0
@@ -3224,6 +3349,11 @@
       },
       "meta": {
         "category": "integration",
+        "documentation_url": "https://www.jenkins.io/doc/book/using/remote-access-api/",
+        "repository_url": "https://github.com/attune-packs/jenkins",
+        "source_revision": "884692248ce19ae3220e88b5f4f5d446394e683a",
+        "source_version": "1.0.1",
+        "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "c6d9f03025193064bba88059ae21824a8a21e11e",
         "stars": 0
@@ -3415,6 +3545,10 @@
       },
       "meta": {
         "category": "integration",
+        "documentation_url": "https://github.com/attune-packs/jira",
+        "repository_url": "https://github.com/attune-packs/jira",
+        "source_version": "3.3.0",
+        "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "7e4ca400042aedc1e0a4f7e444ce9d755379626d",
         "stars": 0
@@ -3483,6 +3617,12 @@
       },
       "meta": {
         "category": "integration",
+        "documentation_url": "https://github.com/attune-packs/kafka",
+        "repository_url": "https://github.com/attune-packs/kafka",
+        "source_repository": "https://github.com/StackStorm-Exchange/stackstorm-kafka",
+        "source_version": "2.0.0",
+        "source_revision": "42ec262777308d655262e5b64029c655825eb98a",
+        "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "ce8f098fb932c42c7594ea532a7be61462755dd8",
         "stars": 0
@@ -3686,6 +3826,13 @@
       },
       "meta": {
         "category": "integration",
+        "documentation_url": "https://www.keycloak.org/docs-api/latest/rest-api/index.html",
+        "repository_url": "https://github.com/attune-packs/keycloak",
+        "source_repository": "https://github.com/StackStorm-Exchange/stackstorm-keycloak",
+        "source_revision": "f978f295fbdcf72d3bde62d73d3ea023ed45378f",
+        "source_version": "1.0.0",
+        "api_baseline": "Keycloak 26.7.1",
+        "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "15b21526398344f6e663dc654adfd684e15c2611",
         "stars": 0
@@ -3860,6 +4007,12 @@
       },
       "meta": {
         "category": "integration",
+        "documentation_url": "https://kubernetes.io/docs/reference/using-api/",
+        "repository_url": "https://github.com/attune-packs/kubernetes",
+        "source_revision": "d6a52dbf72de7d3e034914299d3ac670d0532c38",
+        "source_version": "1.0.1",
+        "client_version": "36.0.3",
+        "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "78bd74aff900d8afa814cc80372cba0e7ddba78f",
         "stars": 0
@@ -3875,7 +4028,7 @@
       "ref": "msexchange",
       "label": "Microsoft Exchange",
       "description": "Actions and polling events for Microsoft Exchange Server and Exchange Online through EWS",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "author": "Attune",
       "license": "Apache-2.0",
       "keywords": [
@@ -3892,13 +4045,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/msexchange.git",
-          "ref": "57f1e0da371bb7d74ce1b3aff0c32226021deb24",
-          "checksum": "sha256:5a3a7e64e97ba3399f11895a95a22557c4d0a2fa03ab13aacd57b4ffc20fb712"
+          "ref": "3eed254112c5aff0a5f6ac45641ccc1898ced534",
+          "checksum": "sha256:0e939cff87f85b45124db16f79c2daa0e70bc37589f72a98dccf3b840068bbfd"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/msexchange/tar.gz/57f1e0da371bb7d74ce1b3aff0c32226021deb24",
-          "checksum": "sha256:88162f26e4294a92025826c108b94dd3e75e4ca63af272d8143cbbdfc1a684a7"
+          "url": "https://codeload.github.com/attune-packs/msexchange/tar.gz/3eed254112c5aff0a5f6ac45641ccc1898ced534",
+          "checksum": "sha256:9c31dead50235c8a67c7cc6567ee349286cf4ec0b5246de9e576e17a7308bd21"
         }
       ],
       "contents": {
@@ -3954,8 +4107,18 @@
       },
       "meta": {
         "category": "integration",
+        "documentation_url": "https://github.com/attune-packs/msexchange",
+        "repository_url": "https://github.com/attune-packs/msexchange",
+        "source_version": "1.1.3",
+        "license": "Apache-2.0",
+        "python_dependencies": [
+          "attune-sdk[sensor]>=0.1.0",
+          "exchangelib>=5.4,<6",
+          "python-dateutil>=2.8",
+          "PyYAML>=6.0,<7"
+        ],
         "default_branch": "main",
-        "commit": "57f1e0da371bb7d74ce1b3aff0c32226021deb24",
+        "commit": "3eed254112c5aff0a5f6ac45641ccc1898ced534",
         "stars": 0
       },
       "repository": "https://github.com/attune-packs/msexchange",
@@ -4082,6 +4245,15 @@
       },
       "meta": {
         "category": "integration",
+        "documentation_url": "https://napalm.readthedocs.io/en/latest/",
+        "repository_url": "https://github.com/attune-packs/napalm",
+        "source_version": "1.1.0 (8af575b481a28f3a284bbb4cf7073cf72684f1d4)",
+        "source_revision": "8af575b481a28f3a284bbb4cf7073cf72684f1d4",
+        "license": "Apache-2.0",
+        "python_dependencies": [
+          "attune-sdk>=0.1.0",
+          "napalm==5.2.0"
+        ],
         "default_branch": "main",
         "commit": "87de81dc5cd089d678f97b8cb42b8373547379b3",
         "stars": 0
@@ -4170,6 +4342,14 @@
       },
       "meta": {
         "category": "integration",
+        "documentation_url": "https://netboxlabs.com/docs/netbox/en/stable/integrations/rest-api/",
+        "repository_url": "https://github.com/attune-packs/netbox",
+        "source_repository": "https://github.com/StackStorm-Exchange/stackstorm-netbox",
+        "source_revision": "69cb91a8b55c791ebec189cd976170ce44206358",
+        "source_version": "3.4.4",
+        "api_baseline": "NetBox 4.6.8",
+        "api_revision": "3db98de783c02038775b78f9804a95681f78eb7b",
+        "license": "MIT",
         "default_branch": "main",
         "commit": "254d6984a3ba14ab46122b0d8b055237a5830424",
         "stars": 0
@@ -4193,7 +4373,6 @@
         "examples",
         "http",
         "javascript",
-        "keystore",
         "nodejs",
         "sensor"
       ],
@@ -4250,6 +4429,21 @@
       },
       "meta": {
         "category": "examples",
+        "keywords": [
+          "nodejs",
+          "javascript",
+          "examples",
+          "counter",
+          "sensor",
+          "keystore",
+          "http"
+        ],
+        "node_dependencies": [
+          "node-fetch@^3.3.0",
+          "amqplib@^0.10.0"
+        ],
+        "documentation_url": "https://github.com/attune-automation/pack-nodejs-example",
+        "repository_url": "https://github.com/attune-automation/pack-nodejs-example",
         "default_branch": "main",
         "commit": "69517d47d2b21fc532ce1420190bf083c11b0804",
         "stars": 0
@@ -4443,6 +4637,12 @@
       },
       "meta": {
         "category": "integration",
+        "documentation_url": "https://docs.openstack.org/openstacksdk/latest/",
+        "repository_url": "https://github.com/attune-packs/openstack",
+        "source_revision": "719b93fe95c091d3e75364af66172b6cae68a370",
+        "source_version": "1.0.1",
+        "sdk_baseline": "4.18.0",
+        "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "107c544cf144eb84f2e1577887f947980e5ea4fb",
         "stars": 0
@@ -4513,6 +4713,11 @@
       },
       "meta": {
         "category": "infrastructure",
+        "documentation_url": "https://github.com/attune-packs/packer",
+        "repository_url": "https://github.com/attune-packs/packer",
+        "source_revision": "af813347fdf92cb24e466d4c0f57d9de73196407",
+        "source_version": "1.0.0",
+        "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "086168cfa90dfcc00bd1819f6e36fabed66c81b5",
         "stars": 0
@@ -4823,6 +5028,10 @@
       },
       "meta": {
         "category": "integration",
+        "documentation_url": "https://developer.pagerduty.com/api-reference/",
+        "repository_url": "https://github.com/attune-packs/pagerduty",
+        "source_version": "2.0.0 (4555dfc3f5fdbc1486503149c86392a1d5bf24b8)",
+        "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "0819b35a2d0db68a944ccf71d4e4b362d575b7d9",
         "stars": 0
@@ -4983,6 +5192,11 @@
       },
       "meta": {
         "category": "integration",
+        "documentation_url": "https://docs.paloaltonetworks.com/ngfw/api",
+        "repository_url": "https://github.com/attune-packs/paloalto",
+        "source_revision": "efdc0db1dc96f94c4288a9c2ff227f2c9d0ee05e",
+        "source_version": "1.0.0",
+        "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "f3e44199727c690fb25d9e4f4891ad8c2f46fa07",
         "stars": 0
@@ -5093,6 +5307,15 @@
       },
       "meta": {
         "category": "integration",
+        "documentation_url": "https://doc.powerdns.com/authoritative/http-api/",
+        "repository_url": "https://github.com/attune-packs/powerdns",
+        "source_version": "2.0.2 (13879e0e66b29a466d82c1077a1d4abde69c0d3e)",
+        "source_revision": "13879e0e66b29a466d82c1077a1d4abde69c0d3e",
+        "license": "Apache-2.0",
+        "python_dependencies": [
+          "attune-sdk>=0.1.0",
+          "requests>=2.32.0,<3.0.0"
+        ],
         "default_branch": "main",
         "commit": "253b9ad41a0208cd339c03bfc464ad818ba900b7",
         "stars": 0
@@ -5168,6 +5391,10 @@
       },
       "meta": {
         "category": "monitoring",
+        "documentation_url": "https://github.com/attune-packs/prometheus",
+        "repository_url": "https://github.com/attune-packs/prometheus",
+        "source_version": "2.0.0 (323c695862bde2512cbd304f9c77b35db056fcb4)",
+        "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "f3c02373cbb9a9236cad6724fbfa4c44b05a2850",
         "stars": 0
@@ -5190,11 +5417,9 @@
         "counter",
         "examples",
         "http",
-        "keystore",
         "python",
         "queue",
-        "sensor",
-        "work-queue"
+        "sensor"
       ],
       "runtime_deps": [
         "python3"
@@ -5274,6 +5499,21 @@
       },
       "meta": {
         "category": "examples",
+        "keywords": [
+          "python",
+          "examples",
+          "queue",
+          "work-queue",
+          "counter",
+          "sensor",
+          "keystore",
+          "http"
+        ],
+        "python_dependencies": [
+          "attune-sdk[sensor]>=0.1.0"
+        ],
+        "documentation_url": "https://github.com/attune-automation/pack-python-example",
+        "repository_url": "https://github.com/attune-automation/pack-python-example",
         "default_branch": "main",
         "commit": "2012bd0e16d078cd1d955bf84ee7100ece511341",
         "stars": 0
@@ -5347,6 +5587,12 @@
       },
       "meta": {
         "category": "integration",
+        "documentation_url": "https://github.com/attune-packs/rabbitmq",
+        "repository_url": "https://github.com/attune-packs/rabbitmq",
+        "source_repository": "https://github.com/StackStorm-Exchange/stackstorm-rabbitmq",
+        "source_version": "1.1.1",
+        "source_revision": "e79bcedf5cef611ff6088b79d9e5926a288fa951",
+        "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "14fa6e7d25fd7aacffa7be47238364b906b30c6e",
         "stars": 0
@@ -5366,12 +5612,9 @@
       "author": "Attune Team",
       "license": "NOASSERTION",
       "keywords": [
-        "bulk-api",
-        "cdc",
         "crm",
-        "salesforce",
-        "soql",
-        "streaming"
+        "integration",
+        "salesforce"
       ],
       "runtime_deps": [
         "python",
@@ -5515,6 +5758,21 @@
       },
       "meta": {
         "category": "integration",
+        "keywords": [
+          "salesforce",
+          "crm",
+          "soql",
+          "cdc",
+          "streaming",
+          "bulk-api"
+        ],
+        "python_dependencies": [
+          "attune-sdk[sensor]>=0.1.0",
+          "sf-toolkit>=0.5",
+          "httpx>=0.27",
+          "PyJWT[crypto]>=2.8"
+        ],
+        "documentation_url": "https://androxxtraxxon.github.io/python-sf-toolkit/",
         "default_branch": "main",
         "commit": "bbfac41db6b5f8c65ec639e9c2e32842ed4de7d3",
         "stars": 0
@@ -5618,6 +5876,14 @@
       },
       "meta": {
         "category": "integration",
+        "documentation_url": "https://github.com/attune-packs/salt",
+        "repository_url": "https://github.com/attune-packs/salt",
+        "source_repository": "https://github.com/StackStorm-Exchange/stackstorm-salt",
+        "source_version": "3.0.1",
+        "source_revision": "f053dcedea737c3632d88b7b7e7671ca93e81bd2",
+        "source_tag": "v3.0.1",
+        "license": "Apache-2.0",
+        "salt_api_reviewed_version": "3008.1-2",
         "default_branch": "main",
         "commit": "8148dae52dfd32bcaa3e0de9617aaa6655f2cf1a",
         "stars": 0
@@ -5766,6 +6032,11 @@
       },
       "meta": {
         "category": "integration",
+        "documentation_url": "https://www.servicenow.com/docs/bundle/zurich-api-reference/page/integrate/inbound-rest/concept/c_RESTAPI.html",
+        "repository_url": "https://github.com/attune-packs/servicenow",
+        "source_revision": "15bc510dc05143562497b9974805ed1fba189885",
+        "source_version": "1.0.0-4-g15bc510",
+        "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "a1b019103bd6e9564bdb0a5d968de3d07cd7b437",
         "stars": 0
@@ -5846,6 +6117,10 @@
       },
       "meta": {
         "category": "integration",
+        "documentation_url": "https://github.com/attune-packs/slack",
+        "repository_url": "https://github.com/attune-packs/slack",
+        "source_version": "2.3.0",
+        "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "64db444b0926e56b996af66084e7e8ab6f4d3d81",
         "stars": 0
@@ -5933,6 +6208,11 @@
       },
       "meta": {
         "category": "integration",
+        "documentation_url": "https://github.com/attune-packs/splunk",
+        "repository_url": "https://github.com/attune-packs/splunk",
+        "source_revision": "6bc01ba4253e4372f829d77bba6350799a0fed31",
+        "source_version": "2.3.0",
+        "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "2fc26a68ebda0ceb9dd6e4a72337b244267311b9",
         "stars": 0
@@ -6004,6 +6284,10 @@
       },
       "meta": {
         "category": "integration",
+        "documentation_url": "https://github.com/attune-packs/sql",
+        "repository_url": "https://github.com/attune-packs/sql",
+        "source_version": "1.1.2",
+        "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "68d5b783883a33aab850700258a5e6cccc314b75",
         "stars": 0
@@ -6138,6 +6422,11 @@
       },
       "meta": {
         "category": "infrastructure",
+        "documentation_url": "https://github.com/attune-packs/terraform",
+        "repository_url": "https://github.com/attune-packs/terraform",
+        "source_revision": "6e7beac21e4a5737cd1a3e726ed0c5ff71dd8cc9",
+        "source_version": "2.0.2",
+        "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "76bbfe3abfc74dd29a074ba8d28c75e32cf7a254",
         "stars": 0
@@ -6157,11 +6446,9 @@
       "author": "Attune Team",
       "license": "Apache-2.0",
       "keywords": [
-        "approle",
         "hashicorp",
-        "kv",
         "secrets",
-        "transit",
+        "security",
         "vault"
       ],
       "runtime_deps": [
@@ -6278,6 +6565,20 @@
       },
       "meta": {
         "category": "security",
+        "keywords": [
+          "vault",
+          "hashicorp",
+          "secrets",
+          "kv",
+          "approle",
+          "transit"
+        ],
+        "python_dependencies": [
+          "attune-sdk>=0.1.0",
+          "hvac==2.4.0"
+        ],
+        "documentation_url": "https://github.com/attune-packs/vault",
+        "repository_url": "https://github.com/attune-packs/vault",
         "default_branch": "main",
         "commit": "6a73b3aecd2a8b0510477851e394722dcf8464f5",
         "stars": 0
@@ -6405,6 +6706,11 @@
       },
       "meta": {
         "category": "infrastructure",
+        "documentation_url": "https://developer.broadcom.com/xapis/vsphere-web-services-api/latest/",
+        "repository_url": "https://github.com/attune-packs/vsphere",
+        "source_revision": "eed7a36730d4e3f3c9463b256e5009374acd6072",
+        "source_version": "1.3.5",
+        "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "79c3837b9ae1fbc664ad20dbb0d5c4a70c373a2f",
         "stars": 0
@@ -6586,6 +6892,14 @@
       },
       "meta": {
         "category": "monitoring",
+        "documentation_url": "https://www.zabbix.com/documentation/current/en/manual/api",
+        "repository_url": "https://github.com/attune-packs/zabbix",
+        "source_repository": "https://github.com/StackStorm-Exchange/stackstorm-zabbix",
+        "source_revision": "1b3ebdca44dab27c1a58ed11819a63d5b329d3f8",
+        "source_version": "2.0.0",
+        "api_baseline": "Zabbix 7.4.13",
+        "api_baseline_revision": "3c95000629791258a59622e3e4e995df45c44453",
+        "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "5b6936266456c9faf9ef6f7b60f6a3a781c49671",
         "stars": 0

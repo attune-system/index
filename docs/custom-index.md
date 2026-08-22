@@ -36,10 +36,26 @@ GITHUB_TOKEN="$(gh auth token)" python scripts/build_index.py \
 Run a periodic full build even when event-driven partial updates are enabled;
 only a full build removes repositories that have been archived or deleted.
 
+Manifest normalization follows canonical Attune precedence: `label` before
+`name`, `tags` before top-level `keywords` before `meta.keywords`, top-level
+`license` before `meta.license`, and top-level `homepage` before
+`meta.documentation_url`. Both list and object dependency declarations are
+normalized to the index dependency object, and JSON-compatible manifest
+`meta` fields are retained. Canonical scalar metadata must be strings; list and
+dependency normalization accepts strings and finite numbers but rejects nulls,
+booleans, objects, and non-finite values. Output replacement is atomic and an
+unchanged rebuild leaves the existing file untouched.
+
+Component summaries use top-level component YAML files when present and fall
+back to inline `pack.yaml` component maps when no files exist for that type.
+Component `ref`, `name`, `description`, `label`, and `workflow_file` metadata
+must be strings; malformed values fail instead of being stringified or dropped.
+
 ## Hosting
 
 Any HTTPS endpoint that returns `index.json` without authentication redirects
-is suitable for a public index. Raw GitHub content is sufficient:
+or query parameters is suitable for a public index. Raw GitHub content is
+sufficient:
 
 ```text
 https://raw.githubusercontent.com/OWNER/REPOSITORY/main/index.json
@@ -73,9 +89,11 @@ Use `attune pack index list`, `attune pack index browse`, and
 Attune supports request headers for authenticated index URLs, but the current
 Git installer intentionally rejects credential-bearing and SSH URLs. A private
 index therefore also needs install artifacts reachable through an approved
-HTTPS host and an authentication design supported by the installer. Do not
-assume that making only `index.json` private also makes public Git install
-sources private.
+HTTPS host without per-request credentials; archive downloads do not send
+custom headers either. Do not assume that making only `index.json` private also
+makes public Git install sources private. Query-authenticated or presigned index
+and pack-source URLs are rejected so credentials cannot leak through logs, API
+responses, or provenance records.
 
 ## Non-GitHub Sources
 
@@ -83,8 +101,18 @@ The schema does not require GitHub. A custom producer may write the same JSON
 contract using other source control or artifact systems. It must still:
 
 - Use HTTPS URLs allowed by the consuming Attune deployment.
-- Pin Git sources to immutable refs.
-- Calculate Git checksums with Attune's directory checksum algorithm.
+- Pin every Git source to an immutable 40-character commit SHA. The maintained
+  `--custom` validator enforces this production policy.
+- Generate Git checksums with Attune's framed, sorted path-and-content directory
+  algorithm. The maintained builder computes these only for GitHub entries.
 - Calculate archive checksums over the downloaded archive bytes.
+- Give each fallback archive its own SHA-256; Attune tries the first archive if
+  the preferred Git source fails and records the checksum actually verified.
 - Emit component arrays, not component counts.
 - Keep pack refs unique and deterministically ordered.
+
+Attune's local `index-entry` and `index-update` commands may accept a branch or
+tag in `--git-ref` for development-only indices. That permissive CLI behavior
+is not a production publishing contract: resolve the source revision first and
+publish the lowercase 40-character commit SHA. In GitHub Actions, pass
+`${{ github.sha }}`, never `${{ github.ref_name }}` or `main`.

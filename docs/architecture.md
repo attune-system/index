@@ -59,21 +59,43 @@ The builder computes:
 - Attune's framed, sorted, path-and-content directory SHA-256 for the `git`
   source. This matches a clone after Attune removes `.git`.
 
+Use this repository's builder to produce the framed Git checksum rather than
+reimplementing the byte framing independently. Archive checksums are always
+SHA-256 over the exact downloaded bytes.
+
 The Git source and archive source are both pinned to the same 40-character
 commit. Branch names are never published as install refs.
+
+The consumer prefers Git and falls back on failure to the first independently
+checksummed archive source. For this standard index that makes
+`codeload.github.com` a required approved source host. The installed
+`pack.yaml` ref and version must match the selected entry.
 
 ## Metadata Normalization
 
 The builder supports the canonical manifest layout and common existing pack
-layouts:
+layouts. Alias fallback is based on field presence, so a declared canonical
+field is authoritative even when a legacy alias is also present:
 
-- `label`, with `name` and pack ref as fallbacks.
-- `meta.license`, `meta.keywords`, and `meta.documentation_url` when equivalent
-  top-level fields are absent.
-- List-form `dependencies`, normalized to the index's `{ "packs": [...] }`
-  representation.
+- `label`, then `name`, then pack ref.
+- Discovery terms in canonical `tags`, then legacy top-level `keywords`, then
+  `meta.keywords`. Values are deduplicated and sorted.
+- Top-level `license`, then `meta.license`, then repository SPDX metadata.
+- Top-level `homepage`, then `meta.documentation_url`.
+- Top-level `use_case`, then `meta.use_case`.
+- List-form `dependencies`, normalized to `{ "packs": [...] }`, and object-form
+  dependencies normalized to the schema's `PackDependencies` fields.
+- Manifest `meta` fields are preserved when they are JSON-compatible. The
+  standard GitHub builder adds authoritative `default_branch`, `commit`, and
+  `stars` values; non-GitHub producers should not invent those fields.
+- Canonical scalar metadata must be strings. Discovery, runtime, and dependency
+  arrays accept strings and finite numbers; nulls, booleans, objects, and
+  non-finite values fail generation.
 - Canonical workflow action metadata in `actions/` identified by
   `workflow_file`, plus legacy top-level `workflows/` metadata.
+- Inline component maps are inventoried when a component type has no top-level
+  YAML files. Component refs, names, descriptions, labels, and workflow-file
+  values must be strings; malformed metadata fails generation.
 
 Repository URL, commit, default branch, and star count come from GitHub rather
 than potentially stale manifest values.

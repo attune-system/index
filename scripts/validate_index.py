@@ -10,6 +10,7 @@ import pathlib
 import re
 import sys
 from typing import Any
+from urllib.parse import urlsplit, urlunsplit
 
 import jsonschema
 
@@ -17,8 +18,30 @@ import jsonschema
 COMMIT_SHA = re.compile(r"^[0-9a-f]{40}$")
 
 
+def reject_json_constant(value: str) -> None:
+    raise ValueError(f"Invalid JSON constant: {value}")
+
+
+def source_url_has_forbidden_parts(raw_url: str) -> bool:
+    try:
+        parsed = urlsplit(raw_url)
+    except ValueError:
+        return True
+
+    if parsed.username or parsed.password is not None:
+        return True
+
+    without_query_or_fragment = urlunsplit((parsed.scheme, parsed.netloc, parsed.path, "", ""))
+    return raw_url != without_query_or_fragment
+
+
 def validate_policy(index: dict[str, Any], standard: bool = True) -> list[str]:
     errors: list[str] = []
+    registry_url = index.get("registry_url")
+    if isinstance(registry_url, str) and source_url_has_forbidden_parts(registry_url):
+        errors.append(
+            "registry_url must not contain credentials, query strings, or fragments"
+        )
     refs = [pack["ref"] for pack in index["packs"]]
     if refs != sorted(refs):
         errors.append("packs must be sorted by ref")
@@ -39,13 +62,20 @@ def validate_policy(index: dict[str, Any], standard: bool = True) -> list[str]:
                     errors.append(f"{pack['ref']}: duplicate {component_type} component {component['name']}")
                 component_names.add(key)
 
-        if not standard:
-            continue
-        if not pack.get("repository", "").startswith("https://github.com/attune-packs/"):
-            errors.append(f"{pack['ref']}: standard entries must come from attune-packs")
+        for source in pack["install_sources"]:
+            if source_url_has_forbidden_parts(source["url"]):
+                errors.append(
+                    f"{pack['ref']}: install source URLs must not contain credentials, query strings, or fragments"
+                )
+
         git_sources = [source for source in pack["install_sources"] if source["type"] == "git"]
-        if len(git_sources) != 1 or not COMMIT_SHA.fullmatch(git_sources[0].get("ref", "")):
-            errors.append(f"{pack['ref']}: standard Git source must use one immutable commit SHA")
+        if standard:
+            if not pack.get("repository", "").startswith("https://github.com/attune-packs/"):
+                errors.append(f"{pack['ref']}: standard entries must come from attune-packs")
+            if len(git_sources) != 1 or not COMMIT_SHA.fullmatch(git_sources[0].get("ref", "")):
+                errors.append(f"{pack['ref']}: standard Git source must use one immutable commit SHA")
+        elif any(not COMMIT_SHA.fullmatch(source.get("ref", "")) for source in git_sources):
+            errors.append(f"{pack['ref']}: Git sources must use immutable 40-character commit SHAs")
     return errors
 
 
@@ -63,8 +93,12 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
-    index = json.loads(args.index.read_text(encoding="utf-8"))
-    schema = json.loads(args.schema.read_text(encoding="utf-8"))
+    index = json.loads(
+        args.index.read_text(encoding="utf-8"), parse_constant=reject_json_constant
+    )
+    schema = json.loads(
+        args.schema.read_text(encoding="utf-8"), parse_constant=reject_json_constant
+    )
 
     validator = jsonschema.Draft202012Validator(schema, format_checker=jsonschema.FormatChecker())
     schema_errors = sorted(validator.iter_errors(index), key=lambda error: list(error.path))

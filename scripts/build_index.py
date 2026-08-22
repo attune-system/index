@@ -8,10 +8,12 @@ import datetime as dt
 import hashlib
 import io
 import json
+import math
 import os
 import pathlib
 import sys
 import tarfile
+import tempfile
 import urllib.error
 import urllib.request
 from typing import Any
@@ -21,6 +23,10 @@ import yaml
 
 COMPONENT_DIRECTORIES = ("actions", "sensors", "triggers", "rules", "workflows")
 GITHUB_API = "https://api.github.com"
+
+
+def reject_json_constant(value: str) -> None:
+    raise ValueError(f"Invalid JSON constant: {value}")
 
 
 def github_request(url: str, token: str | None = None) -> bytes:
@@ -119,36 +125,149 @@ def load_yaml(files: dict[str, bytes], path: str) -> dict[str, Any]:
     return value
 
 
-def strings(value: Any) -> list[str]:
+def scalar_string(value: Any, field: str) -> str:
+    if isinstance(value, str):
+        return value
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        raise ValueError(f"pack.yaml {field} values must be strings or finite numbers")
+    if isinstance(value, float) and not math.isfinite(value):
+        raise ValueError(f"pack.yaml {field} values must be strings or finite numbers")
+    return json.dumps(value, allow_nan=False)
+
+
+def strings(value: Any, field: str) -> list[str]:
     if not isinstance(value, list):
-        return []
-    return sorted({str(item) for item in value if isinstance(item, (str, int, float))})
+        raise ValueError(f"pack.yaml {field} must be an array")
+    return sorted({scalar_string(item, field) for item in value})
 
 
-def component_summary(metadata: dict[str, Any], pack_ref: str, fallback: str) -> dict[str, str]:
-    component_ref = metadata.get("ref") or metadata.get("name") or fallback
-    name = str(component_ref)
+def required_string(value: Any, field: str) -> str:
+    if not isinstance(value, str):
+        raise ValueError(f"pack.yaml {field} must be a string")
+    return value
+
+
+def preferred_string(
+    manifest: dict[str, Any],
+    field: str,
+    metadata: dict[str, Any],
+    metadata_field: str,
+) -> str | None:
+    if field in manifest:
+        return required_string(manifest[field], field)
+    if metadata_field in metadata:
+        return required_string(metadata[metadata_field], f"meta.{metadata_field}")
+    return None
+
+
+def manifest_keywords(manifest: dict[str, Any], metadata: dict[str, Any]) -> list[str]:
+    for source, field in (
+        (manifest, "tags"),
+        (manifest, "keywords"),
+        (metadata, "keywords"),
+    ):
+        if field in source:
+            prefix = "meta." if source is metadata else ""
+            return strings(source[field], f"{prefix}{field}")
+    return []
+
+
+def normalize_meta(value: Any) -> dict[str, Any]:
+    if not isinstance(value, dict):
+        raise ValueError("pack.yaml meta must be an object")
+    if any(not isinstance(key, str) for key in value):
+        raise ValueError("pack.yaml meta keys must be strings")
+    try:
+        json.dumps(value, allow_nan=False)
+    except (TypeError, ValueError) as error:
+        raise ValueError(f"pack.yaml meta must be JSON-compatible: {error}") from error
+    tested_versions = value.get("tested_attune_versions")
+    if tested_versions is not None:
+        if not isinstance(tested_versions, list) or any(
+            not isinstance(version, str) for version in tested_versions
+        ):
+            raise ValueError("pack.yaml meta.tested_attune_versions must be an array of strings")
+        if len(tested_versions) != len(set(tested_versions)):
+            raise ValueError("pack.yaml meta.tested_attune_versions values must be unique")
+    return dict(value)
+
+
+def optional_nonempty_string(metadata: dict[str, Any], fields: tuple[str, ...], context: str) -> str | None:
+    for field in fields:
+        if field not in metadata:
+            continue
+        value = metadata[field]
+        if not isinstance(value, str):
+            raise ValueError(f"{context} {field} must be a string")
+        if value:
+            return value
+    return None
+
+
+def component_summary(metadata: dict[str, Any], pack_ref: str, fallback: str, context: str) -> dict[str, str]:
+    name = optional_nonempty_string(metadata, ("ref", "name"), context) or fallback
     prefix = f"{pack_ref}."
     if name.startswith(prefix):
         name = name[len(prefix) :]
-    description = metadata.get("description") or metadata.get("label") or ""
-    return {"name": name, "description": str(description)}
+    description = optional_nonempty_string(metadata, ("description", "label"), context) or ""
+    return {"name": name, "description": description}
 
 
-def inventory_components(files: dict[str, bytes], pack_ref: str) -> dict[str, list[dict[str, str]]]:
+def inline_component_summaries(
+    manifest: dict[str, Any], component_type: str
+) -> list[dict[str, str]]:
+    if component_type not in manifest:
+        return []
+    components = manifest[component_type]
+    if not isinstance(components, dict):
+        raise ValueError(f"pack.yaml {component_type} must be an object")
+
+    summaries: list[dict[str, str]] = []
+    for name, metadata in components.items():
+        if not isinstance(name, str):
+            raise ValueError(f"pack.yaml {component_type} component names must be strings")
+        if not isinstance(metadata, dict):
+            raise ValueError(f"pack.yaml {component_type}.{name} must be an object")
+        optional_nonempty_string(
+            metadata, ("workflow_file",), f"{component_type}.{name}"
+        )
+        description = optional_nonempty_string(
+            metadata, ("description", "label"), f"{component_type}.{name}"
+        ) or ""
+        summaries.append({"name": name, "description": description})
+    return sorted(summaries, key=lambda item: item["name"])
+
+
+def inventory_components(
+    files: dict[str, bytes], pack_ref: str, manifest: dict[str, Any]
+) -> dict[str, list[dict[str, str]]]:
     contents: dict[str, list[dict[str, str]]] = {name: [] for name in COMPONENT_DIRECTORIES}
     for directory in COMPONENT_DIRECTORIES:
         prefix = f"{directory}/"
-        for path in sorted(files):
-            relative = path[len(prefix) :] if path.startswith(prefix) else ""
-            if not relative or "/" in relative or not relative.endswith((".yaml", ".yml")):
-                continue
+        component_paths = [
+            path
+            for path in sorted(files)
+            if path.startswith(prefix)
+            and "/" not in path[len(prefix) :]
+            and path.endswith((".yaml", ".yml"))
+        ]
+        if not component_paths:
+            contents[directory].extend(inline_component_summaries(manifest, directory))
+            continue
+        for path in component_paths:
+            relative = path[len(prefix) :]
             metadata = load_yaml(files, path)
             target = directory
-            if directory == "actions" and metadata.get("workflow_file"):
-                target = "workflows"
+            if directory == "actions":
+                workflow_file = optional_nonempty_string(
+                    metadata, ("workflow_file",), f"component {path}"
+                )
+                if workflow_file:
+                    target = "workflows"
             fallback = pathlib.PurePosixPath(relative).stem
-            contents[target].append(component_summary(metadata, pack_ref, fallback))
+            contents[target].append(
+                component_summary(metadata, pack_ref, fallback, f"component {path}")
+            )
 
     for values in contents.values():
         values.sort(key=lambda item: item["name"])
@@ -157,15 +276,15 @@ def inventory_components(files: dict[str, bytes], pack_ref: str) -> dict[str, li
 
 def normalize_dependencies(value: Any) -> dict[str, Any] | None:
     if isinstance(value, list):
-        return {"packs": strings(value)}
+        return {"packs": strings(value, "dependencies")}
     if not isinstance(value, dict):
-        return None
+        raise ValueError("pack.yaml dependencies must be an array or object")
 
     result: dict[str, Any] = {}
     for field in ("attune_version", "python_version", "nodejs_version"):
-        if value.get(field) is not None:
-            result[field] = str(value[field])
-    result["packs"] = strings(value.get("packs", []))
+        if field in value:
+            result[field] = scalar_string(value[field], f"dependencies.{field}")
+    result["packs"] = strings(value.get("packs", []), "dependencies.packs")
     return result
 
 
@@ -174,33 +293,52 @@ def build_entry(repo: dict[str, Any], sha: str, payload: bytes) -> dict[str, Any
     if "pack.yaml" not in files:
         raise ValueError(f"{repo['full_name']} does not contain pack.yaml at its root")
     manifest = load_yaml(files, "pack.yaml")
-    metadata = manifest.get("meta") if isinstance(manifest.get("meta"), dict) else {}
+    metadata = normalize_meta(manifest["meta"]) if "meta" in manifest else {}
 
-    pack_ref = str(manifest.get("ref") or "")
-    version = str(manifest.get("version") or "")
-    if not pack_ref or not version:
+    if "ref" not in manifest or "version" not in manifest:
         raise ValueError(f"{repo['full_name']} pack.yaml must declare ref and version")
+    pack_ref = required_string(manifest["ref"], "ref")
+    version = required_string(manifest["version"], "version")
+    if not pack_ref or not version:
+        raise ValueError(f"{repo['full_name']} pack.yaml must declare nonempty ref and version")
 
-    license_id = manifest.get("license") or metadata.get("license")
-    if not license_id:
+    license_id = preferred_string(manifest, "license", metadata, "license")
+    if license_id is None:
         license_data = repo.get("license") or {}
         license_id = license_data.get("spdx_id") or "NOASSERTION"
 
-    keywords = manifest.get("keywords") or metadata.get("keywords") or manifest.get("tags") or []
-    homepage = manifest.get("homepage") or metadata.get("documentation_url")
+    keywords = manifest_keywords(manifest, metadata)
+    homepage = preferred_string(manifest, "homepage", metadata, "documentation_url")
     source_url = repo["html_url"]
     archive_url = f"https://codeload.github.com/{repo['full_name']}/tar.gz/{sha}"
     directory_checksum = attune_directory_checksum(files)
 
+    entry_metadata = dict(metadata)
+    entry_metadata.setdefault("category", "uncategorized")
+    entry_metadata.update(
+        {
+            "default_branch": repo["default_branch"],
+            "commit": sha,
+            "stars": int(repo.get("stargazers_count") or 0),
+        }
+    )
+
     entry: dict[str, Any] = {
         "ref": pack_ref,
-        "label": str(manifest.get("label") or manifest.get("name") or pack_ref),
-        "description": str(manifest.get("description") or repo.get("description") or ""),
+        "label": required_string(
+            manifest["label"] if "label" in manifest else manifest.get("name", pack_ref),
+            "label" if "label" in manifest else "name",
+        ),
+        "description": required_string(manifest["description"], "description")
+        if "description" in manifest
+        else str(repo.get("description") or ""),
         "version": version,
-        "author": str(manifest.get("author") or repo["owner"]["login"]),
+        "author": required_string(manifest["author"], "author")
+        if "author" in manifest
+        else str(repo["owner"]["login"]),
         "license": str(license_id),
-        "keywords": strings(keywords),
-        "runtime_deps": strings(manifest.get("runtime_deps", [])),
+        "keywords": keywords,
+        "runtime_deps": strings(manifest.get("runtime_deps", []), "runtime_deps"),
         "install_sources": [
             {
                 "type": "git",
@@ -214,23 +352,23 @@ def build_entry(repo: dict[str, Any], sha: str, payload: bytes) -> dict[str, Any
                 "checksum": f"sha256:{hashlib.sha256(payload).hexdigest()}",
             },
         ],
-        "contents": inventory_components(files, pack_ref),
-        "meta": {
-            "category": str(metadata.get("category") or "uncategorized"),
-            "default_branch": repo["default_branch"],
-            "commit": sha,
-            "stars": int(repo.get("stargazers_count") or 0),
-        },
+        "contents": inventory_components(files, pack_ref, manifest),
+        "meta": entry_metadata,
         "repository": source_url,
     }
 
-    if manifest.get("email"):
-        entry["email"] = str(manifest["email"])
-    if homepage:
+    if "email" in manifest:
+        entry["email"] = required_string(manifest["email"], "email")
+    if homepage is not None:
         entry["homepage"] = str(homepage)
-    if metadata.get("use_case") or manifest.get("use_case"):
-        entry["use_case"] = str(manifest.get("use_case") or metadata["use_case"])
-    dependencies = normalize_dependencies(manifest.get("dependencies"))
+    use_case = preferred_string(manifest, "use_case", metadata, "use_case")
+    if use_case is not None:
+        entry["use_case"] = str(use_case)
+    dependencies = (
+        normalize_dependencies(manifest["dependencies"])
+        if "dependencies" in manifest
+        else None
+    )
     if dependencies is not None:
         entry["dependencies"] = dependencies
     return entry
@@ -238,8 +376,9 @@ def build_entry(repo: dict[str, Any], sha: str, payload: bytes) -> dict[str, Any
 
 def read_existing(path: pathlib.Path, registry_name: str, registry_url: str) -> dict[str, Any]:
     if path.exists():
-        with path.open(encoding="utf-8") as stream:
-            return json.load(stream)
+        return json.loads(
+            path.read_text(encoding="utf-8"), parse_constant=reject_json_constant
+        )
     return {
         "registry_name": registry_name,
         "registry_url": registry_url,
@@ -247,6 +386,32 @@ def read_existing(path: pathlib.Path, registry_name: str, registry_url: str) -> 
         "last_updated": "1970-01-01T00:00:00Z",
         "packs": [],
     }
+
+
+def atomic_write_text(path: pathlib.Path, content: str) -> bool:
+    if path.exists() and path.read_text(encoding="utf-8") == content:
+        return False
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    descriptor, temporary_name = tempfile.mkstemp(
+        prefix=f".{path.name}.", suffix=".tmp", dir=path.parent
+    )
+    temporary = pathlib.Path(temporary_name)
+    try:
+        if path.exists():
+            os.chmod(temporary, path.stat().st_mode)
+        with os.fdopen(descriptor, "w", encoding="utf-8") as stream:
+            descriptor = -1
+            stream.write(content)
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.replace(temporary, path)
+    except BaseException:
+        if descriptor >= 0:
+            os.close(descriptor)
+        temporary.unlink(missing_ok=True)
+        raise
+    return True
 
 
 def merge_entries(
@@ -331,8 +496,10 @@ def main() -> int:
         "last_updated": timestamp,
         "packs": packs,
     }
-    args.output.write_text(json.dumps(index, indent=2, ensure_ascii=True) + "\n", encoding="utf-8")
-    print(f"Wrote {len(packs)} packs to {args.output}", file=sys.stderr)
+    content = json.dumps(index, indent=2, ensure_ascii=True, allow_nan=False) + "\n"
+    changed_on_disk = atomic_write_text(args.output, content)
+    action = "Wrote" if changed_on_disk else "Unchanged"
+    print(f"{action} {len(packs)} packs at {args.output}", file=sys.stderr)
     return 0
 
 

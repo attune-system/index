@@ -7,7 +7,7 @@
   "required": ["registry_name", "registry_url", "version", "last_updated", "packs"],
   "properties": {
     "registry_name": {"type": "string", "minLength": 1},
-    "registry_url": {"type": "string", "format": "uri", "pattern": "^https://"},
+    "registry_url": {"type": "string", "format": "uri", "pattern": "^https://[^/?#@]+(?:/[^?#]*)?$"},
     "version": {"const": "1.0"},
     "last_updated": {"type": "string", "format": "date-time"},
     "packs": {
@@ -47,6 +47,19 @@
         "packs": {"type": "array", "items": {"type": "string"}}
       }
     },
+    "meta": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "downloads": {"type": "integer", "minimum": 0},
+        "stars": {"type": "integer", "minimum": 0},
+        "tested_attune_versions": {
+          "type": "array",
+          "items": {"type": "string"},
+          "uniqueItems": true
+        }
+      }
+    },
     "installSource": {
       "oneOf": [
         {
@@ -55,8 +68,12 @@
           "required": ["type", "url", "ref", "checksum"],
           "properties": {
             "type": {"const": "git"},
-            "url": {"type": "string", "format": "uri", "pattern": "^https://"},
-            "ref": {"type": "string", "minLength": 1},
+            "url": {"type": "string", "format": "uri", "pattern": "^https://[^/?#@]+(?:/[^?#]*)?$"},
+            "ref": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Explicit Git ref; production validation requires a lowercase 40-character commit SHA, though development-only CLI generation may accept other refs"
+            },
             "checksum": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
           }
         },
@@ -66,7 +83,7 @@
           "required": ["type", "url", "checksum"],
           "properties": {
             "type": {"const": "archive"},
-            "url": {"type": "string", "format": "uri", "pattern": "^https://"},
+            "url": {"type": "string", "format": "uri", "pattern": "^https://[^/?#@]+(?:/[^?#]*)?$"},
             "checksum": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
           }
         }
@@ -103,7 +120,7 @@
         "install_sources": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/installSource"}},
         "contents": {"$ref": "#/$defs/contents"},
         "dependencies": {"$ref": "#/$defs/dependencies"},
-        "meta": {"type": "object"}
+        "meta": {"$ref": "#/$defs/meta"}
       }
     }
   }
