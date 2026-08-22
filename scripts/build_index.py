@@ -11,6 +11,7 @@ import json
 import math
 import os
 import pathlib
+import re
 import sys
 import tarfile
 import tempfile
@@ -23,6 +24,7 @@ import yaml
 
 COMPONENT_DIRECTORIES = ("actions", "sensors", "triggers", "rules", "workflows")
 GITHUB_API = "https://api.github.com"
+COMMIT_SHA_PATTERN = re.compile(r"[0-9a-f]{40}")
 
 
 def reject_json_constant(value: str) -> None:
@@ -72,6 +74,32 @@ def get_repository(full_name: str, token: str | None) -> dict[str, Any]:
 def get_commit_sha(full_name: str, branch: str, token: str | None) -> str:
     commit = github_json(f"/repos/{full_name}/commits/{branch}", token)
     return commit["sha"]
+
+
+def commit_is_ancestor(
+    full_name: str, ancestor: str, descendant: str, token: str | None
+) -> bool:
+    if ancestor == descendant:
+        return True
+    try:
+        comparison = github_json(
+            f"/repos/{full_name}/compare/{ancestor}...{descendant}", token
+        )
+    except RuntimeError as error:
+        if "GitHub request failed (404)" in str(error):
+            return False
+        raise
+    return comparison.get("status") in {"ahead", "identical"}
+
+
+def repository_is_eligible(repo: dict[str, Any], org: str) -> bool:
+    owner = repo.get("owner") or {}
+    return (
+        str(owner.get("login", "")).lower() == org.lower()
+        and not repo.get("archived", False)
+        and not repo.get("fork", False)
+        and not repo.get("private", False)
+    )
 
 
 def unpack_github_archive(payload: bytes) -> dict[str, bytes]:
@@ -322,6 +350,8 @@ def build_entry(repo: dict[str, Any], sha: str, payload: bytes) -> dict[str, Any
             "stars": int(repo.get("stargazers_count") or 0),
         }
     )
+    if repo.get("id") is not None:
+        entry_metadata["repository_id"] = int(repo["id"])
 
     entry: dict[str, Any] = {
         "ref": pack_ref,
@@ -423,11 +453,14 @@ def merge_entries(
     if not partial:
         return generated
 
-    entries = {
-        pack_ref: entry
-        for pack_ref, entry in existing.items()
-        if entry.get("repository") not in target_repositories
-    }
+    entries = {}
+    for pack_ref, entry in existing.items():
+        metadata = entry.get("meta") or {}
+        identities = {entry.get("repository")}
+        if metadata.get("repository_id") is not None:
+            identities.add(f"id:{metadata['repository_id']}")
+        if identities.isdisjoint(target_repositories):
+            entries[pack_ref] = entry
     for pack_ref, entry in generated.items():
         conflicting = entries.get(pack_ref)
         if conflicting is not None:
@@ -436,6 +469,14 @@ def merge_entries(
             )
         entries[pack_ref] = entry
     return entries
+
+
+def commit_sha(value: str) -> str:
+    if COMMIT_SHA_PATTERN.fullmatch(value) is None:
+        raise argparse.ArgumentTypeError(
+            "commit must be a lowercase 40-character hexadecimal SHA"
+        )
+    return value
 
 
 def parse_args() -> argparse.Namespace:
@@ -447,10 +488,18 @@ def parse_args() -> argparse.Namespace:
         default=[],
         help="Update only this owner/repository; may be repeated",
     )
+    parser.add_argument(
+        "--commit",
+        type=commit_sha,
+        help="Index this exact commit; requires exactly one --repository",
+    )
     parser.add_argument("--output", type=pathlib.Path, default=pathlib.Path("index.json"))
     parser.add_argument("--registry-name", default="Attune Standard Pack Index")
     parser.add_argument("--registry-url", default="https://github.com/attune-system/index")
-    return parser.parse_args()
+    args = parser.parse_args()
+    if args.commit is not None and len(args.repository) != 1:
+        parser.error("--commit requires exactly one --repository")
+    return args
 
 
 def main() -> int:
@@ -462,12 +511,57 @@ def main() -> int:
     partial = bool(args.repository)
     if partial:
         repositories = [get_repository(name, token) for name in args.repository]
+        ineligible = [
+            repo["full_name"]
+            for repo in repositories
+            if not repository_is_eligible(repo, args.org)
+        ]
+        if ineligible:
+            raise ValueError(
+                "Partial updates require public, non-fork, non-archived repositories in "
+                f"{args.org}: {', '.join(ineligible)}"
+            )
     else:
         repositories = list_repositories(args.org, token)
 
+    if args.commit is not None:
+        repo = repositories[0]
+        head_sha = get_commit_sha(repo["full_name"], repo["default_branch"], token)
+        if not commit_is_ancestor(repo["full_name"], args.commit, head_sha, token):
+            raise ValueError(
+                f"Requested commit {args.commit} is not on {repo['full_name']}'s default branch"
+            )
+
+        repo_id = repo.get("id")
+        existing_entry = next(
+            (
+                entry
+                for entry in existing_entries.values()
+                if entry.get("repository") == repo["html_url"]
+                or (
+                    repo_id is not None
+                    and (entry.get("meta") or {}).get("repository_id") == repo_id
+                )
+            ),
+            None,
+        )
+        existing_sha = (existing_entry or {}).get("meta", {}).get("commit")
+        if (
+            isinstance(existing_sha, str)
+            and commit_is_ancestor(repo["full_name"], existing_sha, head_sha, token)
+            and commit_is_ancestor(repo["full_name"], args.commit, existing_sha, token)
+        ):
+            print(
+                f"Ignoring stale dispatch for {repo['full_name']}@{args.commit[:12]}",
+                file=sys.stderr,
+            )
+            return 0
+
     generated: dict[str, dict[str, Any]] = {}
     for repo in sorted(repositories, key=lambda item: item["full_name"]):
-        sha = get_commit_sha(repo["full_name"], repo["default_branch"], token)
+        sha = args.commit or get_commit_sha(
+            repo["full_name"], repo["default_branch"], token
+        )
         archive_url = f"https://codeload.github.com/{repo['full_name']}/tar.gz/{sha}"
         print(f"Indexing {repo['full_name']}@{sha[:12]}", file=sys.stderr)
         payload = github_request(archive_url, token)
@@ -477,6 +571,9 @@ def main() -> int:
         generated[entry["ref"]] = entry
 
     target_repositories = {repo["html_url"] for repo in repositories}
+    target_repositories.update(
+        f"id:{repo['id']}" for repo in repositories if repo.get("id") is not None
+    )
     entries = merge_entries(existing_entries, generated, target_repositories, partial)
     packs = [entries[pack_ref] for pack_ref in sorted(entries)]
     changed = (

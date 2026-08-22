@@ -2,7 +2,7 @@
   "registry_name": "Attune Standard Pack Index",
   "registry_url": "https://github.com/attune-system/index",
   "version": "1.0",
-  "last_updated": "2026-08-22T21:48:45Z",
+  "last_updated": "2026-08-22T23:29:10Z",
   "packs": [
     {
       "ref": "activedirectory",
@@ -229,7 +229,8 @@
         "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "acd594e6e4bd1023d3eac28c35fa5c0c63a61e11",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1334894113
       },
       "repository": "https://github.com/attune-packs/activedirectory",
       "email": "support@attune.systems",
@@ -349,7 +350,8 @@
         "ansible_core_baseline": "2.21.3",
         "default_branch": "main",
         "commit": "1fa23cbb289f30682bc3990a37999a9c282ae9ba",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1334894308
       },
       "repository": "https://github.com/attune-packs/ansible",
       "email": "support@attune.systems",
@@ -609,7 +611,8 @@
         ],
         "default_branch": "main",
         "commit": "0c23fdced0d5850eabd8c5ea94aaaa811dcbeb4f",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1244979934
       },
       "repository": "https://github.com/attune-packs/attune",
       "email": "support@attune.io",
@@ -856,7 +859,8 @@
         ],
         "default_branch": "main",
         "commit": "c9099596b5acb43e69ddf21e4266a9de38c18ab9",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1334762405
       },
       "repository": "https://github.com/attune-packs/aws",
       "email": "support@attune.systems",
@@ -1145,7 +1149,8 @@
         "category": "uncategorized",
         "default_branch": "main",
         "commit": "ff14ab947df4ad0752403f32ff618a07860d1a2f",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1334762950
       },
       "repository": "https://github.com/attune-packs/azure",
       "email": "maintainers@attune.dev"
@@ -1282,7 +1287,8 @@
         ],
         "default_branch": "main",
         "commit": "fb6e30f9aad38f24a885603463a23dca70cb3885",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1334730988
       },
       "repository": "https://github.com/attune-packs/cloudflare",
       "email": "support@attune.systems",
@@ -1422,7 +1428,8 @@
         "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "c76fb7698b0e1b3d85f4309a0be808b4bae773be",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1334710993
       },
       "repository": "https://github.com/attune-packs/consul",
       "email": "support@attune.systems",
@@ -1577,7 +1584,8 @@
         "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "6bece8faaec6bbedc4cfee321e9b356924af0335",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1334731225
       },
       "repository": "https://github.com/attune-packs/datadog",
       "email": "support@attune.systems",
@@ -1689,7 +1697,8 @@
         "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "dad0ffaf190754f4f7d3927c50fd3d1f6366d782",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1334733826
       },
       "repository": "https://github.com/attune-packs/docker",
       "email": "support@attune.systems",
@@ -1783,7 +1792,8 @@
         ],
         "default_branch": "main",
         "commit": "5c5b378c93e542873fc80bf9a1cfbf8fc63748ac",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1334758980
       },
       "repository": "https://github.com/attune-packs/elasticsearch",
       "email": "community@attune.io"
@@ -1995,7 +2005,8 @@
         "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "92ab199e623f8baa5f22214c9ce729a1a138af28",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1334730559
       },
       "repository": "https://github.com/attune-packs/foreman",
       "email": "support@attune.systems",
@@ -2352,7 +2363,8 @@
         ],
         "default_branch": "main",
         "commit": "593ab9d6dee8e2a6abdaf53b89e46fa0e4b37184",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1334760047
       },
       "repository": "https://github.com/attune-packs/freeipa",
       "email": "support@attune.systems",
@@ -2444,7 +2456,8 @@
         "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "92b0f6c17d6e15089d1d6da7879b186c6d896e7f",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1332364093
       },
       "repository": "https://github.com/attune-packs/git",
       "email": "support@attune.systems",
@@ -2772,7 +2785,8 @@
         "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "e9d9931ffc5531a9ea5caae1a9d09e2cac89830f",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1334897014
       },
       "repository": "https://github.com/attune-packs/github",
       "email": "support@attune.systems",
@@ -2888,7 +2902,8 @@
         "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "1c0826596193a6ab7333b0889602cee7db312582",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1334709949
       },
       "repository": "https://github.com/attune-packs/gitlab",
       "email": "support@attune.systems",
@@ -3054,7 +3069,8 @@
         "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "6f20c8d3b82f3d8444cbde16972c96af36922e67",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1334760448
       },
       "repository": "https://github.com/attune-packs/hyperv",
       "email": "support@attune.systems",
@@ -3200,7 +3216,8 @@
         ],
         "default_branch": "main",
         "commit": "d8f8ec53b8e3a40fb17b0fa3f8b6e9adcf43ff0b",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1334730768
       },
       "repository": "https://github.com/attune-packs/infoblox",
       "email": "support@attune.systems",
@@ -3356,7 +3373,8 @@
         "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "c6d9f03025193064bba88059ae21824a8a21e11e",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1334892215
       },
       "repository": "https://github.com/attune-packs/jenkins",
       "email": "support@attune.systems",
@@ -3551,7 +3569,8 @@
         "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "7e4ca400042aedc1e0a4f7e444ce9d755379626d",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1332364132
       },
       "repository": "https://github.com/attune-packs/jira",
       "email": "support@attune.systems",
@@ -3625,7 +3644,8 @@
         "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "ce8f098fb932c42c7594ea532a7be61462755dd8",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1334729452
       },
       "repository": "https://github.com/attune-packs/kafka",
       "email": "support@attune.systems",
@@ -3835,7 +3855,8 @@
         "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "15b21526398344f6e663dc654adfd684e15c2611",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1334731749
       },
       "repository": "https://github.com/attune-packs/keycloak",
       "email": "support@attune.systems",
@@ -4015,7 +4036,8 @@
         "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "78bd74aff900d8afa814cc80372cba0e7ddba78f",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1334760027
       },
       "repository": "https://github.com/attune-packs/kubernetes",
       "email": "support@attune.systems",
@@ -4119,7 +4141,8 @@
         ],
         "default_branch": "main",
         "commit": "3eed254112c5aff0a5f6ac45641ccc1898ced534",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1332364179
       },
       "repository": "https://github.com/attune-packs/msexchange",
       "email": "support@attune.systems",
@@ -4256,7 +4279,8 @@
         ],
         "default_branch": "main",
         "commit": "87de81dc5cd089d678f97b8cb42b8373547379b3",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1334730710
       },
       "repository": "https://github.com/attune-packs/napalm",
       "email": "support@attune.systems",
@@ -4352,7 +4376,8 @@
         "license": "MIT",
         "default_branch": "main",
         "commit": "254d6984a3ba14ab46122b0d8b055237a5830424",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1334889139
       },
       "repository": "https://github.com/attune-packs/netbox",
       "email": "support@attune.systems",
@@ -4446,7 +4471,8 @@
         "repository_url": "https://github.com/attune-automation/pack-nodejs-example",
         "default_branch": "main",
         "commit": "69517d47d2b21fc532ce1420190bf083c11b0804",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1244975606
       },
       "repository": "https://github.com/attune-packs/nodejs_example",
       "email": "support@attune.io",
@@ -4645,7 +4671,8 @@
         "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "107c544cf144eb84f2e1577887f947980e5ea4fb",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1334760810
       },
       "repository": "https://github.com/attune-packs/openstack",
       "email": "support@attune.systems",
@@ -4720,7 +4747,8 @@
         "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "086168cfa90dfcc00bd1819f6e36fabed66c81b5",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1334709648
       },
       "repository": "https://github.com/attune-packs/packer",
       "email": "support@attune.systems",
@@ -5034,7 +5062,8 @@
         "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "0819b35a2d0db68a944ccf71d4e4b362d575b7d9",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1332364221
       },
       "repository": "https://github.com/attune-packs/pagerduty",
       "email": "support@attune.systems",
@@ -5199,7 +5228,8 @@
         "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "f3e44199727c690fb25d9e4f4891ad8c2f46fa07",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1334732777
       },
       "repository": "https://github.com/attune-packs/paloalto",
       "email": "support@attune.systems",
@@ -5318,7 +5348,8 @@
         ],
         "default_branch": "main",
         "commit": "253b9ad41a0208cd339c03bfc464ad818ba900b7",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1334710639
       },
       "repository": "https://github.com/attune-packs/powerdns",
       "email": "support@attune.systems",
@@ -5397,7 +5428,8 @@
         "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "f3c02373cbb9a9236cad6724fbfa4c44b05a2850",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1334708922
       },
       "repository": "https://github.com/attune-packs/prometheus",
       "email": "support@attune.systems",
@@ -5516,7 +5548,8 @@
         "repository_url": "https://github.com/attune-automation/pack-python-example",
         "default_branch": "main",
         "commit": "2012bd0e16d078cd1d955bf84ee7100ece511341",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1244962932
       },
       "repository": "https://github.com/attune-packs/python_example",
       "email": "support@attune.io",
@@ -5595,7 +5628,8 @@
         "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "14fa6e7d25fd7aacffa7be47238364b906b30c6e",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1334711992
       },
       "repository": "https://github.com/attune-packs/rabbitmq",
       "email": "support@attune.systems",
@@ -5775,7 +5809,8 @@
         "documentation_url": "https://androxxtraxxon.github.io/python-sf-toolkit/",
         "default_branch": "main",
         "commit": "bbfac41db6b5f8c65ec639e9c2e32842ed4de7d3",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1244983821
       },
       "repository": "https://github.com/attune-packs/salesforce",
       "email": "integrations@attune.io",
@@ -5886,7 +5921,8 @@
         "salt_api_reviewed_version": "3008.1-2",
         "default_branch": "main",
         "commit": "8148dae52dfd32bcaa3e0de9617aaa6655f2cf1a",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1334729429
       },
       "repository": "https://github.com/attune-packs/salt",
       "email": "support@attune.systems",
@@ -6039,7 +6075,8 @@
         "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "a1b019103bd6e9564bdb0a5d968de3d07cd7b437",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1334894435
       },
       "repository": "https://github.com/attune-packs/servicenow",
       "email": "support@attune.systems",
@@ -6123,7 +6160,8 @@
         "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "64db444b0926e56b996af66084e7e8ab6f4d3d81",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1332364280
       },
       "repository": "https://github.com/attune-packs/slack",
       "email": "support@attune.systems",
@@ -6215,7 +6253,8 @@
         "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "2fc26a68ebda0ceb9dd6e4a72337b244267311b9",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1334710085
       },
       "repository": "https://github.com/attune-packs/splunk",
       "email": "support@attune.systems",
@@ -6290,7 +6329,8 @@
         "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "68d5b783883a33aab850700258a5e6cccc314b75",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1332364318
       },
       "repository": "https://github.com/attune-packs/sql",
       "email": "support@attune.systems",
@@ -6429,7 +6469,8 @@
         "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "76bbfe3abfc74dd29a074ba8d28c75e32cf7a254",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1334896760
       },
       "repository": "https://github.com/attune-packs/terraform",
       "email": "support@attune.systems",
@@ -6581,7 +6622,8 @@
         "repository_url": "https://github.com/attune-packs/vault",
         "default_branch": "main",
         "commit": "6a73b3aecd2a8b0510477851e394722dcf8464f5",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1334894445
       },
       "repository": "https://github.com/attune-packs/vault",
       "email": "integrations@attune.io",
@@ -6713,7 +6755,8 @@
         "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "79c3837b9ae1fbc664ad20dbb0d5c4a70c373a2f",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1334895454
       },
       "repository": "https://github.com/attune-packs/vsphere",
       "email": "support@attune.systems",
@@ -6902,7 +6945,8 @@
         "license": "Apache-2.0",
         "default_branch": "main",
         "commit": "5b6936266456c9faf9ef6f7b60f6a3a781c49671",
-        "stars": 0
+        "stars": 0,
+        "repository_id": 1334895072
       },
       "repository": "https://github.com/attune-packs/zabbix",
       "email": "support@attune.systems",

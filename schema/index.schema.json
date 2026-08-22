@@ -53,6 +53,7 @@
       "properties": {
         "downloads": {"type": "integer", "minimum": 0},
         "stars": {"type": "integer", "minimum": 0},
+        "repository_id": {"type": "integer", "minimum": 1},
         "tested_attune_versions": {
           "type": "array",
           "items": {"type": "string"},

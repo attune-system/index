@@ -17,6 +17,7 @@ attune-packs repository push
         | reusable workflow + ATTUNE_INDEX_TOKEN
         v
 repository_dispatch: pack-updated
+        | repository + exact 40-character commit SHA
         |
         v
 attune-system/index sync workflow
@@ -31,8 +32,9 @@ raw.githubusercontent.com -> Attune registry client
 
 The scheduled sync is the recovery path if a pack does not yet have the caller
 workflow, a dispatch is missed, or a repository is archived or removed. A
-dispatch performs a partial upsert; a scheduled or manual full sync also
-removes packs that no longer satisfy the inclusion policy.
+dispatch performs a partial upsert from the commit in its payload. A scheduled
+or manual full sync resolves current default-branch heads and also removes packs
+that no longer satisfy the inclusion policy.
 
 ## Inclusion Policy
 
@@ -86,8 +88,10 @@ field is authoritative even when a legacy alias is also present:
 - List-form `dependencies`, normalized to `{ "packs": [...] }`, and object-form
   dependencies normalized to the schema's `PackDependencies` fields.
 - Manifest `meta` fields are preserved when they are JSON-compatible. The
-  standard GitHub builder adds authoritative `default_branch`, `commit`, and
-  `stars` values; non-GitHub producers should not invent those fields.
+  standard GitHub builder adds authoritative `default_branch`, `commit`,
+  `repository_id`, and `stars` values. The stable repository ID lets partial
+  updates replace an entry after a repository rename. Non-GitHub producers
+  should not invent those fields.
 - Canonical scalar metadata must be strings. Discovery, runtime, and dependency
   arrays accept strings and finite numbers; nulls, booleans, objects, and
   non-finite values fail generation.

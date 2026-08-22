@@ -45,6 +45,21 @@ GITHUB_TOKEN="$(gh auth token)" python scripts/build_index.py \
 python scripts/validate_index.py
 ```
 
+To reproduce a dispatch exactly, pin its repository and commit together:
+
+```sh
+GITHUB_TOKEN="$(gh auth token)" python scripts/build_index.py \
+  --repository attune-packs/slack \
+  --commit 0123456789abcdef0123456789abcdef01234567
+python scripts/validate_index.py
+```
+
+`--commit` accepts only a lowercase 40-character hexadecimal SHA on the
+repository's current default branch and requires exactly one `--repository`.
+The builder ignores a delayed dispatch when the index already contains a newer
+commit. Without `--commit`, partial and full local builds resolve the current
+default-branch head.
+
 Trigger the hosted full sync with:
 
 ```sh

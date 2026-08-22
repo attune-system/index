@@ -12,9 +12,11 @@ The standard index publishes public packs from `attune-packs` at:
 https://raw.githubusercontent.com/attune-system/index/main/index.json
 ```
 
-The current publishing model tracks the root `pack.yaml` and complete Git tree
-at each repository's latest `main` commit. It does not require a tag or GitHub
-Release. The semantic pack version still comes from `pack.yaml.version`.
+The current publishing model tracks the root `pack.yaml` and complete Git tree.
+Dispatch updates use the exact `main` commit that requested publication, while
+scheduled and manual full syncs use each repository's current default-branch
+head. It does not require a tag or GitHub Release. The semantic pack version
+still comes from `pack.yaml.version`.
 
 ## Responsibilities
 
@@ -40,13 +42,18 @@ Every participating pack contains
    caller repository and `${{ github.sha }}`, the immutable lowercase
    40-character commit SHA. Branch and tag names are not publishing inputs.
 4. Starts `Sync index` in the index repository.
-5. Re-reads the requested repository from GitHub, resolves its current default
-   branch commit, generates its entry, and validates the complete index.
+5. Re-reads the requested repository metadata from GitHub, verifies that the
+   dispatched SHA is on its current default branch and is not older than the
+   indexed commit, generates the entry from that exact commit, and validates
+   the complete index.
 6. Commits `index.json` only when generated content changed.
 
-The dispatch payload is a refresh request, not authoritative metadata. The
-central builder obtains repository state directly from GitHub and never trusts
-the caller to provide pack fields or checksums.
+The dispatched repository and commit identify the source snapshot. The central
+builder obtains repository metadata and pack contents directly from GitHub and
+never trusts the caller to provide pack fields or checksums. It rejects a
+dispatched commit unless it is a lowercase 40-character hexadecimal SHA on the
+repository's current default branch. Delayed dispatches cannot roll an entry
+back to an older commit.
 
 ## Scheduled Reconciliation
 

@@ -8,6 +8,8 @@ import sys
 import tarfile
 import tempfile
 import unittest
+from argparse import ArgumentTypeError, Namespace
+from contextlib import redirect_stderr
 from unittest import mock
 
 import jsonschema
@@ -19,10 +21,14 @@ from build_index import (
     atomic_write_text,
     attune_directory_checksum,
     build_entry,
+    commit_sha,
+    commit_is_ancestor,
+    main as build_index_main,
     manifest_keywords,
     merge_entries,
     normalize_dependencies,
     normalize_meta,
+    parse_args,
     unpack_github_archive,
 )
 from validate_index import reject_json_constant, validate_policy
@@ -39,6 +45,237 @@ def archive(files: dict[str, bytes]) -> bytes:
 
 
 class RegistryTests(unittest.TestCase):
+    def test_unrelated_commit_histories_are_not_ancestors(self) -> None:
+        error = RuntimeError(
+            "GitHub request failed (404) for https://api.github.com/compare: no merge base"
+        )
+        with mock.patch("build_index.github_json", side_effect=error):
+            self.assertFalse(
+                commit_is_ancestor("attune-packs/demo", "a" * 40, "b" * 40, None)
+            )
+
+    def test_partial_build_uses_requested_commit_instead_of_current_branch_head(self) -> None:
+        requested_sha = "a" * 40
+        current_main_sha = "b" * 40
+        repo = {
+            "full_name": "attune-packs/demo",
+            "html_url": "https://github.com/attune-packs/demo",
+            "description": None,
+            "default_branch": "main",
+            "stargazers_count": 0,
+            "license": None,
+            "owner": {"login": "attune-packs"},
+            "id": 42,
+        }
+        payload = archive({"pack.yaml": b"ref: demo\nversion: 1.0.0\n"})
+
+        with tempfile.TemporaryDirectory() as directory:
+            output = pathlib.Path(directory) / "index.json"
+            args = Namespace(
+                org="attune-packs",
+                repository=["attune-packs/demo"],
+                commit=requested_sha,
+                output=output,
+                registry_name="Attune Standard Pack Index",
+                registry_url="https://github.com/attune-system/index",
+            )
+            with (
+                mock.patch("build_index.parse_args", return_value=args),
+                mock.patch("build_index.get_repository", return_value=repo),
+                mock.patch("build_index.get_commit_sha", return_value=current_main_sha) as get_head,
+                mock.patch("build_index.commit_is_ancestor", return_value=True),
+                mock.patch("build_index.github_request", return_value=payload) as request,
+            ):
+                self.assertEqual(build_index_main(), 0)
+
+            get_head.assert_called_once_with("attune-packs/demo", "main", None)
+            request.assert_called_once_with(
+                f"https://codeload.github.com/attune-packs/demo/tar.gz/{requested_sha}",
+                None,
+            )
+            entry = json.loads(output.read_text(encoding="utf-8"))["packs"][0]
+            self.assertEqual(entry["meta"]["commit"], requested_sha)
+            self.assertEqual(entry["meta"]["repository_id"], 42)
+            self.assertEqual(entry["install_sources"][0]["ref"], requested_sha)
+            self.assertEqual(
+                entry["install_sources"][1]["url"],
+                f"https://codeload.github.com/attune-packs/demo/tar.gz/{requested_sha}",
+            )
+
+    def test_full_build_resolves_current_branch_head(self) -> None:
+        current_main_sha = "b" * 40
+        repo = {
+            "full_name": "attune-packs/demo",
+            "html_url": "https://github.com/attune-packs/demo",
+            "description": None,
+            "default_branch": "main",
+            "stargazers_count": 0,
+            "license": None,
+            "owner": {"login": "attune-packs"},
+        }
+        payload = archive({"pack.yaml": b"ref: demo\nversion: 1.0.0\n"})
+
+        with tempfile.TemporaryDirectory() as directory:
+            output = pathlib.Path(directory) / "index.json"
+            args = Namespace(
+                org="attune-packs",
+                repository=[],
+                commit=None,
+                output=output,
+                registry_name="Attune Standard Pack Index",
+                registry_url="https://github.com/attune-system/index",
+            )
+            with (
+                mock.patch("build_index.parse_args", return_value=args),
+                mock.patch("build_index.list_repositories", return_value=[repo]),
+                mock.patch(
+                    "build_index.get_commit_sha", return_value=current_main_sha
+                ) as get_head,
+                mock.patch("build_index.github_request", return_value=payload) as request,
+            ):
+                self.assertEqual(build_index_main(), 0)
+
+            get_head.assert_called_once_with("attune-packs/demo", "main", None)
+            request.assert_called_once_with(
+                f"https://codeload.github.com/attune-packs/demo/tar.gz/{current_main_sha}",
+                None,
+            )
+
+    def test_partial_build_rejects_commit_outside_default_branch(self) -> None:
+        repo = {
+            "full_name": "attune-packs/demo",
+            "html_url": "https://github.com/attune-packs/demo",
+            "default_branch": "main",
+            "owner": {"login": "attune-packs"},
+        }
+        args = Namespace(
+            org="attune-packs",
+            repository=["attune-packs/demo"],
+            commit="a" * 40,
+            output=pathlib.Path("unused.json"),
+            registry_name="Attune Standard Pack Index",
+            registry_url="https://github.com/attune-system/index",
+        )
+        with (
+            mock.patch("build_index.parse_args", return_value=args),
+            mock.patch("build_index.get_repository", return_value=repo),
+            mock.patch("build_index.get_commit_sha", return_value="b" * 40),
+            mock.patch("build_index.commit_is_ancestor", return_value=False),
+        ):
+            with self.assertRaisesRegex(ValueError, "not on .* default branch"):
+                build_index_main()
+
+    def test_stale_partial_dispatch_does_not_replace_newer_entry(self) -> None:
+        old_sha = "a" * 40
+        indexed_sha = "b" * 40
+        head_sha = "c" * 40
+        repository = "https://github.com/attune-packs/demo"
+        repo = {
+            "id": 42,
+            "full_name": "attune-packs/demo",
+            "html_url": repository,
+            "default_branch": "main",
+            "owner": {"login": "attune-packs"},
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            output = pathlib.Path(directory) / "index.json"
+            original = {
+                "registry_name": "Attune Standard Pack Index",
+                "registry_url": "https://github.com/attune-system/index",
+                "version": "1.0",
+                "last_updated": "2026-08-22T00:00:00Z",
+                "packs": [
+                    {
+                        "ref": "demo",
+                        "repository": repository,
+                        "meta": {"commit": indexed_sha, "repository_id": 42},
+                    }
+                ],
+            }
+            output.write_text(json.dumps(original), encoding="utf-8")
+            args = Namespace(
+                org="attune-packs",
+                repository=["attune-packs/demo"],
+                commit=old_sha,
+                output=output,
+                registry_name="Attune Standard Pack Index",
+                registry_url="https://github.com/attune-system/index",
+            )
+            with (
+                mock.patch("build_index.parse_args", return_value=args),
+                mock.patch("build_index.get_repository", return_value=repo),
+                mock.patch("build_index.get_commit_sha", return_value=head_sha),
+                mock.patch("build_index.commit_is_ancestor", return_value=True),
+                mock.patch("build_index.github_request") as request,
+            ):
+                self.assertEqual(build_index_main(), 0)
+
+            request.assert_not_called()
+            self.assertEqual(json.loads(output.read_text(encoding="utf-8")), original)
+
+    def test_partial_build_rejects_ineligible_repository(self) -> None:
+        repo = {
+            "full_name": "attune-packs/demo",
+            "html_url": "https://github.com/attune-packs/demo",
+            "default_branch": "main",
+            "owner": {"login": "attune-packs"},
+            "archived": True,
+        }
+        args = Namespace(
+            org="attune-packs",
+            repository=["attune-packs/demo"],
+            commit="a" * 40,
+            output=pathlib.Path("unused.json"),
+            registry_name="Attune Standard Pack Index",
+            registry_url="https://github.com/attune-system/index",
+        )
+        with (
+            mock.patch("build_index.parse_args", return_value=args),
+            mock.patch("build_index.get_repository", return_value=repo),
+        ):
+            with self.assertRaisesRegex(ValueError, "public, non-fork, non-archived"):
+                build_index_main()
+
+    def test_commit_argument_requires_exact_lowercase_sha_and_one_repository(self) -> None:
+        valid_sha = "0123456789abcdef" * 2 + "01234567"
+        self.assertEqual(commit_sha(valid_sha), valid_sha)
+        for invalid in ("a" * 39, "a" * 41, "A" * 40, "g" * 40, "main"):
+            with self.subTest(invalid=invalid):
+                with self.assertRaisesRegex(
+                    ArgumentTypeError, "lowercase 40-character"
+                ):
+                    commit_sha(invalid)
+
+        for repositories in ([], ["owner/one", "owner/two"]):
+            argv = ["build_index.py"]
+            for repository in repositories:
+                argv.extend(("--repository", repository))
+            argv.extend(("--commit", valid_sha))
+            with self.subTest(repositories=repositories):
+                with (
+                    mock.patch.object(sys, "argv", argv),
+                    redirect_stderr(io.StringIO()),
+                    self.assertRaises(SystemExit) as raised,
+                ):
+                    parse_args()
+                self.assertEqual(raised.exception.code, 2)
+
+    def test_workflow_forwards_dispatched_commit_to_builder(self) -> None:
+        root = pathlib.Path(__file__).parents[1]
+        publisher = (root / ".github/workflows/publish-pack.yml").read_text(
+            encoding="utf-8"
+        )
+        sync = (root / ".github/workflows/sync.yml").read_text(encoding="utf-8")
+
+        self.assertIn("PACK_SHA: ${{ github.sha }}", publisher)
+        self.assertIn("sha: $sha", publisher)
+        self.assertIn(
+            "REQUESTED_SHA: ${{ github.event.client_payload.sha }}",
+            sync,
+        )
+        self.assertIn('[[ ! "$REQUESTED_SHA" =~ ^[0-9a-f]{40}$ ]]', sync)
+        self.assertIn('--commit "$REQUESTED_SHA"', sync)
+
     def test_attune_checksum_frames_sorted_paths_and_contents(self) -> None:
         files = {"z.txt": b"last", "a.txt": b"first"}
         expected = hashlib.sha256()
@@ -433,6 +670,31 @@ name: Fallback must not win
         generated = {"demo": {"ref": "demo", "repository": repository}}
         self.assertEqual(
             merge_entries(existing, generated, {repository}, partial=True),
+            generated,
+        )
+
+    def test_partial_update_matches_stable_repository_id_after_rename(self) -> None:
+        existing = {
+            "old-demo": {
+                "ref": "old-demo",
+                "repository": "https://github.com/attune-packs/old-name",
+                "meta": {"repository_id": 42},
+            }
+        }
+        generated = {
+            "demo": {
+                "ref": "demo",
+                "repository": "https://github.com/attune-packs/new-name",
+                "meta": {"repository_id": 42},
+            }
+        }
+        self.assertEqual(
+            merge_entries(
+                existing,
+                generated,
+                {"https://github.com/attune-packs/new-name", "id:42"},
+                partial=True,
+            ),
             generated,
         )
 

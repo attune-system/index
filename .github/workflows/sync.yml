@@ -27,10 +27,22 @@ jobs:
       - name: Build index
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          SYNC_EVENT: ${{ github.event_name }}
           REQUESTED_REPOSITORY: ${{ github.event.client_payload.repository }}
+          REQUESTED_SHA: ${{ github.event.client_payload.sha }}
         run: |
-          if [[ -n "$REQUESTED_REPOSITORY" ]]; then
-            python scripts/build_index.py --repository "$REQUESTED_REPOSITORY"
+          if [[ "$SYNC_EVENT" == "repository_dispatch" ]]; then
+            if [[ -z "$REQUESTED_REPOSITORY" ]]; then
+              echo "repository_dispatch payload must include repository" >&2
+              exit 1
+            fi
+            if [[ ! "$REQUESTED_SHA" =~ ^[0-9a-f]{40}$ ]]; then
+              echo "repository_dispatch payload sha must be a lowercase 40-character hexadecimal commit" >&2
+              exit 1
+            fi
+            python scripts/build_index.py \
+              --repository "$REQUESTED_REPOSITORY" \
+              --commit "$REQUESTED_SHA"
           else
             python scripts/build_index.py
           fi
