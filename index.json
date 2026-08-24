@@ -2,7 +2,7 @@
   "registry_name": "Attune Standard Pack Index",
   "registry_url": "https://github.com/attune-system/index",
   "version": "1.0",
-  "last_updated": "2026-08-22T23:29:10Z",
+  "last_updated": "2026-08-24T02:01:10Z",
   "packs": [
     {
       "ref": "activedirectory",
@@ -617,6 +617,143 @@
       "repository": "https://github.com/attune-packs/attune",
       "email": "support@attune.io",
       "homepage": "https://docs.attune.io/packs/attune"
+    },
+    {
+      "ref": "attune_validation",
+      "label": "Attune Validation",
+      "description": "Deterministic fixtures for validating Attune pack-defined behavior",
+      "version": "0.1.0",
+      "author": "Attune Team",
+      "license": "MIT",
+      "keywords": [
+        "attune",
+        "testing",
+        "validation"
+      ],
+      "runtime_deps": [
+        "python3",
+        "shell"
+      ],
+      "install_sources": [
+        {
+          "type": "git",
+          "url": "https://github.com/attune-packs/attune_validation.git",
+          "ref": "817cd46fc309131a67d43a1ba4bcf5e17668ec39",
+          "checksum": "sha256:3b8332306916cb03cdae91931299be04c3c316310d5769e2a83ddacb5da6b840"
+        },
+        {
+          "type": "archive",
+          "url": "https://codeload.github.com/attune-packs/attune_validation/tar.gz/817cd46fc309131a67d43a1ba4bcf5e17668ec39",
+          "checksum": "sha256:32f8ba1ec8dcad7f0d1fe547b1af059a0c95213d32d044e678167cc79ac7424c"
+        }
+      ],
+      "contents": {
+        "actions": [
+          {
+            "name": "conditional_echo",
+            "description": "Echo synthetic queue payloads only when enabled and at or above the configured score"
+          },
+          {
+            "name": "echo_dotenv",
+            "description": "Verify portable shell execution with scalar dotenv parameter delivery"
+          },
+          {
+            "name": "echo_json",
+            "description": "Round-trip every supported structured parameter type without returning secret values"
+          },
+          {
+            "name": "enqueue_cache_item",
+            "description": "Map one native cache entry into the validation conditional echo queue"
+          },
+          {
+            "name": "execution_context",
+            "description": "Report non-secret Attune execution context and whether a scoped token was supplied"
+          },
+          {
+            "name": "file_json",
+            "description": "Verify file parameter delivery and return a structured payload"
+          },
+          {
+            "name": "generate_cache_dataset",
+            "description": "Generate deterministic synthetic records and publish them as a replacement cache generation"
+          },
+          {
+            "name": "placement_probe",
+            "description": "Disabled fixture for validating action worker selectors, tolerations, and affinity metadata"
+          },
+          {
+            "name": "probe",
+            "description": "Return a labeled object or fail predictably for workflow validation"
+          },
+          {
+            "name": "process_cache_batch",
+            "description": "Count one native cache-iteration batch without returning record contents"
+          },
+          {
+            "name": "process_queue",
+            "description": "Return deterministic queue acknowledgements selected by each validation item"
+          },
+          {
+            "name": "refresh_cache",
+            "description": "Publish a complete replacement generation to the validation fixture cache"
+          }
+        ],
+        "sensors": [
+          {
+            "name": "sample_sensor",
+            "description": "Emit deterministic typed events for enabled sample-event rules"
+          }
+        ],
+        "triggers": [
+          {
+            "name": "sample_event",
+            "description": "Emit typed fixture data for sensor, event, rule, and action validation"
+          }
+        ],
+        "rules": [
+          {
+            "name": "sample_event_to_echo",
+            "description": "Map a typed sensor event into the JSON echo action"
+          }
+        ],
+        "workflows": [
+          {
+            "name": "cache_iteration_probe",
+            "description": "Traverse one pinned validation cache generation with native workflow iteration"
+          },
+          {
+            "name": "cache_to_queue_workflow",
+            "description": "Generate a synthetic cache generation and enqueue each pinned record for conditional processing"
+          },
+          {
+            "name": "workflow_probe",
+            "description": "Validate parallel fan-out, join, iteration, typed templates, and failure transitions"
+          }
+        ]
+      },
+      "meta": {
+        "category": "testing",
+        "documentation_url": "https://github.com/attune-packs/attune_validation",
+        "repository_url": "https://github.com/attune-packs/attune_validation",
+        "keywords": [
+          "attune",
+          "validation",
+          "conformance",
+          "testing"
+        ],
+        "default_branch": "main",
+        "commit": "817cd46fc309131a67d43a1ba4bcf5e17668ec39",
+        "stars": 0,
+        "repository_id": 1344243841
+      },
+      "repository": "https://github.com/attune-packs/attune_validation",
+      "email": "support@attune.io",
+      "homepage": "https://github.com/attune-packs/attune_validation",
+      "dependencies": {
+        "packs": [
+          "core"
+        ]
+      }
     },
     {
       "ref": "aws",
