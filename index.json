@@ -2,7 +2,7 @@
   "registry_name": "Attune Standard Pack Index",
   "registry_url": "https://github.com/attune-system/index",
   "version": "1.0",
-  "last_updated": "2026-08-24T02:01:10Z",
+  "last_updated": "2026-09-04T11:26:16Z",
   "packs": [
     {
       "ref": "activedirectory",
@@ -6898,6 +6898,81 @@
       "repository": "https://github.com/attune-packs/vsphere",
       "email": "support@attune.systems",
       "homepage": "https://developer.broadcom.com/xapis/vsphere-web-services-api/latest/",
+      "dependencies": {
+        "packs": []
+      }
+    },
+    {
+      "ref": "yt_dlp",
+      "label": "yt-dlp Media",
+      "description": "Media availability monitoring and downloads backed by the yt-dlp Python library",
+      "version": "0.1.0",
+      "author": "Attune",
+      "license": "Apache-2.0",
+      "keywords": [
+        "archive",
+        "media",
+        "streaming",
+        "yt-dlp"
+      ],
+      "runtime_deps": [
+        "python"
+      ],
+      "install_sources": [
+        {
+          "type": "git",
+          "url": "https://github.com/attune-packs/yt_dlp.git",
+          "ref": "35d2c67fcb14613c07b89393fccd94159a00df36",
+          "checksum": "sha256:1612c6f946e105dcea95f0aaadc7041c8b5711875ad52a18cc808f857042549e"
+        },
+        {
+          "type": "archive",
+          "url": "https://codeload.github.com/attune-packs/yt_dlp/tar.gz/35d2c67fcb14613c07b89393fccd94159a00df36",
+          "checksum": "sha256:37d86804cf513bcafd6ef7f20a206c3733bf0b616f92a1c15f338b357f2beda4"
+        }
+      ],
+      "contents": {
+        "actions": [
+          {
+            "name": "download",
+            "description": "Downloads on-demand media or records a live stream through the yt-dlp Python library"
+          }
+        ],
+        "sensors": [
+          {
+            "name": "media_availability_sensor",
+            "description": "Polls yt-dlp-supported media sources and emits availability changes"
+          }
+        ],
+        "triggers": [
+          {
+            "name": "media_available",
+            "description": "Emitted when a media item first matches or changes to a configured availability state"
+          }
+        ],
+        "rules": [],
+        "workflows": []
+      },
+      "meta": {
+        "category": "integration",
+        "documentation_url": "https://github.com/yt-dlp/yt-dlp",
+        "repository_url": "https://github.com/attune-packs/yt_dlp",
+        "source_repository": "https://github.com/nexus9560/Auto-Archiver",
+        "license": "Apache-2.0",
+        "keywords": [
+          "media",
+          "streaming",
+          "archive",
+          "yt-dlp"
+        ],
+        "default_branch": "main",
+        "commit": "35d2c67fcb14613c07b89393fccd94159a00df36",
+        "stars": 0,
+        "repository_id": 1356718104
+      },
+      "repository": "https://github.com/attune-packs/yt_dlp",
+      "email": "support@attune.systems",
+      "homepage": "https://github.com/yt-dlp/yt-dlp",
       "dependencies": {
         "packs": []
       }
