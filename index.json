@@ -2,7 +2,7 @@
   "registry_name": "Attune Standard Pack Index",
   "registry_url": "https://github.com/attune-system/index",
   "version": "1.0",
-  "last_updated": "2026-10-01T13:19:21Z",
+  "last_updated": "2026-10-01T13:19:57Z",
   "packs": [
     {
       "ref": "activedirectory",
@@ -5395,13 +5395,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/powerdns.git",
-          "ref": "253b9ad41a0208cd339c03bfc464ad818ba900b7",
-          "checksum": "sha256:a1db612b494d2836a2b060f8899fd3d3485859a303eefda3aed1e85b30785092"
+          "ref": "41995bb705c346524d916b8ed12b3afb18c51a4f",
+          "checksum": "sha256:78a4e84b75ae0693ff2ed55297e3da7cacf44a448a45755884627ae50b08c79e"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/powerdns/tar.gz/253b9ad41a0208cd339c03bfc464ad818ba900b7",
-          "checksum": "sha256:2a8cac1c079fb8ee880f6fd1ad8455c0dd5dcd93827fec5dff5811bc832afe1f"
+          "url": "https://codeload.github.com/attune-packs/powerdns/tar.gz/41995bb705c346524d916b8ed12b3afb18c51a4f",
+          "checksum": "sha256:af6b8f390af921f4728c5be9ddde808db9f37d1dddb3cf56fbacc274b13f9b02"
         }
       ],
       "contents": {
@@ -5484,7 +5484,7 @@
           "requests>=2.32.0,<3.0.0"
         ],
         "default_branch": "main",
-        "commit": "253b9ad41a0208cd339c03bfc464ad818ba900b7",
+        "commit": "41995bb705c346524d916b8ed12b3afb18c51a4f",
         "stars": 0,
         "repository_id": 1334710639
       },
