@@ -2,7 +2,7 @@
   "registry_name": "Attune Standard Pack Index",
   "registry_url": "https://github.com/attune-system/index",
   "version": "1.0",
-  "last_updated": "2026-09-04T11:26:16Z",
+  "last_updated": "2026-10-01T13:18:41Z",
   "packs": [
     {
       "ref": "activedirectory",
@@ -4310,13 +4310,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/napalm.git",
-          "ref": "87de81dc5cd089d678f97b8cb42b8373547379b3",
-          "checksum": "sha256:f61f8f4c5b5ab5b802eaeda6bb45536aa7f6d9c326c1e224a67297d8293adae0"
+          "ref": "ecd14b537aff0a7b76123dd9700d02ba3070a9c3",
+          "checksum": "sha256:4690b7a56759540dca7686553322f212696a1157936666d026c549774e949e16"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/napalm/tar.gz/87de81dc5cd089d678f97b8cb42b8373547379b3",
-          "checksum": "sha256:31f4f69df8f369ca923ca4e606394783c8374082cdda42cbf531d610a889538a"
+          "url": "https://codeload.github.com/attune-packs/napalm/tar.gz/ecd14b537aff0a7b76123dd9700d02ba3070a9c3",
+          "checksum": "sha256:21eca7ef1ae2ac8e10200285a142faa9baa95f8971a47f7e4feed9cd2350db51"
         }
       ],
       "contents": {
@@ -4415,7 +4415,7 @@
           "napalm==5.2.0"
         ],
         "default_branch": "main",
-        "commit": "87de81dc5cd089d678f97b8cb42b8373547379b3",
+        "commit": "ecd14b537aff0a7b76123dd9700d02ba3070a9c3",
         "stars": 0,
         "repository_id": 1334730710
       },
