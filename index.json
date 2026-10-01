@@ -2,7 +2,7 @@
   "registry_name": "Attune Standard Pack Index",
   "registry_url": "https://github.com/attune-system/index",
   "version": "1.0",
-  "last_updated": "2026-10-01T13:20:12Z",
+  "last_updated": "2026-10-01T15:46:55Z",
   "packs": [
     {
       "ref": "activedirectory",
@@ -4179,6 +4179,104 @@
       "repository": "https://github.com/attune-packs/kubernetes",
       "email": "support@attune.systems",
       "homepage": "https://kubernetes.io/docs/reference/using-api/",
+      "dependencies": {
+        "packs": []
+      }
+    },
+    {
+      "ref": "mattermost",
+      "label": "Mattermost",
+      "description": "Mattermost messaging actions, thread workflows, file uploads, and live post events",
+      "version": "0.1.0",
+      "author": "Attune",
+      "license": "Apache-2.0",
+      "keywords": [
+        "chat",
+        "integration",
+        "mattermost",
+        "messaging"
+      ],
+      "runtime_deps": [
+        "python"
+      ],
+      "install_sources": [
+        {
+          "type": "git",
+          "url": "https://github.com/attune-packs/mattermost.git",
+          "ref": "efc63583da77e719da5ed259ce146b1cceea0aa8",
+          "checksum": "sha256:ea3bb594528e7e9d0982fb930c77ff515a62a07339b3e8ac6504e6274fef458d"
+        },
+        {
+          "type": "archive",
+          "url": "https://codeload.github.com/attune-packs/mattermost/tar.gz/efc63583da77e719da5ed259ce146b1cceea0aa8",
+          "checksum": "sha256:7698852c9764b2f831f7e04d089e2f26b070051139d43cadac18118911891ef6"
+        }
+      ],
+      "contents": {
+        "actions": [
+          {
+            "name": "api_call",
+            "description": "Call one bounded path below the configured Mattermost API v4 origin"
+          },
+          {
+            "name": "delete_post",
+            "description": "Delete one Mattermost post by ID"
+          },
+          {
+            "name": "get_post",
+            "description": "Get one Mattermost post by ID"
+          },
+          {
+            "name": "list_channel_posts",
+            "description": "List channel posts using bounded pagination"
+          },
+          {
+            "name": "post_message",
+            "description": "Create a Mattermost channel post or threaded reply"
+          },
+          {
+            "name": "update_post",
+            "description": "Replace the message text of an existing Mattermost post"
+          },
+          {
+            "name": "upload_file",
+            "description": "Upload text content or one artifact file to a Mattermost channel"
+          }
+        ],
+        "sensors": [
+          {
+            "name": "mattermost_websocket",
+            "description": "Receives live Mattermost posts and emits rule-targeted events"
+          }
+        ],
+        "triggers": [
+          {
+            "name": "post_created",
+            "description": "Emitted for matching live channel posts observed over the Mattermost WebSocket"
+          }
+        ],
+        "rules": [],
+        "workflows": [
+          {
+            "name": "post_thread",
+            "description": "Create a root post followed by up to 20 ordered replies"
+          }
+        ]
+      },
+      "meta": {
+        "category": "integration",
+        "documentation_url": "https://github.com/attune-packs/mattermost",
+        "repository_url": "https://github.com/attune-packs/mattermost",
+        "source_version": "11.11",
+        "license": "Apache-2.0",
+        "default_branch": "main",
+        "commit": "efc63583da77e719da5ed259ce146b1cceea0aa8",
+        "stars": 0,
+        "repository_id": 1400131305
+      },
+      "repository": "https://github.com/attune-packs/mattermost",
+      "email": "support@attune.systems",
+      "homepage": "https://github.com/attune-packs/mattermost",
       "dependencies": {
         "packs": []
       }
