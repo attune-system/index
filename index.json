@@ -2,7 +2,7 @@
   "registry_name": "Attune Standard Pack Index",
   "registry_url": "https://github.com/attune-system/index",
   "version": "1.0",
-  "last_updated": "2026-10-01T13:19:57Z",
+  "last_updated": "2026-10-01T13:20:12Z",
   "packs": [
     {
       "ref": "activedirectory",
@@ -6998,13 +6998,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/zabbix.git",
-          "ref": "5b6936266456c9faf9ef6f7b60f6a3a781c49671",
-          "checksum": "sha256:57f9b064b148d51df31d7cdf90bf61198ce71be6986ddcc0527d759bb9753f34"
+          "ref": "a9fcc23ce841fd6b1b9c1a36d8e271c4ffad0082",
+          "checksum": "sha256:1bd85818d77dda84356b7f926e3c39fe4c390f2cf5f32663f2ef6767046032fa"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/zabbix/tar.gz/5b6936266456c9faf9ef6f7b60f6a3a781c49671",
-          "checksum": "sha256:08e179d5c4d9bb06619f25d070f4526d4ef6e36a0d3726b8cf9db15cf7e9fcc1"
+          "url": "https://codeload.github.com/attune-packs/zabbix/tar.gz/a9fcc23ce841fd6b1b9c1a36d8e271c4ffad0082",
+          "checksum": "sha256:a6af8956c66a1404e6b7353e4f0f7ef97e704f6b1dbbae0765258b8752a044be"
         }
       ],
       "contents": {
@@ -7156,7 +7156,7 @@
         "api_baseline_revision": "3c95000629791258a59622e3e4e995df45c44453",
         "license": "Apache-2.0",
         "default_branch": "main",
-        "commit": "5b6936266456c9faf9ef6f7b60f6a3a781c49671",
+        "commit": "a9fcc23ce841fd6b1b9c1a36d8e271c4ffad0082",
         "stars": 0,
         "repository_id": 1334895072
       },
