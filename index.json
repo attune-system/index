@@ -2,7 +2,7 @@
   "registry_name": "Attune Standard Pack Index",
   "registry_url": "https://github.com/attune-system/index",
   "version": "1.0",
-  "last_updated": "2026-10-01T13:18:41Z",
+  "last_updated": "2026-10-01T13:19:21Z",
   "packs": [
     {
       "ref": "activedirectory",
@@ -1314,13 +1314,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/cloudflare.git",
-          "ref": "fb6e30f9aad38f24a885603463a23dca70cb3885",
-          "checksum": "sha256:db9947aa0b34ff414f356661c1229b57e11c9f75027eb14d526cecba9aa6f781"
+          "ref": "5f254dc919897ac9c6a4cf91a0039a40673e1726",
+          "checksum": "sha256:6b68535647140bd20fcc41b3f32c01a3a47075f91689f6152a985e7b7b053394"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/cloudflare/tar.gz/fb6e30f9aad38f24a885603463a23dca70cb3885",
-          "checksum": "sha256:7db7ce6cf96a16c02a8b8ef7ea243468e8101e0fef4f605155953e5a531f588f"
+          "url": "https://codeload.github.com/attune-packs/cloudflare/tar.gz/5f254dc919897ac9c6a4cf91a0039a40673e1726",
+          "checksum": "sha256:ad505339fc3a5865d49e277c1c05ab953a7f0c4aceac96aef881cdde1bc38c52"
         }
       ],
       "contents": {
@@ -1423,7 +1423,7 @@
           "requests>=2.32.0,<3.0.0"
         ],
         "default_branch": "main",
-        "commit": "fb6e30f9aad38f24a885603463a23dca70cb3885",
+        "commit": "5f254dc919897ac9c6a4cf91a0039a40673e1726",
         "stars": 0,
         "repository_id": 1334730988
       },
