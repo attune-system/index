@@ -22,7 +22,10 @@ python scripts/validate_index.py --custom
 ```
 
 The builder includes every public, non-archived, non-fork repository in the
-organization. Use repeated `--repository owner/name` arguments to upsert a
+organization, except GitHub's `.github` metadata repository. Add `--skip-invalid`
+to a full build to skip invalid repositories while retaining their last published
+entries; without that flag, builds remain strict. Use repeated
+`--repository owner/name` arguments to upsert a
 specific subset into an existing index:
 
 ```sh

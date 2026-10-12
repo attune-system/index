@@ -23,6 +23,7 @@ from build_index import (
     build_entry,
     commit_sha,
     commit_is_ancestor,
+    list_repositories,
     main as build_index_main,
     manifest_keywords,
     merge_entries,
@@ -45,6 +46,300 @@ def archive(files: dict[str, bytes]) -> bytes:
 
 
 class RegistryTests(unittest.TestCase):
+    def run_full_sync(
+        self,
+        repositories: list[dict],
+        payloads: dict[str, bytes | Exception],
+        previous: list[dict] | None = None,
+        skip_invalid: bool = True,
+    ) -> tuple[dict, str, str]:
+        def request(url: str, token: str | None) -> bytes:
+            name = url.split("/tar.gz/", 1)[0].rsplit("/", 1)[1]
+            payload = payloads[name]
+            if isinstance(payload, Exception):
+                raise payload
+            return payload
+
+        with tempfile.TemporaryDirectory() as directory:
+            output = pathlib.Path(directory) / "index.json"
+            summary = pathlib.Path(directory) / "summary.md"
+            if previous is not None:
+                output.write_text(json.dumps({
+                    "registry_name": "Attune Standard Pack Index",
+                    "registry_url": "https://github.com/attune-system/index",
+                    "version": "1.0",
+                    "last_updated": "2026-08-22T00:00:00Z",
+                    "packs": previous,
+                }), encoding="utf-8")
+            args = Namespace(
+                org="attune-packs",
+                repository=[],
+                commit=None,
+                output=output,
+                registry_name="Attune Standard Pack Index",
+                registry_url="https://github.com/attune-system/index",
+                skip_invalid=skip_invalid,
+            )
+            stderr = io.StringIO()
+            with (
+                mock.patch("build_index.parse_args", return_value=args),
+                mock.patch("build_index.list_repositories", return_value=repositories),
+                mock.patch("build_index.get_commit_sha", return_value="b" * 40),
+                mock.patch("build_index.github_request", side_effect=request),
+                mock.patch.dict("os.environ", {
+                    "GITHUB_ACTIONS": "true",
+                    "GITHUB_STEP_SUMMARY": str(summary),
+                }),
+                redirect_stderr(stderr),
+            ):
+                self.assertEqual(build_index_main(), 0)
+            return (
+                json.loads(output.read_text(encoding="utf-8")),
+                stderr.getvalue(),
+                summary.read_text(encoding="utf-8") if summary.exists() else "",
+            )
+
+    def pack_repository(self, name: str, repository_id: int) -> dict:
+        return {
+            "name": name,
+            "full_name": f"attune-packs/{name}",
+            "html_url": f"https://github.com/attune-packs/{name}",
+            "default_branch": "main",
+            "owner": {"login": "attune-packs"},
+            "id": repository_id,
+        }
+
+    def test_full_sync_skips_invalid_pack_content_and_fetch_failures(self) -> None:
+        repositories = [self.pack_repository("good", 1), self.pack_repository("bad", 2)]
+        good = archive({"pack.yaml": b"ref: good\nversion: 1.0.0\n"})
+        for invalid in (
+            archive({"README.md": b"No manifest\n"}),
+            archive({"pack.yaml": b"[invalid yaml"}),
+            archive({"pack.yaml": b"ref: bad\nversion: not-semver\n"}),
+            archive({
+                "pack.yaml": b"ref: bad\nversion: 1.0.0\n",
+                "actions/one.yaml": b"ref: bad.same\n",
+                "actions/two.yaml": b"ref: bad.same\n",
+            }),
+            b"Invalid archive",
+            RuntimeError("GitHub request failed (404): unavailable"),
+            TimeoutError("Request timed out"),
+        ):
+            with self.subTest(invalid=repr(invalid)[:80]):
+                index, logs, summary = self.run_full_sync(
+                    repositories, {"good": good, "bad": invalid},
+                )
+                self.assertEqual([entry["ref"] for entry in index["packs"]], ["good"])
+                self.assertIn("::warning::Skipping attune-packs/bad", logs)
+                self.assertIn("omitted (no previous entry)", summary)
+
+    def test_full_sync_retains_previous_entry_for_failed_renamed_repository(self) -> None:
+        old_repo = self.pack_repository("old-name", 2)
+        previous = build_entry(old_repo, "a" * 40, archive({"pack.yaml": b"ref: bad\nversion: 1.0.0\n"}))
+        removed = build_entry(
+            self.pack_repository("removed", 3), "a" * 40,
+            archive({"pack.yaml": b"ref: removed\nversion: 1.0.0\n"}),
+        )
+        index, logs, summary = self.run_full_sync(
+            [self.pack_repository("good", 1), self.pack_repository("new-name", 2)],
+            {
+                "good": archive({"pack.yaml": b"ref: good\nversion: 1.0.0\n"}),
+                "new-name": RuntimeError("Unavailable"),
+            },
+            previous=[previous, removed],
+        )
+        self.assertEqual([entry["ref"] for entry in index["packs"]], ["bad", "good"])
+        self.assertEqual(index["packs"][0], previous)
+        self.assertIn("retained last published entry", logs)
+        self.assertIn("attune-packs/new-name", summary)
+
+    def test_all_failed_repositories_preserve_index_timestamp(self) -> None:
+        repo = self.pack_repository("demo", 1)
+        previous = build_entry(repo, "a" * 40, archive({"pack.yaml": b"ref: demo\nversion: 1.0.0\n"}))
+        index, _, _ = self.run_full_sync([repo], {"demo": TimeoutError("Unavailable")}, [previous])
+        self.assertEqual(index["packs"], [previous])
+        self.assertEqual(index["last_updated"], "2026-08-22T00:00:00Z")
+
+    def test_full_sync_rejects_both_new_entries_with_duplicate_pack_ref(self) -> None:
+        repositories = [self.pack_repository("one", 1), self.pack_repository("two", 2)]
+        previous = [
+            build_entry(repo, "a" * 40, archive({
+                "pack.yaml": f"ref: {repo['name']}\nversion: 1.0.0\n".encode(),
+            }))
+            for repo in repositories
+        ]
+        collision = archive({"pack.yaml": b"ref: same\nversion: 2.0.0\n"})
+        index, _, summary = self.run_full_sync(
+            repositories, {"one": collision, "two": collision}, previous,
+        )
+        self.assertEqual(index["packs"], previous)
+        self.assertIn("Skipped 2 invalid repositories", summary)
+        self.assertIn("Duplicate pack ref", summary)
+
+    def test_duplicate_ref_cannot_displace_retained_failed_pack(self) -> None:
+        one, two = self.pack_repository("one", 1), self.pack_repository("two", 2)
+        previous = build_entry(one, "a" * 40, archive({"pack.yaml": b"ref: one\nversion: 1.0.0\n"}))
+        index, _, summary = self.run_full_sync(
+            [one, two],
+            {"one": TimeoutError("Unavailable"), "two": archive({"pack.yaml": b"ref: one\nversion: 2.0.0\n"})},
+            [previous],
+        )
+        self.assertEqual(index["packs"], [previous])
+        self.assertIn("Skipped 2 invalid repositories", summary)
+
+    def test_new_ref_collisions_do_not_block_unrelated_pack_update(self) -> None:
+        collision = archive({"pack.yaml": b"ref: same\nversion: 1.0.0\n"})
+        index, _, summary = self.run_full_sync(
+            [self.pack_repository(name, number) for number, name in enumerate(("one", "two", "good"), 1)],
+            {
+                "one": collision,
+                "two": collision,
+                "good": archive({"pack.yaml": b"ref: good\nversion: 2.0.0\n"}),
+            },
+        )
+        self.assertEqual([entry["ref"] for entry in index["packs"]], ["good"])
+        self.assertEqual(index["packs"][0]["version"], "2.0.0")
+        self.assertIn("Skipped 2 invalid repositories", summary)
+
+    def test_restoring_old_entries_resolves_cascading_ref_collisions(self) -> None:
+        repositories = [self.pack_repository(name, number) for number, name in enumerate(("one", "two", "three"), 1)]
+        previous = [
+            build_entry(repo, "a" * 40, archive({
+                "pack.yaml": f"ref: {repo['name']}\nversion: 1.0.0\n".encode(),
+            }))
+            for repo in repositories
+        ]
+        collision = archive({"pack.yaml": b"ref: same\nversion: 2.0.0\n"})
+        index, _, summary = self.run_full_sync(
+            repositories,
+            {
+                "one": collision,
+                "two": collision,
+                "three": archive({"pack.yaml": b"ref: one\nversion: 2.0.0\n"}),
+            },
+            sorted(previous, key=lambda entry: entry["ref"]),
+        )
+        self.assertEqual(index["packs"], sorted(previous, key=lambda entry: entry["ref"]))
+        self.assertIn("Skipped 3 invalid repositories", summary)
+
+    def test_invalid_final_index_is_never_written(self) -> None:
+        repo = self.pack_repository("demo", 1)
+        previous = build_entry(repo, "a" * 40, archive({"pack.yaml": b"ref: demo\nversion: 1.0.0\n"}))
+        previous["version"] = "invalid"
+        with mock.patch("build_index.atomic_write_text") as write:
+            with self.assertRaisesRegex(ValueError, "Generated index is invalid"):
+                self.run_full_sync([repo], {"demo": TimeoutError("Unavailable")}, [previous])
+        write.assert_not_called()
+
+    def test_invalid_targeted_pack_is_never_written(self) -> None:
+        repo = self.pack_repository("demo", 1)
+        args = Namespace(
+            org="attune-packs",
+            repository=[repo["full_name"]],
+            commit=None,
+            output=pathlib.Path("unused.json"),
+            registry_name="Attune Standard Pack Index",
+            registry_url="https://github.com/attune-system/index",
+            skip_invalid=False,
+        )
+        with (
+            mock.patch("build_index.parse_args", return_value=args),
+            mock.patch("build_index.get_repository", return_value=repo),
+            mock.patch("build_index.get_commit_sha", return_value="b" * 40),
+            mock.patch("build_index.github_request", return_value=archive({"README.md": b"No manifest"})),
+            mock.patch("build_index.atomic_write_text") as write,
+            redirect_stderr(io.StringIO()),
+        ):
+            with self.assertRaisesRegex(ValueError, "does not contain pack.yaml"):
+                build_index_main()
+        write.assert_not_called()
+
+    def test_default_build_still_fails_on_invalid_pack(self) -> None:
+        with self.assertRaisesRegex(ValueError, "does not contain pack.yaml"):
+            self.run_full_sync(
+                [self.pack_repository("bad", 1)],
+                {"bad": archive({"README.md": b"No manifest"})},
+                skip_invalid=False,
+            )
+
+    def test_skip_invalid_is_not_allowed_for_targeted_publishing(self) -> None:
+        with (
+            mock.patch.object(sys, "argv", [
+                "build_index.py", "--skip-invalid", "--repository", "attune-packs/demo",
+            ]),
+            redirect_stderr(io.StringIO()),
+            self.assertRaises(SystemExit) as raised,
+        ):
+            parse_args()
+        self.assertEqual(raised.exception.code, 2)
+
+    def test_sync_workflow_only_skips_invalid_packs_in_full_syncs(self) -> None:
+        sync = (pathlib.Path(__file__).parents[1] / ".github/workflows/sync.yml").read_text(encoding="utf-8")
+        self.assertIn("python scripts/build_index.py --skip-invalid", sync)
+        targeted = sync.split('if [[ "$SYNC_EVENT" == "repository_dispatch" ]]; then', 1)[1].split("else", 1)[0]
+        self.assertNotIn("--skip-invalid", targeted)
+
+    def test_repository_discovery_excludes_organization_metadata_and_ineligible_repos(self) -> None:
+        pack = {
+            "name": "demo",
+            "full_name": "attune-packs/demo",
+            "owner": {"login": "attune-packs"},
+            "archived": False,
+            "fork": False,
+            "private": False,
+        }
+        repositories = [pack]
+        for overrides in (
+            {"name": ".github", "full_name": "attune-packs/.github"},
+            {"name": ".GitHub", "full_name": "attune-packs/.GitHub"},
+            {"archived": True},
+            {"fork": True},
+            {"private": True},
+            {"owner": {"login": "another-org"}},
+        ):
+            repositories.append({**pack, **overrides})
+
+        with mock.patch("build_index.github_json", return_value=repositories) as request:
+            self.assertEqual(list_repositories("attune-packs", None), [pack])
+        request.assert_called_once_with(
+            "/orgs/attune-packs/repos?type=public&per_page=100&page=1&sort=full_name",
+            None,
+        )
+
+    def test_partial_build_rejects_organization_metadata_before_fetching_archive(self) -> None:
+        repo = {
+            "name": ".github",
+            "full_name": "attune-packs/.github",
+            "default_branch": "main",
+            "owner": {"login": "attune-packs"},
+        }
+        args = Namespace(
+            org="attune-packs",
+            repository=["attune-packs/.github"],
+            commit=None,
+            output=pathlib.Path("unused.json"),
+            registry_name="Attune Standard Pack Index",
+            registry_url="https://github.com/attune-system/index",
+        )
+        with (
+            mock.patch("build_index.parse_args", return_value=args),
+            mock.patch("build_index.get_repository", return_value=repo),
+            mock.patch("build_index.get_commit_sha") as get_head,
+            mock.patch("build_index.github_request") as request,
+        ):
+            with self.assertRaisesRegex(ValueError, "attune-packs/\\.github"):
+                build_index_main()
+        get_head.assert_not_called()
+        request.assert_not_called()
+
+    def test_build_entry_still_rejects_pack_without_manifest(self) -> None:
+        with self.assertRaisesRegex(ValueError, "does not contain pack.yaml at its root"):
+            build_entry(
+                {"full_name": "attune-packs/demo"},
+                "a" * 40,
+                archive({"README.md": b"Missing pack manifest\n"}),
+            )
+
     def test_unrelated_commit_histories_are_not_ancestors(self) -> None:
         error = RuntimeError(
             "GitHub request failed (404) for https://api.github.com/compare: no merge base"
@@ -105,6 +400,10 @@ class RegistryTests(unittest.TestCase):
     def test_full_build_resolves_current_branch_head(self) -> None:
         current_main_sha = "b" * 40
         repo = {
+            "name": "demo",
+            "archived": False,
+            "fork": False,
+            "private": False,
             "full_name": "attune-packs/demo",
             "html_url": "https://github.com/attune-packs/demo",
             "description": None,
@@ -127,7 +426,13 @@ class RegistryTests(unittest.TestCase):
             )
             with (
                 mock.patch("build_index.parse_args", return_value=args),
-                mock.patch("build_index.list_repositories", return_value=[repo]),
+                mock.patch(
+                    "build_index.github_json",
+                    return_value=[
+                        {**repo, "name": ".github", "full_name": "attune-packs/.github"},
+                        repo,
+                    ],
+                ),
                 mock.patch(
                     "build_index.get_commit_sha", return_value=current_main_sha
                 ) as get_head,

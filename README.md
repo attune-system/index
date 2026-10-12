@@ -40,8 +40,11 @@ Attune binds the entry ref and version to the installed `pack.yaml`. If Git
 fails, it verifies and installs the archive fallback, and records that archive's
 checksum as provenance.
 
-The index is rebuilt on a schedule. Pack repositories can request an immediate
-refresh through the reusable workflow in this repository.
+The index is rebuilt on a schedule. Full syncs skip invalid repositories with
+warnings, retaining their last published entries when available so healthy pack
+updates are not blocked. Pack repositories can request an immediate refresh
+through the reusable workflow in this repository; targeted refreshes remain
+strict and fail if the requested pack is invalid.
 
 ## Repository Layout
 

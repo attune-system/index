@@ -33,9 +33,12 @@ index.
 Run a full rebuild from the repository root:
 
 ```sh
-GITHUB_TOKEN="$(gh auth token)" python scripts/build_index.py
+GITHUB_TOKEN="$(gh auth token)" python scripts/build_index.py --skip-invalid
 python scripts/validate_index.py
 ```
+
+Omit `--skip-invalid` for a strict local rebuild that stops at the first invalid
+repository. The hosted scheduled/manual full sync uses the tolerant mode.
 
 Use a partial upsert for one pack:
 
@@ -68,10 +71,15 @@ gh workflow run sync.yml --repo attune-system/index
 
 ## Failure Behavior
 
-Generation is fail-closed. If any eligible pack cannot be fetched, contains an
-unsafe archive member, has an invalid manifest, duplicates another pack ref,
-or produces an invalid index entry, the workflow does not publish a new index.
-Consumers continue using the previous valid file.
+Full syncs skip repositories that cannot be fetched, contain unsafe archives or
+invalid metadata, or produce invalid index entries. They retain the repository's
+last published entry when available, otherwise omit it. Duplicate refs reject
+all conflicting new entries. Healthy pack updates continue, and warnings plus the
+job summary identify skipped repositories and whether old entries were retained.
+
+Targeted publishing remains fail-closed so an invalid requested update reports
+failure. Discovery errors, unexpected programming errors, and invalid final
+index state still block publication; the complete output is always validated.
 
 A partial dispatch does not remove entries. A successful full sync is required
 to remove an archived or deleted repository.
@@ -82,6 +90,8 @@ Use GitHub Actions run status as the initial operational signal. Recommended
 follow-up controls are:
 
 - A required successful scheduled run within the previous 24 hours.
+- Review warning annotations and the job summary for skipped repositories, even
+  when the run succeeded.
 - An alert when `last_updated` is unexpectedly old relative to pack changes.
 - A smoke-test Attune instance that configures the raw index URL and exercises
   browse, show, and install against a small representative pack.

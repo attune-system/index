@@ -44,7 +44,7 @@ jobs:
               --repository "$REQUESTED_REPOSITORY" \
               --commit "$REQUESTED_SHA"
           else
-            python scripts/build_index.py
+            python scripts/build_index.py --skip-invalid
           fi
       - run: python scripts/validate_index.py
       - name: Publish changed index

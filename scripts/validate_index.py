@@ -79,6 +79,17 @@ def validate_policy(index: dict[str, Any], standard: bool = True) -> list[str]:
     return errors
 
 
+def validation_errors(
+    index: dict[str, Any], schema: dict[str, Any], standard: bool = True
+) -> list[str]:
+    validator = jsonschema.Draft202012Validator(schema, format_checker=jsonschema.FormatChecker())
+    schema_errors = sorted(validator.iter_errors(index), key=lambda error: str(list(error.path)))
+    errors = [f"{'.'.join(str(part) for part in error.path) or '<root>'}: {error.message}" for error in schema_errors]
+    if not errors:
+        errors.extend(validate_policy(index, standard=standard))
+    return errors
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("index", nargs="?", type=pathlib.Path, default=pathlib.Path("index.json"))
@@ -100,11 +111,7 @@ def main() -> int:
         args.schema.read_text(encoding="utf-8"), parse_constant=reject_json_constant
     )
 
-    validator = jsonschema.Draft202012Validator(schema, format_checker=jsonschema.FormatChecker())
-    schema_errors = sorted(validator.iter_errors(index), key=lambda error: list(error.path))
-    errors = [f"{'.'.join(str(part) for part in error.path) or '<root>'}: {error.message}" for error in schema_errors]
-    if not errors:
-        errors.extend(validate_policy(index, standard=not args.custom))
+    errors = validation_errors(index, schema, standard=not args.custom)
 
     if errors:
         for error in errors:

@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 import hashlib
+import html
 import io
 import json
 import math
@@ -20,6 +21,8 @@ import urllib.request
 from typing import Any
 
 import yaml
+
+from validate_index import validation_errors
 
 
 COMPONENT_DIRECTORIES = ("actions", "sensors", "triggers", "rules", "workflows")
@@ -64,7 +67,7 @@ def list_repositories(org: str, token: str | None) -> list[dict[str, Any]]:
         if len(batch) < 100:
             break
         page += 1
-    return [repo for repo in repositories if not repo["archived"] and not repo["fork"]]
+    return [repo for repo in repositories if repository_is_eligible(repo, org)]
 
 
 def get_repository(full_name: str, token: str | None) -> dict[str, Any]:
@@ -96,6 +99,8 @@ def repository_is_eligible(repo: dict[str, Any], org: str) -> bool:
     owner = repo.get("owner") or {}
     return (
         str(owner.get("login", "")).lower() == org.lower()
+        # GitHub's organization metadata repository is not a pack.
+        and str(repo.get("name", "")).lower() != ".github"
         and not repo.get("archived", False)
         and not repo.get("fork", False)
         and not repo.get("private", False)
@@ -479,6 +484,69 @@ def commit_sha(value: str) -> str:
     return value
 
 
+def entry_matches_repository(entry: dict[str, Any], repo: dict[str, Any]) -> bool:
+    return entry.get("repository") == repo["html_url"] or (
+        repo.get("id") is not None
+        and (entry.get("meta") or {}).get("repository_id") == repo["id"]
+    )
+
+
+def merge_full_entries(
+    existing: dict[str, dict[str, Any]],
+    candidates: dict[str, dict[str, Any]],
+    repositories: list[dict[str, Any]],
+    failures: dict[str, str],
+) -> dict[str, dict[str, Any]]:
+    previous: dict[str, list[dict[str, Any]]] = {}
+    for repo in repositories:
+        previous[repo["full_name"]] = [
+            entry for entry in existing.values()
+            if entry_matches_repository(entry, repo)
+        ]
+
+    # Reject every new candidate involved in a ref collision, not an arbitrary
+    # winner. Restoring its old entry may expose another collision, so repeat.
+    while True:
+        owners: dict[str, list[str]] = {}
+        selected: dict[str, list[dict[str, Any]]] = {}
+        for repo in repositories:
+            name = repo["full_name"]
+            selected[name] = [candidates[name]] if name in candidates else previous[name]
+            for entry in selected[name]:
+                owners.setdefault(entry["ref"], []).append(name)
+        collisions = {ref: names for ref, names in owners.items() if len(names) > 1}
+        if not collisions:
+            return {
+                entry["ref"]: entry
+                for entries in selected.values()
+                for entry in entries
+            }
+        rejected = False
+        for ref, names in collisions.items():
+            for name in names:
+                if name in candidates:
+                    del candidates[name]
+                    failures[name] = f"Duplicate pack ref {ref!r}: {', '.join(names)}"
+                    rejected = True
+        if not rejected:
+            raise ValueError("Previously published entries contain duplicate pack refs")
+
+
+def report_skipped_repositories(failures: dict[str, str], retained: set[str]) -> None:
+    summary = ["## Pack index sync", "", f"Skipped {len(failures)} invalid repositories.", ""]
+    for name, reason in sorted(failures.items()):
+        status = "retained last published entry" if name in retained else "omitted (no previous entry)"
+        message = f"Skipping {name}: {reason} ({status})".replace("\r", "\\r").replace("\n", "\\n")
+        print(message, file=sys.stderr)
+        if os.environ.get("GITHUB_ACTIONS") == "true":
+            escaped = message.replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A")
+            print(f"::warning::{escaped}", file=sys.stderr)
+        summary.append(f"- <code>{html.escape(name)}</code>: {status}. <code>{html.escape(reason)}</code>")
+    if os.environ.get("GITHUB_STEP_SUMMARY"):
+        with pathlib.Path(os.environ["GITHUB_STEP_SUMMARY"]).open("a", encoding="utf-8") as stream:
+            stream.write("\n".join(summary) + "\n")
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--org", default="attune-packs", help="GitHub organization to scan")
@@ -496,9 +564,15 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output", type=pathlib.Path, default=pathlib.Path("index.json"))
     parser.add_argument("--registry-name", default="Attune Standard Pack Index")
     parser.add_argument("--registry-url", default="https://github.com/attune-system/index")
+    parser.add_argument(
+        "--skip-invalid", action="store_true",
+        help="Skip invalid repositories in a full sync, retaining their last published entries",
+    )
     args = parser.parse_args()
     if args.commit is not None and len(args.repository) != 1:
         parser.error("--commit requires exactly one --repository")
+    if args.skip_invalid and args.repository:
+        parser.error("--skip-invalid is only supported for full organization syncs")
     return args
 
 
@@ -519,7 +593,7 @@ def main() -> int:
         if ineligible:
             raise ValueError(
                 "Partial updates require public, non-fork, non-archived repositories in "
-                f"{args.org}: {', '.join(ineligible)}"
+                f"{args.org}, excluding the .github metadata repository: {', '.join(ineligible)}"
             )
     else:
         repositories = list_repositories(args.org, token)
@@ -557,24 +631,57 @@ def main() -> int:
             )
             return 0
 
+    skip_invalid = getattr(args, "skip_invalid", False)
+    schema = json.loads(
+        (pathlib.Path(__file__).resolve().parents[1] / "schema/index.schema.json").read_text(encoding="utf-8")
+    )
     generated: dict[str, dict[str, Any]] = {}
+    candidates: dict[str, dict[str, Any]] = {}
+    failures: dict[str, str] = {}
     for repo in sorted(repositories, key=lambda item: item["full_name"]):
-        sha = args.commit or get_commit_sha(
-            repo["full_name"], repo["default_branch"], token
-        )
-        archive_url = f"https://codeload.github.com/{repo['full_name']}/tar.gz/{sha}"
-        print(f"Indexing {repo['full_name']}@{sha[:12]}", file=sys.stderr)
-        payload = github_request(archive_url, token)
-        entry = build_entry(repo, sha, payload)
-        if entry["ref"] in generated:
-            raise ValueError(f"Duplicate pack ref generated: {entry['ref']}")
+        try:
+            sha = args.commit or get_commit_sha(
+                repo["full_name"], repo["default_branch"], token
+            )
+            archive_url = f"https://codeload.github.com/{repo['full_name']}/tar.gz/{sha}"
+            print(f"Indexing {repo['full_name']}@{sha[:12]}", file=sys.stderr)
+            payload = github_request(archive_url, token)
+            entry = build_entry(repo, sha, payload)
+            errors = validation_errors({
+                "registry_name": args.registry_name,
+                "registry_url": args.registry_url,
+                "version": "1.0",
+                "last_updated": "1970-01-01T00:00:00Z",
+                "packs": [entry],
+            }, schema, standard=args.org.lower() == "attune-packs")
+            if errors:
+                raise ValueError("; ".join(errors))
+            if not skip_invalid and entry["ref"] in generated:
+                raise ValueError(f"Duplicate pack ref generated: {entry['ref']}")
+        except (ValueError, RuntimeError, urllib.error.URLError, TimeoutError, ConnectionError, tarfile.TarError, EOFError) as error:
+            if not skip_invalid:
+                raise
+            failures[repo["full_name"]] = str(error)
+            continue
+        candidates[repo["full_name"]] = entry
         generated[entry["ref"]] = entry
 
     target_repositories = {repo["html_url"] for repo in repositories}
     target_repositories.update(
         f"id:{repo['id']}" for repo in repositories if repo.get("id") is not None
     )
-    entries = merge_entries(existing_entries, generated, target_repositories, partial)
+    if skip_invalid:
+        entries = merge_full_entries(existing_entries, candidates, repositories, failures)
+        retained = {
+            repo["full_name"] for repo in repositories
+            if repo["full_name"] in failures and any(
+                entry_matches_repository(entry, repo)
+                for entry in entries.values()
+            )
+        }
+        report_skipped_repositories(failures, retained)
+    else:
+        entries = merge_entries(existing_entries, generated, target_repositories, partial)
     packs = [entries[pack_ref] for pack_ref in sorted(entries)]
     changed = (
         packs != existing.get("packs", [])
@@ -593,6 +700,9 @@ def main() -> int:
         "last_updated": timestamp,
         "packs": packs,
     }
+    errors = validation_errors(index, schema, standard=args.org.lower() == "attune-packs")
+    if errors:
+        raise ValueError("Generated index is invalid: " + "; ".join(errors))
     content = json.dumps(index, indent=2, ensure_ascii=True, allow_nan=False) + "\n"
     changed_on_disk = atomic_write_text(args.output, content)
     action = "Wrote" if changed_on_disk else "Unchanged"

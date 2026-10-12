@@ -63,6 +63,9 @@ perform a full organization scan rather than a partial upsert.
 The full sync is authoritative for membership. It:
 
 - Adds newly eligible public, non-fork, non-archived repositories.
+- Excludes GitHub's `.github` organization metadata repository from both full
+  syncs and partial updates; eligible pack repositories still require root
+  `pack.yaml`.
 - Refreshes every entry from the repository's current default branch.
 - Removes repositories that were deleted, archived, forked, or moved out of
   the organization.
@@ -100,9 +103,27 @@ separate responsibilities.
 
 ## Failure Behavior
 
-Generation fails closed. If one eligible pack cannot be fetched or validated,
-the automation does not publish a partial full index. Consumers continue to
-receive the previous valid `index.json`.
+Scheduled and manually triggered full syncs run with `--skip-invalid`. A
+repository-local fetch, archive, manifest, component-summary, schema, or policy
+failure skips that repository without blocking healthy updates. The builder
+retains its last published entry, matched by repository URL or stable GitHub
+repository ID, or omits it if no previous entry exists. It never publishes the
+invalid replacement. Deleted, archived, private, or otherwise ineligible
+repositories are still removed during full reconciliation.
+
+Duplicate pack refs reject every conflicting new candidate, rather than choosing
+a winner based on scan order. Those repositories retain their previous entries
+where available. Each skipped repository and reason appears in the logs, GitHub
+Actions warning annotations, and the job summary. A successful run can therefore
+include skipped repositories; inspect its warnings rather than relying only on
+the green status.
+
+Targeted dispatches and local builds without `--skip-invalid` remain fail-closed.
+`--skip-invalid` cannot be combined with `--repository`. Organization discovery,
+unexpected programming errors, invalid final-index state, and output failures
+still fail the job. The complete merged index must pass schema and policy
+validation before atomic publication. Pack installation/runtime checks remain
+separate from these index-generation checks.
 
 Expected investigation order:
 
