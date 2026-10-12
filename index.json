@@ -2,7 +2,7 @@
   "registry_name": "Attune Standard Pack Index",
   "registry_url": "https://github.com/attune-system/index",
   "version": "1.0",
-  "last_updated": "2026-10-01T15:46:55Z",
+  "last_updated": "2026-10-12T01:11:23Z",
   "packs": [
     {
       "ref": "activedirectory",
@@ -26,13 +26,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/activedirectory.git",
-          "ref": "acd594e6e4bd1023d3eac28c35fa5c0c63a61e11",
-          "checksum": "sha256:db9d9f7061935af61c0a58edf871891b5e33d6cd5cb8ee3125dbe49cae632e38"
+          "ref": "6644459504772d8aa45fce93387e5fa5ce09f718",
+          "checksum": "sha256:8f43e18e04563d0dc44431b64c6912ba7a2fb19b2e39b33efd456a7b7364855a"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/activedirectory/tar.gz/acd594e6e4bd1023d3eac28c35fa5c0c63a61e11",
-          "checksum": "sha256:8b23b7a501dec1280ba94351bdb99f81a37ed3de7018d56d11997349c5e8100f"
+          "url": "https://codeload.github.com/attune-packs/activedirectory/tar.gz/6644459504772d8aa45fce93387e5fa5ce09f718",
+          "checksum": "sha256:e8872ea937e5b957fbc820c3c86a31f606149d00cfc8001251a84d667f1a9f62"
         }
       ],
       "contents": {
@@ -228,7 +228,7 @@
         "source_version": "1.0.1",
         "license": "Apache-2.0",
         "default_branch": "main",
-        "commit": "acd594e6e4bd1023d3eac28c35fa5c0c63a61e11",
+        "commit": "6644459504772d8aa45fce93387e5fa5ce09f718",
         "stars": 0,
         "repository_id": 1334894113
       },
@@ -259,13 +259,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/ansible.git",
-          "ref": "1fa23cbb289f30682bc3990a37999a9c282ae9ba",
-          "checksum": "sha256:d828fda13798344bfa7229a73656b4f36e384995bc2013b87528c900fbe7c4f5"
+          "ref": "ff489acf44a5efa5a5c74efb30504801f1135c7f",
+          "checksum": "sha256:6681bd6adf6dd47fe7db0b6b87ab9d9b5bd7dc445e2599ff363aeb6fc38dc1ba"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/ansible/tar.gz/1fa23cbb289f30682bc3990a37999a9c282ae9ba",
-          "checksum": "sha256:6ba7dfca01b287fb525c04c6ada95ea64ad58917879b25f3f7e05c4015e7faf8"
+          "url": "https://codeload.github.com/attune-packs/ansible/tar.gz/ff489acf44a5efa5a5c74efb30504801f1135c7f",
+          "checksum": "sha256:8ca6b8b9a036bc71227be8683fd7f1faa8468c9b15e18a14f7f4973da9b8d53b"
         }
       ],
       "contents": {
@@ -349,7 +349,7 @@
         "license": "Apache-2.0",
         "ansible_core_baseline": "2.21.3",
         "default_branch": "main",
-        "commit": "1fa23cbb289f30682bc3990a37999a9c282ae9ba",
+        "commit": "ff489acf44a5efa5a5c74efb30504801f1135c7f",
         "stars": 0,
         "repository_id": 1334894308
       },
@@ -380,13 +380,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/attune.git",
-          "ref": "0c23fdced0d5850eabd8c5ea94aaaa811dcbeb4f",
-          "checksum": "sha256:784a4a6746f30a470ab9bb9380134451a8b051bb98c0cadc57a2f6258bcd3d1a"
+          "ref": "6e7b10c49fbfa0e592362675eb29498b4ed383ad",
+          "checksum": "sha256:f5c3f6d21318d0bcc59e0102f8fd7cb3513b934497ed817bbccf1fd962841708"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/attune/tar.gz/0c23fdced0d5850eabd8c5ea94aaaa811dcbeb4f",
-          "checksum": "sha256:363bf57f492b7b56f249ea6953f2ee96a516f4bdadafeea4bf4f87fd84fa3be9"
+          "url": "https://codeload.github.com/attune-packs/attune/tar.gz/6e7b10c49fbfa0e592362675eb29498b4ed383ad",
+          "checksum": "sha256:6700ad51b484e7860c2b79e1a5eb87b17bdff03431c52876471262aebe0905d9"
         }
       ],
       "contents": {
@@ -446,6 +446,26 @@
           {
             "name": "inquiry_respond",
             "description": "Respond to an inquiry"
+          },
+          {
+            "name": "key_create",
+            "description": "Create a key in an owner scope"
+          },
+          {
+            "name": "key_delete",
+            "description": "Delete a key by its canonical reference"
+          },
+          {
+            "name": "key_get",
+            "description": "Fetch a key by its canonical reference"
+          },
+          {
+            "name": "key_list",
+            "description": "List keys with pagination and optional owner filters"
+          },
+          {
+            "name": "key_update",
+            "description": "Update an existing key"
           },
           {
             "name": "pack_get",
@@ -607,10 +627,11 @@
         "python_dependencies": [
           "attrs>=23.2.0",
           "httpx>=0.27.0",
-          "python-dateutil>=2.9.0"
+          "python-dateutil>=2.9.0",
+          "typing-extensions>=4.0"
         ],
         "default_branch": "main",
-        "commit": "0c23fdced0d5850eabd8c5ea94aaaa811dcbeb4f",
+        "commit": "6e7b10c49fbfa0e592362675eb29498b4ed383ad",
         "stars": 0,
         "repository_id": 1244979934
       },
@@ -638,13 +659,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/attune_validation.git",
-          "ref": "817cd46fc309131a67d43a1ba4bcf5e17668ec39",
-          "checksum": "sha256:3b8332306916cb03cdae91931299be04c3c316310d5769e2a83ddacb5da6b840"
+          "ref": "a297d307e0721c84cea37b02adf77ba32902e02f",
+          "checksum": "sha256:7c65e24058f6191b27214fc287711fd557a1b62ba9cb4354d04929c36a1bf58d"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/attune_validation/tar.gz/817cd46fc309131a67d43a1ba4bcf5e17668ec39",
-          "checksum": "sha256:32f8ba1ec8dcad7f0d1fe547b1af059a0c95213d32d044e678167cc79ac7424c"
+          "url": "https://codeload.github.com/attune-packs/attune_validation/tar.gz/a297d307e0721c84cea37b02adf77ba32902e02f",
+          "checksum": "sha256:9488be2dcd2f01c63bba7ff31e99d9139f39b738814d6246087f357786665388"
         }
       ],
       "contents": {
@@ -742,7 +763,7 @@
           "testing"
         ],
         "default_branch": "main",
-        "commit": "817cd46fc309131a67d43a1ba4bcf5e17668ec39",
+        "commit": "a297d307e0721c84cea37b02adf77ba32902e02f",
         "stars": 0,
         "repository_id": 1344243841
       },
@@ -776,13 +797,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/aws.git",
-          "ref": "c9099596b5acb43e69ddf21e4266a9de38c18ab9",
-          "checksum": "sha256:7bcfb912a1918d89ae927359395dff417745709ca61b7b5eba512c002fe72ba6"
+          "ref": "59fa3bbae92e9a032f528913086093189ba54eb7",
+          "checksum": "sha256:c240f5aa97624ec8e972acf368d0b353d1317aaadb3176ec5f6abbdee29b5017"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/aws/tar.gz/c9099596b5acb43e69ddf21e4266a9de38c18ab9",
-          "checksum": "sha256:94f948fdf44831de46a17663ef85e848fe23453b33bd4375c34b3d48794ef986"
+          "url": "https://codeload.github.com/attune-packs/aws/tar.gz/59fa3bbae92e9a032f528913086093189ba54eb7",
+          "checksum": "sha256:19067687982e8d5a391fa6e264bde468038e77aad68659e6679d8eae0032834a"
         }
       ],
       "contents": {
@@ -995,7 +1016,7 @@
           "boto3>=1.43.72,<2.0.0"
         ],
         "default_branch": "main",
-        "commit": "c9099596b5acb43e69ddf21e4266a9de38c18ab9",
+        "commit": "59fa3bbae92e9a032f528913086093189ba54eb7",
         "stars": 0,
         "repository_id": 1334762405
       },
@@ -1025,13 +1046,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/azure.git",
-          "ref": "ff14ab947df4ad0752403f32ff618a07860d1a2f",
-          "checksum": "sha256:8f32dcc6e19d6051bfd69f64ae73e8821ac4ebc1e9883f1febe24982e971d26e"
+          "ref": "8b477b248193751fc4c04bd06ac4bf1aef429a2a",
+          "checksum": "sha256:43aa442afe017749c8bb6ab83803e5834690539b9588ec0b68fe344bd3614a3e"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/azure/tar.gz/ff14ab947df4ad0752403f32ff618a07860d1a2f",
-          "checksum": "sha256:6276472db70f092ad5932ef1dd6a4cbb6c3d6828057a6b0df28274c45fa97db1"
+          "url": "https://codeload.github.com/attune-packs/azure/tar.gz/8b477b248193751fc4c04bd06ac4bf1aef429a2a",
+          "checksum": "sha256:6d113c1fb372e54efad8fe2591382cfe97c22a2c2ee1e74ee6bc43eb96be3f06"
         }
       ],
       "contents": {
@@ -1285,7 +1306,7 @@
       "meta": {
         "category": "uncategorized",
         "default_branch": "main",
-        "commit": "ff14ab947df4ad0752403f32ff618a07860d1a2f",
+        "commit": "8b477b248193751fc4c04bd06ac4bf1aef429a2a",
         "stars": 0,
         "repository_id": 1334762950
       },
@@ -1455,13 +1476,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/consul.git",
-          "ref": "c76fb7698b0e1b3d85f4309a0be808b4bae773be",
-          "checksum": "sha256:06e8bde94ea1f52b70ea08fb0649edff325f340bfe63efa3e793d07da869915a"
+          "ref": "83dabb49673dfe40bfd5fc98caa8350036a222fe",
+          "checksum": "sha256:ff00a6bfa02b991bc1153b2e80e9e7ce27f10991c5f4e0e7f655caf270ed16fd"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/consul/tar.gz/c76fb7698b0e1b3d85f4309a0be808b4bae773be",
-          "checksum": "sha256:2d477488d7b588358ecc984684a6a60c62d8f902ae2f475b34cf9ab7049dfdf6"
+          "url": "https://codeload.github.com/attune-packs/consul/tar.gz/83dabb49673dfe40bfd5fc98caa8350036a222fe",
+          "checksum": "sha256:8e84b6ed30f8b5185996bd6eb21386b0052f9a3e4abc24424f888dccaec1ca0b"
         }
       ],
       "contents": {
@@ -1564,7 +1585,7 @@
         "source_version": "2.0.1",
         "license": "Apache-2.0",
         "default_branch": "main",
-        "commit": "c76fb7698b0e1b3d85f4309a0be808b4bae773be",
+        "commit": "83dabb49673dfe40bfd5fc98caa8350036a222fe",
         "stars": 0,
         "repository_id": 1334710993
       },
@@ -1596,13 +1617,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/datadog.git",
-          "ref": "6bece8faaec6bbedc4cfee321e9b356924af0335",
-          "checksum": "sha256:bcca2c40437e5c6fac148ec718b2784380640e5c6bac681dd1fd5f5b04df7aba"
+          "ref": "b3398d501d6ce2775e8799995b733f4258c400a6",
+          "checksum": "sha256:9778386db75ee6316f3c2313b3679fd1af8df93dacb9dfa16a0a56dbb25188ff"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/datadog/tar.gz/6bece8faaec6bbedc4cfee321e9b356924af0335",
-          "checksum": "sha256:67dcdfdf5c594422f8a4225ab56062497bf5069b2e210e17e9603b2a3a8b2e25"
+          "url": "https://codeload.github.com/attune-packs/datadog/tar.gz/b3398d501d6ce2775e8799995b733f4258c400a6",
+          "checksum": "sha256:c8b0e98578a0eaa82c7e6ab9d3d3c2a3f6808e19e223c8dceda9235f6ff5d5b8"
         }
       ],
       "contents": {
@@ -1720,7 +1741,7 @@
         "api_review_date": "2026-08-14",
         "license": "Apache-2.0",
         "default_branch": "main",
-        "commit": "6bece8faaec6bbedc4cfee321e9b356924af0335",
+        "commit": "b3398d501d6ce2775e8799995b733f4258c400a6",
         "stars": 0,
         "repository_id": 1334731225
       },
@@ -1751,13 +1772,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/docker.git",
-          "ref": "dad0ffaf190754f4f7d3927c50fd3d1f6366d782",
-          "checksum": "sha256:2295b92a813eba30a399d8ff72b910fde46a448517480ab9a6833cd2c7a8f362"
+          "ref": "f1ea83272381e2ba83741fe1151b5164a7550c3c",
+          "checksum": "sha256:b0a029f25b72876519bbeb2b4d980fe8161d3f36f96659c2bbac49a0d1fa4247"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/docker/tar.gz/dad0ffaf190754f4f7d3927c50fd3d1f6366d782",
-          "checksum": "sha256:afad0b5ff7d331794aa597f8c30e1947f57acf4115d5132471bdd8d5430514c2"
+          "url": "https://codeload.github.com/attune-packs/docker/tar.gz/f1ea83272381e2ba83741fe1151b5164a7550c3c",
+          "checksum": "sha256:2d1ff99d727cdbc17fff03175a501b8befb4682b7c631b12c24a62c886d2430b"
         }
       ],
       "contents": {
@@ -1833,7 +1854,7 @@
         "source_revision": "50cebd7f7d59272d09cd34261257327bff17f97e",
         "license": "Apache-2.0",
         "default_branch": "main",
-        "commit": "dad0ffaf190754f4f7d3927c50fd3d1f6366d782",
+        "commit": "f1ea83272381e2ba83741fe1151b5164a7550c3c",
         "stars": 0,
         "repository_id": 1334733826
       },
@@ -1863,13 +1884,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/elasticsearch.git",
-          "ref": "5c5b378c93e542873fc80bf9a1cfbf8fc63748ac",
-          "checksum": "sha256:e1673631eba47366417a09f43e6b725e64e88bdb382d481d6571061e01413b62"
+          "ref": "b20509aaf2d755bbb0d84301097ad9c1f3f3656d",
+          "checksum": "sha256:981a64d2badbadc4d5da6a18f2525b9fe695a9bbad451ee684b35e6e8e5c4146"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/elasticsearch/tar.gz/5c5b378c93e542873fc80bf9a1cfbf8fc63748ac",
-          "checksum": "sha256:0b299f38fa0a98b7ffbada96702a0edbd88d49dade2ccf640bfc8eb791f2afa7"
+          "url": "https://codeload.github.com/attune-packs/elasticsearch/tar.gz/b20509aaf2d755bbb0d84301097ad9c1f3f3656d",
+          "checksum": "sha256:cc6a0625a644c56de2b339b3ebc44e9b9ebe994584d41e14461a3187858b441e"
         }
       ],
       "contents": {
@@ -1928,7 +1949,7 @@
           "Elasticsearch 9"
         ],
         "default_branch": "main",
-        "commit": "5c5b378c93e542873fc80bf9a1cfbf8fc63748ac",
+        "commit": "b20509aaf2d755bbb0d84301097ad9c1f3f3656d",
         "stars": 0,
         "repository_id": 1334758980
       },
@@ -1956,13 +1977,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/foreman.git",
-          "ref": "92ab199e623f8baa5f22214c9ce729a1a138af28",
-          "checksum": "sha256:0fb00251076874616adb137752b78e8d020e73dd5d6cbe41380a96faf4e18dd3"
+          "ref": "fb1f216e2491877a7a066abd2029c8c6dc3683cc",
+          "checksum": "sha256:11f59f9470630a91c7987dc956e1e8c2000c97c1f2da940b6b6a0a865562fd5b"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/foreman/tar.gz/92ab199e623f8baa5f22214c9ce729a1a138af28",
-          "checksum": "sha256:5952771bdcca94b48d030267aa41a253752396ae8e25b285f17264ad5352390c"
+          "url": "https://codeload.github.com/attune-packs/foreman/tar.gz/fb1f216e2491877a7a066abd2029c8c6dc3683cc",
+          "checksum": "sha256:7f6ca56fe1778d2964cac850c3c96b1831cd4ff91098353b0e9a7af88e47ee8e"
         }
       ],
       "contents": {
@@ -2141,7 +2162,7 @@
         "source_version": "2.1.1",
         "license": "Apache-2.0",
         "default_branch": "main",
-        "commit": "92ab199e623f8baa5f22214c9ce729a1a138af28",
+        "commit": "fb1f216e2491877a7a066abd2029c8c6dc3683cc",
         "stars": 0,
         "repository_id": 1334730559
       },
@@ -2176,13 +2197,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/freeipa.git",
-          "ref": "593ab9d6dee8e2a6abdaf53b89e46fa0e4b37184",
-          "checksum": "sha256:39a67ccfcebc2deb3bccbb30e23b2404bc7a6ce2947cebb42dcaef75078ae67b"
+          "ref": "ab27a3c28e3907bbd2bf0684dda4fdd305622247",
+          "checksum": "sha256:1561b3dc96d1270e6707de29f55255653fae6aa5ebca29153f45d6af4fd26560"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/freeipa/tar.gz/593ab9d6dee8e2a6abdaf53b89e46fa0e4b37184",
-          "checksum": "sha256:fb31916d2a967ba8865b4d3f6b83abb2d06c5798f45b75417c47a96e9fed8b3e"
+          "url": "https://codeload.github.com/attune-packs/freeipa/tar.gz/ab27a3c28e3907bbd2bf0684dda4fdd305622247",
+          "checksum": "sha256:efd8db0cce1b8508f73a98a55227e3b9b4e92b0438bda6dd99a9e82a8ff37050"
         }
       ],
       "contents": {
@@ -2499,7 +2520,7 @@
           "attune-sdk @ git+https://github.com/attune-system/python-attune-sdk.git@841298f132d9f6af6b7afc2f7091db1f3460b9c9"
         ],
         "default_branch": "main",
-        "commit": "593ab9d6dee8e2a6abdaf53b89e46fa0e4b37184",
+        "commit": "ab27a3c28e3907bbd2bf0684dda4fdd305622247",
         "stars": 0,
         "repository_id": 1334760047
       },
@@ -2529,13 +2550,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/git.git",
-          "ref": "92b0f6c17d6e15089d1d6da7879b186c6d896e7f",
-          "checksum": "sha256:288411322f0cc9e017ee97a5eae057b166017d0a4fed715e3213d730aff1ebf3"
+          "ref": "06f6c3aba31536652ca93b641a9a98788bbbd5bd",
+          "checksum": "sha256:44f48b729f8741b88397f3978f98936a7f52e0cbabb6547fa43dd386889216eb"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/git/tar.gz/92b0f6c17d6e15089d1d6da7879b186c6d896e7f",
-          "checksum": "sha256:25d75bf612f90c21a802facc5cf1ac6a9254b43f51cc2ac0bf015661c2a2eb1f"
+          "url": "https://codeload.github.com/attune-packs/git/tar.gz/06f6c3aba31536652ca93b641a9a98788bbbd5bd",
+          "checksum": "sha256:e95438a2f953312410cd2bc5899161bc07fe646cf6ecbba495cc309429dd49b3"
         }
       ],
       "contents": {
@@ -2592,7 +2613,7 @@
         "source_version": "2.0.0",
         "license": "Apache-2.0",
         "default_branch": "main",
-        "commit": "92b0f6c17d6e15089d1d6da7879b186c6d896e7f",
+        "commit": "06f6c3aba31536652ca93b641a9a98788bbbd5bd",
         "stars": 0,
         "repository_id": 1332364093
       },
@@ -2626,13 +2647,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/github.git",
-          "ref": "e9d9931ffc5531a9ea5caae1a9d09e2cac89830f",
-          "checksum": "sha256:8faa2e1c402e04de9a27304a6e41a3d4e51f343939c38eb670e48940fc5648c5"
+          "ref": "094a85c67bcffdadc198131047b65b19dfc706e1",
+          "checksum": "sha256:2c92e1a4825eff6ab08d52d9d99ddd958ec548d68fb5e3bec0801826250df109"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/github/tar.gz/e9d9931ffc5531a9ea5caae1a9d09e2cac89830f",
-          "checksum": "sha256:eb9336d0af2ae8b06e570fa35f19ffefb4e628fd715bdf384546c552e3ce98d8"
+          "url": "https://codeload.github.com/attune-packs/github/tar.gz/094a85c67bcffdadc198131047b65b19dfc706e1",
+          "checksum": "sha256:a6ba7d46f4ce9dd2934a70182292b43cb9cfdab7bb5788576579eeac62758e6f"
         }
       ],
       "contents": {
@@ -2921,7 +2942,7 @@
         "api_version": "2026-03-10",
         "license": "Apache-2.0",
         "default_branch": "main",
-        "commit": "e9d9931ffc5531a9ea5caae1a9d09e2cac89830f",
+        "commit": "094a85c67bcffdadc198131047b65b19dfc706e1",
         "stars": 0,
         "repository_id": 1334897014
       },
@@ -2953,13 +2974,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/gitlab.git",
-          "ref": "1c0826596193a6ab7333b0889602cee7db312582",
-          "checksum": "sha256:b94a17251eacdd320b0ccab17618f116615880d20d3f63c176e27a84ccdc2dcb"
+          "ref": "f4ca9f7dd9ef96675352cb88000832106d9a36ba",
+          "checksum": "sha256:7f5dc7ab0853bdba6d8f3ae34bb21c274e02f6bc248fa147bf3735342a02d689"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/gitlab/tar.gz/1c0826596193a6ab7333b0889602cee7db312582",
-          "checksum": "sha256:11c62836410afcf1da7f68e132126b31570461336b6f4e4e1c1ca60e430c4800"
+          "url": "https://codeload.github.com/attune-packs/gitlab/tar.gz/f4ca9f7dd9ef96675352cb88000832106d9a36ba",
+          "checksum": "sha256:d3c90820ff6363a3f148d447bf7d266d6aa17d379da2a37dea85c1ee927ce51f"
         }
       ],
       "contents": {
@@ -3038,7 +3059,7 @@
         "source_version": "1.0.1",
         "license": "Apache-2.0",
         "default_branch": "main",
-        "commit": "1c0826596193a6ab7333b0889602cee7db312582",
+        "commit": "f4ca9f7dd9ef96675352cb88000832106d9a36ba",
         "stars": 0,
         "repository_id": 1334709949
       },
@@ -3071,13 +3092,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/hyperv.git",
-          "ref": "6f20c8d3b82f3d8444cbde16972c96af36922e67",
-          "checksum": "sha256:ac8d49198c4bc036299ed223cde6569ffc10b4b0d3814e16f7b6b68c5c6ae0ff"
+          "ref": "e4a355e08dfcc4e05cd8949de1c118342c91ec7f",
+          "checksum": "sha256:01413fdbfec38e673bd5d9002131da9e898f71b79b01f6d4bd13d60f1573be61"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/hyperv/tar.gz/6f20c8d3b82f3d8444cbde16972c96af36922e67",
-          "checksum": "sha256:0014dea10f39210abfbbff73ba2de56c880dc368d80911bef5b385021bd64372"
+          "url": "https://codeload.github.com/attune-packs/hyperv/tar.gz/e4a355e08dfcc4e05cd8949de1c118342c91ec7f",
+          "checksum": "sha256:b9be31b09a41c8e53e504432a33651267a17ca0d8762ee7043319db3efa5a37f"
         }
       ],
       "contents": {
@@ -3205,7 +3226,7 @@
         "source_version": "1.0.0",
         "license": "Apache-2.0",
         "default_branch": "main",
-        "commit": "6f20c8d3b82f3d8444cbde16972c96af36922e67",
+        "commit": "e4a355e08dfcc4e05cd8949de1c118342c91ec7f",
         "stars": 0,
         "repository_id": 1334760448
       },
@@ -3239,13 +3260,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/infoblox.git",
-          "ref": "d8f8ec53b8e3a40fb17b0fa3f8b6e9adcf43ff0b",
-          "checksum": "sha256:49378b13d032ed514e7561233ae3f42d41f7e3c102f340aaebb12505b262b977"
+          "ref": "eb7ac7cddd6515d74175252bd412fb16fc4ff91a",
+          "checksum": "sha256:93a1db52c3411a7b719052d590865c6d6fbd5b1a9af228568c7dd9e6c16283d9"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/infoblox/tar.gz/d8f8ec53b8e3a40fb17b0fa3f8b6e9adcf43ff0b",
-          "checksum": "sha256:3f2f706e6106e1d80d87d3f776d0b0621654adb3b9eab7ccf92a976f4617fa4a"
+          "url": "https://codeload.github.com/attune-packs/infoblox/tar.gz/eb7ac7cddd6515d74175252bd412fb16fc4ff91a",
+          "checksum": "sha256:cd31d65539b96c05735e4a995e9a84ec2d93386749b820a7ab532abe2e27202e"
         }
       ],
       "contents": {
@@ -3352,7 +3373,7 @@
           "requests>=2.32.0,<3.0.0"
         ],
         "default_branch": "main",
-        "commit": "d8f8ec53b8e3a40fb17b0fa3f8b6e9adcf43ff0b",
+        "commit": "eb7ac7cddd6515d74175252bd412fb16fc4ff91a",
         "stars": 0,
         "repository_id": 1334730768
       },
@@ -3384,13 +3405,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/jenkins.git",
-          "ref": "c6d9f03025193064bba88059ae21824a8a21e11e",
-          "checksum": "sha256:ee0f717fc6cd9717aaebc388409fa834cbddc1e99e3e07eb1288195ce1cd0c1c"
+          "ref": "6eeb58a98097416a5805206fe452b5e7580180c8",
+          "checksum": "sha256:a799392a969ffcf4c8e911c889d5c0085b972ff282256d81fcd01fea3b00854c"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/jenkins/tar.gz/c6d9f03025193064bba88059ae21824a8a21e11e",
-          "checksum": "sha256:7edc89c2a0b98a3f48badb84a30bcf7b3b3b891ff692fda719944a8ac083b8a8"
+          "url": "https://codeload.github.com/attune-packs/jenkins/tar.gz/6eeb58a98097416a5805206fe452b5e7580180c8",
+          "checksum": "sha256:730737bace92aa21345a9a7ca42461e3f6d49ed39d9ca18f1854a0f986cdb376"
         }
       ],
       "contents": {
@@ -3509,7 +3530,7 @@
         "source_version": "1.0.1",
         "license": "Apache-2.0",
         "default_branch": "main",
-        "commit": "c6d9f03025193064bba88059ae21824a8a21e11e",
+        "commit": "6eeb58a98097416a5805206fe452b5e7580180c8",
         "stars": 0,
         "repository_id": 1334892215
       },
@@ -3539,13 +3560,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/jira.git",
-          "ref": "7e4ca400042aedc1e0a4f7e444ce9d755379626d",
-          "checksum": "sha256:c085530e445407789d3f4dc6dac4845b3f5bb1a8b1e5ffd9cd3ee744d0023205"
+          "ref": "2c6d106e36ab26512962b5e0f95f9051912bb61f",
+          "checksum": "sha256:dcf40875f02e67df0e40e5ecf17d070768e5ab1981a2007d142fdd79c61eadb2"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/jira/tar.gz/7e4ca400042aedc1e0a4f7e444ce9d755379626d",
-          "checksum": "sha256:61c79247c2de4439228ad99f0924981198724f1b1d2c85c1629229a49b4227e5"
+          "url": "https://codeload.github.com/attune-packs/jira/tar.gz/2c6d106e36ab26512962b5e0f95f9051912bb61f",
+          "checksum": "sha256:6d32241d2e0de22b5236e329dbc0c579a8314d5badf239fc8beb483f21d2dc02"
         }
       ],
       "contents": {
@@ -3705,7 +3726,7 @@
         "source_version": "3.3.0",
         "license": "Apache-2.0",
         "default_branch": "main",
-        "commit": "7e4ca400042aedc1e0a4f7e444ce9d755379626d",
+        "commit": "2c6d106e36ab26512962b5e0f95f9051912bb61f",
         "stars": 0,
         "repository_id": 1332364132
       },
@@ -3736,13 +3757,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/kafka.git",
-          "ref": "ce8f098fb932c42c7594ea532a7be61462755dd8",
-          "checksum": "sha256:289ff86a4f5d2d11e552e97af31ea2fec63dd408d9569bee172470ca5dd316a5"
+          "ref": "f94922b01ccd733bb8dad0daee4a57c597862e05",
+          "checksum": "sha256:1ba972bd58221989f9da0dcece0adc391fcaebe95f6bc2b6f49ebaade56e1b53"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/kafka/tar.gz/ce8f098fb932c42c7594ea532a7be61462755dd8",
-          "checksum": "sha256:3c888d099bd77ca2ad84b4ab977636750190efb3a25fb4d4e05f2539892fd30f"
+          "url": "https://codeload.github.com/attune-packs/kafka/tar.gz/f94922b01ccd733bb8dad0daee4a57c597862e05",
+          "checksum": "sha256:ef99ab18ea96c66566b39e5f8f780c5e2c5860598c4661701c6b873347632684"
         }
       ],
       "contents": {
@@ -3780,7 +3801,7 @@
         "source_revision": "42ec262777308d655262e5b64029c655825eb98a",
         "license": "Apache-2.0",
         "default_branch": "main",
-        "commit": "ce8f098fb932c42c7594ea532a7be61462755dd8",
+        "commit": "f94922b01ccd733bb8dad0daee4a57c597862e05",
         "stars": 0,
         "repository_id": 1334729452
       },
@@ -3812,13 +3833,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/keycloak.git",
-          "ref": "15b21526398344f6e663dc654adfd684e15c2611",
-          "checksum": "sha256:cecee9589516e76b1fafe66705ec388714221c5cad26252da010f508438d9c16"
+          "ref": "75b854c592777d339944a1e61f648e7f0734579e",
+          "checksum": "sha256:52d9740ff2cf3cf009dc03149151d3107a80d42d0976717599aab43e300418e9"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/keycloak/tar.gz/15b21526398344f6e663dc654adfd684e15c2611",
-          "checksum": "sha256:1e79cab7efb78e5358e882e19cafa958edfaeb5384038443d6f95d9eb480b903"
+          "url": "https://codeload.github.com/attune-packs/keycloak/tar.gz/75b854c592777d339944a1e61f648e7f0734579e",
+          "checksum": "sha256:84a86677b3024ebbef2a024b37ecebf66925c031309e6522fb9c5ea3cf9b9151"
         }
       ],
       "contents": {
@@ -3991,7 +4012,7 @@
         "api_baseline": "Keycloak 26.7.1",
         "license": "Apache-2.0",
         "default_branch": "main",
-        "commit": "15b21526398344f6e663dc654adfd684e15c2611",
+        "commit": "75b854c592777d339944a1e61f648e7f0734579e",
         "stars": 0,
         "repository_id": 1334731749
       },
@@ -4022,13 +4043,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/kubernetes.git",
-          "ref": "78bd74aff900d8afa814cc80372cba0e7ddba78f",
-          "checksum": "sha256:3e4aa524d0de3cbf3ce4edcb5ab62596a7a1a129784a986ddb4529ff1c0605f6"
+          "ref": "a093c9817bc46b0834c25f28781d910bbf7b0c3b",
+          "checksum": "sha256:d0015ffe795065d2870e762e926e7d8479750936c984480b07dca861a9b395b2"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/kubernetes/tar.gz/78bd74aff900d8afa814cc80372cba0e7ddba78f",
-          "checksum": "sha256:1c368810c89511b5728ec4b71b5e9b1b2b5f871453d47de8fdb229ecc826fd41"
+          "url": "https://codeload.github.com/attune-packs/kubernetes/tar.gz/a093c9817bc46b0834c25f28781d910bbf7b0c3b",
+          "checksum": "sha256:1aad33eb9308943b29c4203966e817960971db58ccf7a19520123e8b9ffdaae0"
         }
       ],
       "contents": {
@@ -4172,7 +4193,7 @@
         "client_version": "36.0.3",
         "license": "Apache-2.0",
         "default_branch": "main",
-        "commit": "78bd74aff900d8afa814cc80372cba0e7ddba78f",
+        "commit": "a093c9817bc46b0834c25f28781d910bbf7b0c3b",
         "stars": 0,
         "repository_id": 1334760027
       },
@@ -4302,13 +4323,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/msexchange.git",
-          "ref": "3eed254112c5aff0a5f6ac45641ccc1898ced534",
-          "checksum": "sha256:0e939cff87f85b45124db16f79c2daa0e70bc37589f72a98dccf3b840068bbfd"
+          "ref": "575081627ac69e2583ab64b4fabcf2cce82b4735",
+          "checksum": "sha256:9e1838d2b6325f7a57047fa987074b263c67b12136ee68f56196b48560cd047b"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/msexchange/tar.gz/3eed254112c5aff0a5f6ac45641ccc1898ced534",
-          "checksum": "sha256:9c31dead50235c8a67c7cc6567ee349286cf4ec0b5246de9e576e17a7308bd21"
+          "url": "https://codeload.github.com/attune-packs/msexchange/tar.gz/575081627ac69e2583ab64b4fabcf2cce82b4735",
+          "checksum": "sha256:dd4ca64df351367720b78ed3fcc7080d8e479676a9f50f8cd1494b611b02b560"
         }
       ],
       "contents": {
@@ -4375,7 +4396,7 @@
           "PyYAML>=6.0,<7"
         ],
         "default_branch": "main",
-        "commit": "3eed254112c5aff0a5f6ac45641ccc1898ced534",
+        "commit": "575081627ac69e2583ab64b4fabcf2cce82b4735",
         "stars": 0,
         "repository_id": 1332364179
       },
@@ -4546,13 +4567,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/netbox.git",
-          "ref": "254d6984a3ba14ab46122b0d8b055237a5830424",
-          "checksum": "sha256:beb8d36aa60428900da3c5404b43fcd8a58c453835522cca12217f09fd006c9d"
+          "ref": "3be93a30c3ea52dcf261844cdf6ca02c229848c4",
+          "checksum": "sha256:eec447fb03435d8f7ddfbcb59c59092d0f5d712faeda0cc26fd6e9622ce5595b"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/netbox/tar.gz/254d6984a3ba14ab46122b0d8b055237a5830424",
-          "checksum": "sha256:667da52ef97329dc7ff22f0d99c5681c2810e9b6a0555b545a18811acf39a89a"
+          "url": "https://codeload.github.com/attune-packs/netbox/tar.gz/3be93a30c3ea52dcf261844cdf6ca02c229848c4",
+          "checksum": "sha256:c4783ca325155a948d26965bf8df0782f4e1952090e8692906846838d0399e64"
         }
       ],
       "contents": {
@@ -4610,7 +4631,7 @@
         "api_revision": "3db98de783c02038775b78f9804a95681f78eb7b",
         "license": "MIT",
         "default_branch": "main",
-        "commit": "254d6984a3ba14ab46122b0d8b055237a5830424",
+        "commit": "3be93a30c3ea52dcf261844cdf6ca02c229848c4",
         "stars": 0,
         "repository_id": 1334889139
       },
@@ -4643,13 +4664,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/nodejs_example.git",
-          "ref": "69517d47d2b21fc532ce1420190bf083c11b0804",
-          "checksum": "sha256:6a70ed52606b49cb10ad2c28e6bf539aab4357db9141fc3c2c9ee2c5db53189f"
+          "ref": "ceddb815995307794e3c43e673e9315481cdba7d",
+          "checksum": "sha256:164237581b7b079cd56b2b1d926df93ddc4da8ce32169ec35790757e6d6c6d54"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/nodejs_example/tar.gz/69517d47d2b21fc532ce1420190bf083c11b0804",
-          "checksum": "sha256:772ac276d236fc9887550ba934da0bd22cc00451f74f55afe02ceac5c4a4cde3"
+          "url": "https://codeload.github.com/attune-packs/nodejs_example/tar.gz/ceddb815995307794e3c43e673e9315481cdba7d",
+          "checksum": "sha256:eee3f3382ca8020942df5d322ee111547687bb9267ca31a2c862b19913750d70"
         }
       ],
       "contents": {
@@ -4705,7 +4726,7 @@
         "documentation_url": "https://github.com/attune-automation/pack-nodejs-example",
         "repository_url": "https://github.com/attune-automation/pack-nodejs-example",
         "default_branch": "main",
-        "commit": "69517d47d2b21fc532ce1420190bf083c11b0804",
+        "commit": "ceddb815995307794e3c43e673e9315481cdba7d",
         "stars": 0,
         "repository_id": 1244975606
       },
@@ -4735,13 +4756,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/openstack.git",
-          "ref": "107c544cf144eb84f2e1577887f947980e5ea4fb",
-          "checksum": "sha256:61a434c66a8e63ec0728dbbdbd47969f57e6cbaa4cb4f68c22a958e7b034b71d"
+          "ref": "c1b76e4902c6be9818595861c2db31810758c080",
+          "checksum": "sha256:57201e5a39ceb539a70cedb9500fad610c5e310b3cb646e2a5fd11828996b7bb"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/openstack/tar.gz/107c544cf144eb84f2e1577887f947980e5ea4fb",
-          "checksum": "sha256:1ae273d43fc7fa9101ed396a62490bbd16466c753d579a9a24e5123b7f40af0a"
+          "url": "https://codeload.github.com/attune-packs/openstack/tar.gz/c1b76e4902c6be9818595861c2db31810758c080",
+          "checksum": "sha256:6c38bd75edc43d2f3fc869d8bc1de060bd74af5631e36d5ca6b7dec45792d19e"
         }
       ],
       "contents": {
@@ -4905,7 +4926,7 @@
         "sdk_baseline": "4.18.0",
         "license": "Apache-2.0",
         "default_branch": "main",
-        "commit": "107c544cf144eb84f2e1577887f947980e5ea4fb",
+        "commit": "c1b76e4902c6be9818595861c2db31810758c080",
         "stars": 0,
         "repository_id": 1334760810
       },
@@ -5012,13 +5033,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/pagerduty.git",
-          "ref": "0819b35a2d0db68a944ccf71d4e4b362d575b7d9",
-          "checksum": "sha256:6626d84ad568980211f93c3997992bd8a683cc27a8f0642c30de2fb487e6a727"
+          "ref": "e392f081b4e7a3506efb6336047c4db55b3b7d5f",
+          "checksum": "sha256:51eaf8739fd81b2133e8469823ce8dac0915a81f286624d4ce1ba34322874ebe"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/pagerduty/tar.gz/0819b35a2d0db68a944ccf71d4e4b362d575b7d9",
-          "checksum": "sha256:c668cb956bd1540e6ab7b453d0e39b15e2d4c0f860c2138e1a2dc7a921625ed1"
+          "url": "https://codeload.github.com/attune-packs/pagerduty/tar.gz/e392f081b4e7a3506efb6336047c4db55b3b7d5f",
+          "checksum": "sha256:7e07091b2d47a78bb37532c49ae580d10c17ed52b4a09832a680711081f8590b"
         }
       ],
       "contents": {
@@ -5296,7 +5317,7 @@
         "source_version": "2.0.0 (4555dfc3f5fdbc1486503149c86392a1d5bf24b8)",
         "license": "Apache-2.0",
         "default_branch": "main",
-        "commit": "0819b35a2d0db68a944ccf71d4e4b362d575b7d9",
+        "commit": "e392f081b4e7a3506efb6336047c4db55b3b7d5f",
         "stars": 0,
         "repository_id": 1332364221
       },
@@ -5329,13 +5350,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/paloalto.git",
-          "ref": "f3e44199727c690fb25d9e4f4891ad8c2f46fa07",
-          "checksum": "sha256:0ded938d8a90f73190e1976365919ba5a94e35f39284a4900319003bb15655fc"
+          "ref": "24aa5c1492bf2bc327658ef2011b73323280c181",
+          "checksum": "sha256:ff52125616459857cd1cf46bffbd14c2bf5433f0cf7c2aba9db14257d8f4f8a5"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/paloalto/tar.gz/f3e44199727c690fb25d9e4f4891ad8c2f46fa07",
-          "checksum": "sha256:191ce88ff770921220c15e51cb124ed0b71885b6066bb8767bbe1f1011df1240"
+          "url": "https://codeload.github.com/attune-packs/paloalto/tar.gz/24aa5c1492bf2bc327658ef2011b73323280c181",
+          "checksum": "sha256:1fd6c9c6f420d6f3b727c083c76677ff9af58c5297bd4d1b785e0b2617724d8a"
         }
       ],
       "contents": {
@@ -5462,7 +5483,7 @@
         "source_version": "1.0.0",
         "license": "Apache-2.0",
         "default_branch": "main",
-        "commit": "f3e44199727c690fb25d9e4f4891ad8c2f46fa07",
+        "commit": "24aa5c1492bf2bc327658ef2011b73323280c181",
         "stars": 0,
         "repository_id": 1334732777
       },
@@ -5614,13 +5635,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/prometheus.git",
-          "ref": "f3c02373cbb9a9236cad6724fbfa4c44b05a2850",
-          "checksum": "sha256:468973f8b8424e3a468247f8af13f1185a9f13d7a219f4d918a8b47091c6df18"
+          "ref": "38bc5cc6cf20947bfce5b4d0c39fba837e2f5327",
+          "checksum": "sha256:f6baa93692c42439ad53ef2652d00b60872a51430577c6b17227b4dd74be33c4"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/prometheus/tar.gz/f3c02373cbb9a9236cad6724fbfa4c44b05a2850",
-          "checksum": "sha256:2d85475a6c36d95d843af6d0de43ae9af10e40702d8b81852867a14317497167"
+          "url": "https://codeload.github.com/attune-packs/prometheus/tar.gz/38bc5cc6cf20947bfce5b4d0c39fba837e2f5327",
+          "checksum": "sha256:4d073ed842b1d5a682dd9900a464d2a5099fe7d873798796dbce0090d87d55a7"
         }
       ],
       "contents": {
@@ -5662,7 +5683,7 @@
         "source_version": "2.0.0 (323c695862bde2512cbd304f9c77b35db056fcb4)",
         "license": "Apache-2.0",
         "default_branch": "main",
-        "commit": "f3c02373cbb9a9236cad6724fbfa4c44b05a2850",
+        "commit": "38bc5cc6cf20947bfce5b4d0c39fba837e2f5327",
         "stars": 0,
         "repository_id": 1334708922
       },
@@ -5695,13 +5716,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/python_example.git",
-          "ref": "2012bd0e16d078cd1d955bf84ee7100ece511341",
-          "checksum": "sha256:3dd5241c5f61c387a0be2e9ddfca03bb76b6e0cf52b00b033fb716ad7cdf880e"
+          "ref": "dfbdaabf2783745c1052e62eb0ecd64a741909d2",
+          "checksum": "sha256:5f1ac855dc38ca327aacd62ac05b864c3b200f263a876fb50aa083039f96eeb7"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/python_example/tar.gz/2012bd0e16d078cd1d955bf84ee7100ece511341",
-          "checksum": "sha256:48a8ea22bbd19b26ac488fb2058387ddf73e3e5be87e8161da75a79a887b7002"
+          "url": "https://codeload.github.com/attune-packs/python_example/tar.gz/dfbdaabf2783745c1052e62eb0ecd64a741909d2",
+          "checksum": "sha256:75b5fa9a24e30b58f5ee2cf175c41baad3fbe8b7e070d47459dd4bfd5f233d2e"
         }
       ],
       "contents": {
@@ -5782,7 +5803,7 @@
         "documentation_url": "https://github.com/attune-automation/pack-python-example",
         "repository_url": "https://github.com/attune-automation/pack-python-example",
         "default_branch": "main",
-        "commit": "2012bd0e16d078cd1d955bf84ee7100ece511341",
+        "commit": "dfbdaabf2783745c1052e62eb0ecd64a741909d2",
         "stars": 0,
         "repository_id": 1244962932
       },
@@ -5810,13 +5831,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/rabbitmq.git",
-          "ref": "14fa6e7d25fd7aacffa7be47238364b906b30c6e",
-          "checksum": "sha256:0b7266205536647a74bd4dab93748226f796591183ce5e77228f62a18f5ef42f"
+          "ref": "b56036181cf99d47c2b4315568520e29414419a4",
+          "checksum": "sha256:b79f5083b19d2580d243d4c5dcff3325803b8d9efea844a834a41630e39f7aed"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/rabbitmq/tar.gz/14fa6e7d25fd7aacffa7be47238364b906b30c6e",
-          "checksum": "sha256:3544f197f39358feb96b800733c48a2f7b56b7940872c02f0693f2a7600f7c95"
+          "url": "https://codeload.github.com/attune-packs/rabbitmq/tar.gz/b56036181cf99d47c2b4315568520e29414419a4",
+          "checksum": "sha256:08017b578dd8f12cb69b7ebad2bb4f0276d39001079b997b99cda99b39ff478e"
         }
       ],
       "contents": {
@@ -5862,7 +5883,7 @@
         "source_revision": "e79bcedf5cef611ff6088b79d9e5926a288fa951",
         "license": "Apache-2.0",
         "default_branch": "main",
-        "commit": "14fa6e7d25fd7aacffa7be47238364b906b30c6e",
+        "commit": "b56036181cf99d47c2b4315568520e29414419a4",
         "stars": 0,
         "repository_id": 1334711992
       },
@@ -5893,13 +5914,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/salesforce.git",
-          "ref": "bbfac41db6b5f8c65ec639e9c2e32842ed4de7d3",
-          "checksum": "sha256:b6e6155b6099b5e3e8b709f1d0fcce0c6aaab2ef4d260aa7f77984bfed3a35c6"
+          "ref": "ac1c6fff4aaac38de8b8e59beba67c5a501932a2",
+          "checksum": "sha256:8c3fbcc7f3ff76c042b831f19b9c76d4bdeac1bc03b0c46cb667fd8ee6f10a29"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/salesforce/tar.gz/bbfac41db6b5f8c65ec639e9c2e32842ed4de7d3",
-          "checksum": "sha256:cdeb7938a137cc1d50059d6cec4bbdd76edf0b2a702314a745835adfdeff12b0"
+          "url": "https://codeload.github.com/attune-packs/salesforce/tar.gz/ac1c6fff4aaac38de8b8e59beba67c5a501932a2",
+          "checksum": "sha256:ed8be05c652b5a30aaed44430285afdfa5e1f8da1a224739cd2dc60cb418b7e8"
         }
       ],
       "contents": {
@@ -6043,7 +6064,7 @@
         ],
         "documentation_url": "https://androxxtraxxon.github.io/python-sf-toolkit/",
         "default_branch": "main",
-        "commit": "bbfac41db6b5f8c65ec639e9c2e32842ed4de7d3",
+        "commit": "ac1c6fff4aaac38de8b8e59beba67c5a501932a2",
         "stars": 0,
         "repository_id": 1244983821
       },
@@ -6075,13 +6096,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/salt.git",
-          "ref": "8148dae52dfd32bcaa3e0de9617aaa6655f2cf1a",
-          "checksum": "sha256:0fe552605c869ac7fff0c4c30802989dce692e7561e3c7534fc5c508864dcb66"
+          "ref": "25175a2c7e8b26eb3c427326a4baa2478a8d349d",
+          "checksum": "sha256:686df54696ea6d65ff82daa239eed00fbe62dd61d7f7aaae659127072ff46691"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/salt/tar.gz/8148dae52dfd32bcaa3e0de9617aaa6655f2cf1a",
-          "checksum": "sha256:ca41c30e72cc2ca328292c469058e7d81f070aa254c4f388fd88ab2fccba7d87"
+          "url": "https://codeload.github.com/attune-packs/salt/tar.gz/25175a2c7e8b26eb3c427326a4baa2478a8d349d",
+          "checksum": "sha256:919ca62e2a5c6cbdab5a6bfa70e52869916ca978984b2852d16a203388e9501b"
         }
       ],
       "contents": {
@@ -6155,7 +6176,7 @@
         "license": "Apache-2.0",
         "salt_api_reviewed_version": "3008.1-2",
         "default_branch": "main",
-        "commit": "8148dae52dfd32bcaa3e0de9617aaa6655f2cf1a",
+        "commit": "25175a2c7e8b26eb3c427326a4baa2478a8d349d",
         "stars": 0,
         "repository_id": 1334729429
       },
@@ -6188,13 +6209,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/servicenow.git",
-          "ref": "a1b019103bd6e9564bdb0a5d968de3d07cd7b437",
-          "checksum": "sha256:942fdfa2e2a85b28bfb379082b7c73a39fe8f3561b901186cca9e242d277a769"
+          "ref": "d39ee4ced2d7da7a79736082dff9fff60b1d9168",
+          "checksum": "sha256:0aefaf8782f2efeab656f5be168926777eb1d69b1fd0204ace1da4577711f8b1"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/servicenow/tar.gz/a1b019103bd6e9564bdb0a5d968de3d07cd7b437",
-          "checksum": "sha256:22cdbbdbff72170f394cf15a8751869ad1e71927480cdb39d8cdf22e6b579a8c"
+          "url": "https://codeload.github.com/attune-packs/servicenow/tar.gz/d39ee4ced2d7da7a79736082dff9fff60b1d9168",
+          "checksum": "sha256:78f7710551358e1f71e4ba3f383f3b484a812d230564fdc47a1077bd257fcb05"
         }
       ],
       "contents": {
@@ -6309,7 +6330,7 @@
         "source_version": "1.0.0-4-g15bc510",
         "license": "Apache-2.0",
         "default_branch": "main",
-        "commit": "a1b019103bd6e9564bdb0a5d968de3d07cd7b437",
+        "commit": "d39ee4ced2d7da7a79736082dff9fff60b1d9168",
         "stars": 0,
         "repository_id": 1334894435
       },
@@ -6323,8 +6344,8 @@
     {
       "ref": "slack",
       "label": "Slack",
-      "description": "Slack Web API, incoming webhook, file upload, and Socket Mode integration",
-      "version": "0.1.0",
+      "description": "Slack Web API, inquiry approvals, incoming webhook, file upload, and Socket Mode integration",
+      "version": "0.1.3",
       "author": "Attune",
       "license": "Apache-2.0",
       "keywords": [
@@ -6340,13 +6361,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/slack.git",
-          "ref": "64db444b0926e56b996af66084e7e8ab6f4d3d81",
-          "checksum": "sha256:36dc2af6af0bc0ed97ce413e5eee35c06d8bdd1bb65900eda14616aca7b28a58"
+          "ref": "f7bd31ad0b3c5fb228e0d82c000ef83f0a01b16b",
+          "checksum": "sha256:bd0b35fb393b80e91261f2bad794f204f5bb84ae06693d403c349e6cee1d1faa"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/slack/tar.gz/64db444b0926e56b996af66084e7e8ab6f4d3d81",
-          "checksum": "sha256:8237d242209377cf0db582ad4da5a7b19a445593662894b1db0767cc37b86414"
+          "url": "https://codeload.github.com/attune-packs/slack/tar.gz/f7bd31ad0b3c5fb228e0d82c000ef83f0a01b16b",
+          "checksum": "sha256:1d267609e10fbe5b228858169a6621678af1cdf46aefebb414a1a05e2189b84c"
         }
       ],
       "contents": {
@@ -6368,6 +6389,10 @@
             "description": "Post a text message through a Slack incoming webhook"
           },
           {
+            "name": "request_approval",
+            "description": "Create an assigned Attune inquiry and post idempotent approval controls to Slack"
+          },
+          {
             "name": "upload_file",
             "description": "Upload content or an execution artifact with Slack's v2 upload flow"
           }
@@ -6375,7 +6400,7 @@
         "sensors": [
           {
             "name": "slack_socket_mode",
-            "description": "Receives Slack Events API message envelopes over Socket Mode for active rules"
+            "description": "Receives Slack events and Attune inquiry responses over Socket Mode"
           }
         ],
         "triggers": [
@@ -6385,7 +6410,12 @@
           }
         ],
         "rules": [],
-        "workflows": []
+        "workflows": [
+          {
+            "name": "approval_example",
+            "description": "Request an assigned Slack approval and wait before reporting the typed decision"
+          }
+        ]
       },
       "meta": {
         "category": "integration",
@@ -6394,7 +6424,7 @@
         "source_version": "2.3.0",
         "license": "Apache-2.0",
         "default_branch": "main",
-        "commit": "64db444b0926e56b996af66084e7e8ab6f4d3d81",
+        "commit": "f7bd31ad0b3c5fb228e0d82c000ef83f0a01b16b",
         "stars": 0,
         "repository_id": 1332364280
       },
@@ -6426,13 +6456,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/splunk.git",
-          "ref": "2fc26a68ebda0ceb9dd6e4a72337b244267311b9",
-          "checksum": "sha256:7f9cded50a45ac2d6ecce8afbe2b3d487d119d548b41373f597a1694cd6bc3a9"
+          "ref": "d2f1c277384e7e1ab8803778c9f8f61c57bf0ec6",
+          "checksum": "sha256:b8fc2da38b2dc15c0f2c8063b74bd22723f5e98a65c0d8a670521d467d41fc2f"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/splunk/tar.gz/2fc26a68ebda0ceb9dd6e4a72337b244267311b9",
-          "checksum": "sha256:e0b31b4946dfee7ea639f8619e3f5cd396fd2eaf8cb722313a0349b5a20178b1"
+          "url": "https://codeload.github.com/attune-packs/splunk/tar.gz/d2f1c277384e7e1ab8803778c9f8f61c57bf0ec6",
+          "checksum": "sha256:130e2cc702a08ef5d8f7bb95f971ac4cc995e5d4a85e2c1c51106217e953e601"
         }
       ],
       "contents": {
@@ -6487,7 +6517,7 @@
         "source_version": "2.3.0",
         "license": "Apache-2.0",
         "default_branch": "main",
-        "commit": "2fc26a68ebda0ceb9dd6e4a72337b244267311b9",
+        "commit": "d2f1c277384e7e1ab8803778c9f8f61c57bf0ec6",
         "stars": 0,
         "repository_id": 1334710085
       },
@@ -6519,13 +6549,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/sql.git",
-          "ref": "68d5b783883a33aab850700258a5e6cccc314b75",
-          "checksum": "sha256:bf83dfe62e35ec197c2e08e10d420876ac0227bfae842684f77093f1fd36fe4d"
+          "ref": "0a33a8a428388e1923592343c2542a17fbe1f493",
+          "checksum": "sha256:cbcfddc839b56bdbbe73380678d99d289f95a99cd684237610f6f923f8d9d9b8"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/sql/tar.gz/68d5b783883a33aab850700258a5e6cccc314b75",
-          "checksum": "sha256:d3ba774969315595af6fee76ae5d5bea9890d4226b0d06251f3c601badfaa35e"
+          "url": "https://codeload.github.com/attune-packs/sql/tar.gz/0a33a8a428388e1923592343c2542a17fbe1f493",
+          "checksum": "sha256:e041fe87a82737a5a1818e8506fbb811db4cf9a25fc823e3f4b85396299540af"
         }
       ],
       "contents": {
@@ -6563,7 +6593,7 @@
         "source_version": "1.1.2",
         "license": "Apache-2.0",
         "default_branch": "main",
-        "commit": "68d5b783883a33aab850700258a5e6cccc314b75",
+        "commit": "0a33a8a428388e1923592343c2542a17fbe1f493",
         "stars": 0,
         "repository_id": 1332364318
       },
@@ -6734,13 +6764,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/vault.git",
-          "ref": "6a73b3aecd2a8b0510477851e394722dcf8464f5",
-          "checksum": "sha256:31b318be1dc0be6e52478e11c4ad0baa7c8f37dca3ab211f72813776554c8950"
+          "ref": "ae5eac80bdd9ea0e474fdb177a6eb9e2dfa2d367",
+          "checksum": "sha256:fcdc36e3cd74b5decac78ae4457c25cd65719518b0fdda578ed1ae0a5858167e"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/vault/tar.gz/6a73b3aecd2a8b0510477851e394722dcf8464f5",
-          "checksum": "sha256:ee518da5bc90ac665fbe2d74c0947ee63bf1501f2eb776132e93f5c1a650c170"
+          "url": "https://codeload.github.com/attune-packs/vault/tar.gz/ae5eac80bdd9ea0e474fdb177a6eb9e2dfa2d367",
+          "checksum": "sha256:438a68664df235a5fb2d4f3049644ab24bd5a6563213d5f8a5a0de5904aed8eb"
         }
       ],
       "contents": {
@@ -6856,7 +6886,7 @@
         "documentation_url": "https://github.com/attune-packs/vault",
         "repository_url": "https://github.com/attune-packs/vault",
         "default_branch": "main",
-        "commit": "6a73b3aecd2a8b0510477851e394722dcf8464f5",
+        "commit": "ae5eac80bdd9ea0e474fdb177a6eb9e2dfa2d367",
         "stars": 0,
         "repository_id": 1334894445
       },
@@ -6888,13 +6918,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/vsphere.git",
-          "ref": "79c3837b9ae1fbc664ad20dbb0d5c4a70c373a2f",
-          "checksum": "sha256:dbf21487d207304813af2072237f784df55ee280b20ebc6ca330df1f98f9a68e"
+          "ref": "0dd4c63e5454ddb739b726d7015f16e24621976f",
+          "checksum": "sha256:e5b24e22ef909e949386f5c778838db3b56ba664b96cf4d69a33d61278dfb4fb"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/vsphere/tar.gz/79c3837b9ae1fbc664ad20dbb0d5c4a70c373a2f",
-          "checksum": "sha256:b11e6e639be8c41675392288df8418279cbb66955ea4d730dddd387d4b0a7799"
+          "url": "https://codeload.github.com/attune-packs/vsphere/tar.gz/0dd4c63e5454ddb739b726d7015f16e24621976f",
+          "checksum": "sha256:73b20ef7afecb890194860f9fa29339482bdd4cb70e10bbaa68f8b95b349b8fe"
         }
       ],
       "contents": {
@@ -6989,7 +7019,7 @@
         "source_version": "1.3.5",
         "license": "Apache-2.0",
         "default_branch": "main",
-        "commit": "79c3837b9ae1fbc664ad20dbb0d5c4a70c373a2f",
+        "commit": "0dd4c63e5454ddb739b726d7015f16e24621976f",
         "stars": 0,
         "repository_id": 1334895454
       },
@@ -7020,13 +7050,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/yt_dlp.git",
-          "ref": "35d2c67fcb14613c07b89393fccd94159a00df36",
-          "checksum": "sha256:1612c6f946e105dcea95f0aaadc7041c8b5711875ad52a18cc808f857042549e"
+          "ref": "2be03af0e58fd945f968c4414af1f37ef4863913",
+          "checksum": "sha256:5e1cd3cd5dd3134cd438e4ca6a7b767d0105ce9528e62e3d949cafbbf7005a79"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/yt_dlp/tar.gz/35d2c67fcb14613c07b89393fccd94159a00df36",
-          "checksum": "sha256:37d86804cf513bcafd6ef7f20a206c3733bf0b616f92a1c15f338b357f2beda4"
+          "url": "https://codeload.github.com/attune-packs/yt_dlp/tar.gz/2be03af0e58fd945f968c4414af1f37ef4863913",
+          "checksum": "sha256:ad8a632852e39cd402e3a88c0ceaeacc8de57618654cbc3c8a631eecd0d3b4bc"
         }
       ],
       "contents": {
@@ -7064,7 +7094,7 @@
           "yt-dlp"
         ],
         "default_branch": "main",
-        "commit": "35d2c67fcb14613c07b89393fccd94159a00df36",
+        "commit": "2be03af0e58fd945f968c4414af1f37ef4863913",
         "stars": 0,
         "repository_id": 1356718104
       },
