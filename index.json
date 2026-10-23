@@ -2,7 +2,7 @@
   "registry_name": "Attune Standard Pack Index",
   "registry_url": "https://github.com/attune-system/index",
   "version": "1.0",
-  "last_updated": "2026-10-23T15:30:52Z",
+  "last_updated": "2026-10-23T15:32:55Z",
   "packs": [
     {
       "ref": "activedirectory",
@@ -364,9 +364,9 @@
       "ref": "attune",
       "label": "Attune",
       "description": "Meta-pack for interacting with Attune via its OpenAPI-generated Python client",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "author": "Attune Team",
-      "license": "NOASSERTION",
+      "license": "Apache-2.0",
       "keywords": [
         "api",
         "attune",
@@ -380,13 +380,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/attune.git",
-          "ref": "6e7b10c49fbfa0e592362675eb29498b4ed383ad",
-          "checksum": "sha256:f5c3f6d21318d0bcc59e0102f8fd7cb3513b934497ed817bbccf1fd962841708"
+          "ref": "ebe93dbc713a38ee3967f681432f65e4f15d4a6a",
+          "checksum": "sha256:0fe6842b96f0cb91ff9f421b00f4cc865546bf39ec9afc5ba05922b2d6fa363f"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/attune/tar.gz/6e7b10c49fbfa0e592362675eb29498b4ed383ad",
-          "checksum": "sha256:6700ad51b484e7860c2b79e1a5eb87b17bdff03431c52876471262aebe0905d9"
+          "url": "https://codeload.github.com/attune-packs/attune/tar.gz/ebe93dbc713a38ee3967f681432f65e4f15d4a6a",
+          "checksum": "sha256:cc4d17d30d2397f158241c119080b2c7ce9b9759545d3cf5c4f32cf2cce990df"
         }
       ],
       "contents": {
@@ -631,7 +631,7 @@
           "typing-extensions>=4.0"
         ],
         "default_branch": "main",
-        "commit": "6e7b10c49fbfa0e592362675eb29498b4ed383ad",
+        "commit": "ebe93dbc713a38ee3967f681432f65e4f15d4a6a",
         "stars": 0,
         "repository_id": 1244979934
       },
@@ -1041,7 +1041,9 @@
         "microsoft",
         "microsoft-graph"
       ],
-      "runtime_deps": [],
+      "runtime_deps": [
+        "python"
+      ],
       "install_sources": [
         {
           "type": "git",
@@ -4648,7 +4650,7 @@
       "description": "Example pack demonstrating Node.js actions, a counter sensor with keystore integration, and HTTP requests",
       "version": "1.0.0",
       "author": "Attune Team",
-      "license": "NOASSERTION",
+      "license": "MIT",
       "keywords": [
         "counter",
         "examples",
@@ -5700,7 +5702,7 @@
       "description": "Example pack demonstrating Python actions, work queues, and an SDK-based counter sensor with keystore integration",
       "version": "1.0.0",
       "author": "Attune Team",
-      "license": "NOASSERTION",
+      "license": "MIT",
       "keywords": [
         "counter",
         "examples",

@@ -53,6 +53,7 @@ strict and fail if the requested pack is invalid.
 | `index.json` | Generated standard index consumed by Attune |
 | `schema/index.schema.json` | Machine-readable index format contract |
 | `scripts/build_index.py` | Deterministic, atomic GitHub organization index builder |
+| `scripts/refresh_pinned_metadata.py` | Regenerate selected derived metadata from a saved index without changing published sources |
 | `scripts/validate_index.py` | Schema and standard-index policy validation |
 | `.github/workflows/sync.yml` | Scheduled and event-driven index refresh |
 | `.github/workflows/publish-pack.yml` | Reusable workflow called by pack repositories |

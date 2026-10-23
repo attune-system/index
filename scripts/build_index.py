@@ -28,6 +28,11 @@ from validate_index import validation_errors
 COMPONENT_DIRECTORIES = ("actions", "sensors", "triggers", "rules", "workflows")
 GITHUB_API = "https://api.github.com"
 COMMIT_SHA_PATTERN = re.compile(r"[0-9a-f]{40}")
+RUNTIME_ALIASES = {
+    "python": ("python", "python3", "python-script", "core.python"),
+    "nodejs": ("node", "nodejs", "node.js", "nodejs-script", "core.nodejs"),
+    "shell": ("shell", "sh", "bash", "shell-script", "core.shell"),
+}
 
 
 def reject_json_constant(value: str) -> None:
@@ -321,6 +326,62 @@ def normalize_dependencies(value: Any) -> dict[str, Any] | None:
     return result
 
 
+def runtime_dependencies(files: dict[str, bytes], manifest: dict[str, Any]) -> list[str]:
+    if "runtime_deps" in manifest:
+        return strings(manifest["runtime_deps"], "runtime_deps")
+
+    dependencies: set[str] = set()
+    for directory in ("actions", "sensors"):
+        paths = [
+            path for path in sorted(files)
+            if path.startswith(f"{directory}/")
+            and len(path.split("/")) == 2
+            and path.endswith((".yaml", ".yml"))
+        ]
+        if paths:
+            components = [(path, load_yaml(files, path)) for path in paths]
+        else:
+            # Reuse inventory validation and the same file-over-inline precedence.
+            inline_component_summaries(manifest, directory)
+            components = [
+                (f"pack.yaml {directory}.{name}", metadata)
+                for name, metadata in manifest.get(directory, {}).items()
+            ]
+        for context, metadata in components:
+            if directory == "actions" and metadata.get("workflow_file"):
+                continue
+            runner = optional_nonempty_string(metadata, ("runner_type",), context)
+            if runner is not None:
+                for runtime, aliases in RUNTIME_ALIASES.items():
+                    if runner.lower() in aliases:
+                        dependencies.add(runtime)
+    return sorted(dependencies)
+
+
+def pinned_license(files: dict[str, bytes]) -> str | None:
+    """Recognize explicit MIT grants, not dependency licenses or README mentions.
+
+    This is deliberately not a general license classifier. Unknown or mixed
+    root license files still require manifest metadata or maintainer review.
+    """
+    candidates = [
+        content for path, content in files.items()
+        if "/" not in path
+        and re.fullmatch(r"(?:licen[cs]e|copying)(?:\..+)?", path, re.IGNORECASE)
+    ]
+    if not candidates:
+        return None
+    for content in candidates:
+        text = " ".join(content.decode("utf-8", errors="replace").split())
+        if not (
+            text.startswith("MIT License ")
+            and "Permission is hereby granted, free of charge, to any person obtaining a copy" in text
+            and "The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software." in text
+        ):
+            return None
+    return "MIT"
+
+
 def build_entry(repo: dict[str, Any], sha: str, payload: bytes) -> dict[str, Any]:
     files = unpack_github_archive(payload)
     if "pack.yaml" not in files:
@@ -336,6 +397,8 @@ def build_entry(repo: dict[str, Any], sha: str, payload: bytes) -> dict[str, Any
         raise ValueError(f"{repo['full_name']} pack.yaml must declare nonempty ref and version")
 
     license_id = preferred_string(manifest, "license", metadata, "license")
+    if license_id is None:
+        license_id = pinned_license(files)
     if license_id is None:
         license_data = repo.get("license") or {}
         license_id = license_data.get("spdx_id") or "NOASSERTION"
@@ -373,7 +436,7 @@ def build_entry(repo: dict[str, Any], sha: str, payload: bytes) -> dict[str, Any
         else str(repo["owner"]["login"]),
         "license": str(license_id),
         "keywords": keywords,
-        "runtime_deps": strings(manifest.get("runtime_deps", []), "runtime_deps"),
+        "runtime_deps": runtime_dependencies(files, manifest),
         "install_sources": [
             {
                 "type": "git",
