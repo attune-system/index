@@ -2,7 +2,7 @@
   "registry_name": "Attune Standard Pack Index",
   "registry_url": "https://github.com/attune-system/index",
   "version": "1.0",
-  "last_updated": "2026-10-23T15:26:22Z",
+  "last_updated": "2026-10-23T15:30:52Z",
   "packs": [
     {
       "ref": "activedirectory",
@@ -5898,7 +5898,7 @@
       "ref": "salesforce",
       "label": "Salesforce Integration",
       "description": "Standard interface for the Salesforce REST/Streaming APIs \u2014 CRUD, composite (sObject Collections), Bulk API 2.0, anonymous Apex, SOQL polling sensor, and Change Data Capture sensor.",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "author": "Attune Team",
       "license": "Apache-2.0",
       "keywords": [
@@ -5914,13 +5914,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/salesforce.git",
-          "ref": "93986ef57fd544826d0b5d39af73317dac85cbaa",
-          "checksum": "sha256:217b022829e4522bed4478af85a561c38ebc2f4ab52098de09820e98ca8e762c"
+          "ref": "6997b57c367de8fa7a447b7ab3abdd92bfd7b12f",
+          "checksum": "sha256:48860e24e0877e013a7b3b375c29a3d584c3adde7d57ff1d52f29381ca283c6e"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/salesforce/tar.gz/93986ef57fd544826d0b5d39af73317dac85cbaa",
-          "checksum": "sha256:7c464089a2275f0d651479f9b649740b0281943b643fb18daea6e78b771a4678"
+          "url": "https://codeload.github.com/attune-packs/salesforce/tar.gz/6997b57c367de8fa7a447b7ab3abdd92bfd7b12f",
+          "checksum": "sha256:1f0692440b23a2ff202ba0cae40eaf1ae7cef8332d2b367267cf9c190e68e31b"
         }
       ],
       "contents": {
@@ -6064,7 +6064,7 @@
         ],
         "documentation_url": "https://androxxtraxxon.github.io/python-sf-toolkit/",
         "default_branch": "main",
-        "commit": "93986ef57fd544826d0b5d39af73317dac85cbaa",
+        "commit": "6997b57c367de8fa7a447b7ab3abdd92bfd7b12f",
         "stars": 0,
         "repository_id": 1244983821
       },
