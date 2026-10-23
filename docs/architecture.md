@@ -82,7 +82,21 @@ field is authoritative even when a legacy alias is also present:
 - `label`, then `name`, then pack ref.
 - Discovery terms in canonical `tags`, then legacy top-level `keywords`, then
   `meta.keywords`. Values are deduplicated and sorted.
-- Top-level `license`, then `meta.license`, then repository SPDX metadata.
+- Top-level `license`, then `meta.license`, then an explicit MIT grant in the
+  pinned archive's root `LICENSE`, `LICENSE.*`, `LICENCE`, or `COPYING` files,
+  then repository SPDX metadata. File matching is case-insensitive and accepts
+  extensions for each filename. The file fallback requires the MIT heading,
+  permission grant, and notice clause in every root license file. It does not
+  classify arbitrary license text or use bundled dependency licenses.
+- Declared `runtime_deps` remain authoritative, including an empty list and
+  version constraints. If absent, runtimes are inferred from action and sensor
+  `runner_type` values, using the same file-over-inline precedence as inventory.
+  Matching is case-insensitive. Python aliases are `python`, `python3`,
+  `python-script`, and `core.python`. Node.js aliases are `node`, `nodejs`,
+  `node.js`, `nodejs-script`, and `core.nodejs`. Shell aliases are `shell`, `sh`,
+  `bash`, `shell-script`, and `core.shell`. Inferred dependencies use `python`,
+  `nodejs`, and `shell`, sorted and deduplicated. Workflow actions, nested graph
+  files, unknown runners, and unrelated script files do not imply a runtime.
 - Top-level `homepage`, then `meta.documentation_url`.
 - Top-level `use_case`, then `meta.use_case`.
 - List-form `dependencies`, normalized to `{ "packs": [...] }`, and object-form

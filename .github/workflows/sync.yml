@@ -19,6 +19,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+        with:
+          # Queued dispatches must not reuse the main SHA captured before another sync.
+          ref: main
       - uses: actions/setup-python@v6
         with:
           python-version: "3.12"

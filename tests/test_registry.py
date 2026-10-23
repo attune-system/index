@@ -13,6 +13,7 @@ from contextlib import redirect_stderr
 from unittest import mock
 
 import jsonschema
+import yaml
 
 
 sys.path.insert(0, str(pathlib.Path(__file__).parents[1] / "scripts"))
@@ -580,6 +581,14 @@ class RegistryTests(unittest.TestCase):
         )
         self.assertIn('[[ ! "$REQUESTED_SHA" =~ ^[0-9a-f]{40}$ ]]', sync)
         self.assertIn('--commit "$REQUESTED_SHA"', sync)
+
+    def test_serialized_sync_resolves_current_main_after_leaving_the_queue(self) -> None:
+        root = pathlib.Path(__file__).parents[1]
+        workflow = yaml.safe_load((root / ".github/workflows/sync.yml").read_text())
+        self.assertEqual(workflow["concurrency"]["group"], "standard-pack-index-sync")
+        self.assertFalse(workflow["concurrency"]["cancel-in-progress"])
+        checkout = workflow["jobs"]["sync"]["steps"][0]
+        self.assertEqual(checkout["with"]["ref"], "main")
 
     def test_attune_checksum_frames_sorted_paths_and_contents(self) -> None:
         files = {"z.txt": b"last", "a.txt": b"first"}
