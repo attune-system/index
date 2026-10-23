@@ -2,7 +2,7 @@
   "registry_name": "Attune Standard Pack Index",
   "registry_url": "https://github.com/attune-system/index",
   "version": "1.0",
-  "last_updated": "2026-10-23T15:32:55Z",
+  "last_updated": "2026-10-23T16:23:23Z",
   "packs": [
     {
       "ref": "activedirectory",
@@ -5700,7 +5700,7 @@
       "ref": "python_example",
       "label": "Python Example Pack",
       "description": "Example pack demonstrating Python actions, work queues, and an SDK-based counter sensor with keystore integration",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "author": "Attune Team",
       "license": "MIT",
       "keywords": [
@@ -5718,13 +5718,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/python_example.git",
-          "ref": "dfbdaabf2783745c1052e62eb0ecd64a741909d2",
-          "checksum": "sha256:5f1ac855dc38ca327aacd62ac05b864c3b200f263a876fb50aa083039f96eeb7"
+          "ref": "e6c725ed4470acaa25a21db2a797011927f94faa",
+          "checksum": "sha256:c62c884ea14d4fdf097b1ad16bae899f4611383e25f9077b79a75a1985086fba"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/python_example/tar.gz/dfbdaabf2783745c1052e62eb0ecd64a741909d2",
-          "checksum": "sha256:75b5fa9a24e30b58f5ee2cf175c41baad3fbe8b7e070d47459dd4bfd5f233d2e"
+          "url": "https://codeload.github.com/attune-packs/python_example/tar.gz/e6c725ed4470acaa25a21db2a797011927f94faa",
+          "checksum": "sha256:3c206ed329cc0f560262b1fdc3f22cf2715b675c55bc6603b14b96ff61af9b23"
         }
       ],
       "contents": {
@@ -5805,7 +5805,7 @@
         "documentation_url": "https://github.com/attune-automation/pack-python-example",
         "repository_url": "https://github.com/attune-automation/pack-python-example",
         "default_branch": "main",
-        "commit": "dfbdaabf2783745c1052e62eb0ecd64a741909d2",
+        "commit": "e6c725ed4470acaa25a21db2a797011927f94faa",
         "stars": 0,
         "repository_id": 1244962932
       },
