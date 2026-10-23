@@ -2,7 +2,7 @@
   "registry_name": "Attune Standard Pack Index",
   "registry_url": "https://github.com/attune-system/index",
   "version": "1.0",
-  "last_updated": "2026-10-23T16:23:23Z",
+  "last_updated": "2026-10-23T16:23:38Z",
   "packs": [
     {
       "ref": "activedirectory",
@@ -4648,7 +4648,7 @@
       "ref": "nodejs_example",
       "label": "Node.js Example Pack",
       "description": "Example pack demonstrating Node.js actions, a counter sensor with keystore integration, and HTTP requests",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "author": "Attune Team",
       "license": "MIT",
       "keywords": [
@@ -4666,13 +4666,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/nodejs_example.git",
-          "ref": "ceddb815995307794e3c43e673e9315481cdba7d",
-          "checksum": "sha256:164237581b7b079cd56b2b1d926df93ddc4da8ce32169ec35790757e6d6c6d54"
+          "ref": "f056a2ceaba0f1201fe7efc169a7efba926e64c3",
+          "checksum": "sha256:f5d778544da066c843cd4955e07621bea2a2955c9be4487d63cac19a6c0cc804"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/nodejs_example/tar.gz/ceddb815995307794e3c43e673e9315481cdba7d",
-          "checksum": "sha256:eee3f3382ca8020942df5d322ee111547687bb9267ca31a2c862b19913750d70"
+          "url": "https://codeload.github.com/attune-packs/nodejs_example/tar.gz/f056a2ceaba0f1201fe7efc169a7efba926e64c3",
+          "checksum": "sha256:fbbb9e02ba6d88dcf7cdb11fbfd5f04c8bf8f4453a7c4939c203fb797d406359"
         }
       ],
       "contents": {
@@ -4728,7 +4728,7 @@
         "documentation_url": "https://github.com/attune-automation/pack-nodejs-example",
         "repository_url": "https://github.com/attune-automation/pack-nodejs-example",
         "default_branch": "main",
-        "commit": "ceddb815995307794e3c43e673e9315481cdba7d",
+        "commit": "f056a2ceaba0f1201fe7efc169a7efba926e64c3",
         "stars": 0,
         "repository_id": 1244975606
       },
