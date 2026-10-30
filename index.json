@@ -2,7 +2,7 @@
   "registry_name": "Attune Standard Pack Index",
   "registry_url": "https://github.com/attune-system/index",
   "version": "1.0",
-  "last_updated": "2026-10-23T16:23:38Z",
+  "last_updated": "2026-10-30T14:36:44Z",
   "packs": [
     {
       "ref": "activedirectory",
@@ -6211,13 +6211,13 @@
         {
           "type": "git",
           "url": "https://github.com/attune-packs/servicenow.git",
-          "ref": "d39ee4ced2d7da7a79736082dff9fff60b1d9168",
-          "checksum": "sha256:0aefaf8782f2efeab656f5be168926777eb1d69b1fd0204ace1da4577711f8b1"
+          "ref": "91dafd42affca6540ec254a6be1403ac2e960c3a",
+          "checksum": "sha256:da1e9786afea939dbe517b2a80e0945bcba77ed0b0c340b3ab7192f4c1e43468"
         },
         {
           "type": "archive",
-          "url": "https://codeload.github.com/attune-packs/servicenow/tar.gz/d39ee4ced2d7da7a79736082dff9fff60b1d9168",
-          "checksum": "sha256:78f7710551358e1f71e4ba3f383f3b484a812d230564fdc47a1077bd257fcb05"
+          "url": "https://codeload.github.com/attune-packs/servicenow/tar.gz/91dafd42affca6540ec254a6be1403ac2e960c3a",
+          "checksum": "sha256:93d1acc010fc889a252274dc977d313da3b1842f70f67f007a3d168b42f5d67b"
         }
       ],
       "contents": {
@@ -6332,7 +6332,7 @@
         "source_version": "1.0.0-4-g15bc510",
         "license": "Apache-2.0",
         "default_branch": "main",
-        "commit": "d39ee4ced2d7da7a79736082dff9fff60b1d9168",
+        "commit": "91dafd42affca6540ec254a6be1403ac2e960c3a",
         "stars": 0,
         "repository_id": 1334894435
       },
