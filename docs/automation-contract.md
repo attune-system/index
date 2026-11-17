@@ -46,7 +46,12 @@ Every participating pack contains
    dispatched SHA is on its current default branch and is not older than the
    indexed commit, generates the entry from that exact commit, and validates
    the complete index.
-6. Commits `index.json` only when generated content changed.
+6. Opens a pull request containing only `index.json` when generated content
+   changed. No generated update is pushed directly to `main`.
+7. Calls the reusable index validator on that PR's exact head and records
+   **Index validation** on the tested commit, including a failure if validation
+   failed, was cancelled, or skipped. A maintainer merges the validated PR to
+   publish the candidate.
 
 The dispatched repository and commit identify the source snapshot. The central
 builder obtains repository metadata and pack contents directly from GitHub and
@@ -158,8 +163,11 @@ GitHub's repository dispatch endpoint. Pack workflows never clone, modify, or
 push the index repository with this token.
 
 The central sync uses the index repository's short-lived `GITHUB_TOKEN` to read
-public sources and commit generated changes. No personal access token is
-stored in the index repository.
+public sources and open generated pull requests. A separate reporter grants
+only Checks write access; validation retains read-only access. No personal
+access token is stored in the index repository. Ordinary PR events created by
+the repository token can require approval, so synchronization explicitly calls
+the validator instead of depending on those events.
 
 During token rotation, scheduled full syncs continue to work. Immediate pack
 dispatches may fail until the organization secret is replaced. Validate a
