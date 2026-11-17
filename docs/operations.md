@@ -6,9 +6,20 @@
 `pack-updated` repository dispatch. Runs are serialized to prevent concurrent
 writes to `index.json`.
 
-The workflow only commits when generated pack entries change. The
+The workflow only opens a pull request when generated pack entries change. The
 `last_updated` value is preserved on no-op builds, so scheduled runs do not
-create timestamp-only commits.
+create timestamp-only updates. Each run uses its own automation branch so a
+later dispatch cannot replace the candidate currently being validated. Review
+and merge the PR to publish; synchronization no longer pushes to `main`.
+
+The sync calls the same reusable validator as normal pull requests, checking
+out the exact generated head SHA. A separate job with only Checks write access
+records **Index validation** on that SHA. This does not rely on a bot push or
+PR event starting another workflow. No new long-lived credential is needed.
+
+Close superseded candidates after another update is merged. Bring remaining
+candidates up to date with `main` and rerun validation before merging them;
+their generation and checks describe a particular source/base snapshot.
 
 The complete maintainer and pack-repository expectations are defined in the
 [Standard Index Automation Contract](automation-contract.md).
@@ -19,14 +30,15 @@ The complete maintainer and pack-repository expectations are defined in the
 - Set workflow permissions to allow read and write, or retain the explicit
   `contents: write` grant in `sync.yml` under an organization policy that
   permits it.
-- If `main` is protected, allow the sync workflow to update `index.json` or
-  change the workflow to open a pull request.
-- Keep `validate.yml` required for human-authored pull requests.
+- Allow GitHub Actions to create pull requests. Retain the explicit job-level
+  Contents/Pull requests write grants and the reporter's Checks write grant.
+- Require **Index validation** for both generated and human-authored PRs when
+  enabling branch rules; require candidates to be up to date with `main`.
 - Restrict administration of the cross-organization `ATTUNE_INDEX_TOKEN`.
 
 No long-lived secret is required in the index repository for normal builds.
-Its own `GITHUB_TOKEN` reads public pack metadata and writes the generated
-index.
+Its own `GITHUB_TOKEN` reads public pack metadata, opens the generated PR, and
+reports validation on its head. Validation runs with read-only permissions.
 
 ## Manual Recovery
 

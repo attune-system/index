@@ -8,7 +8,7 @@ on:
     types: [pack-updated]
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: standard-pack-index-sync
@@ -17,12 +17,18 @@ concurrency:
 jobs:
   sync:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    outputs:
+      head-sha: ${{ steps.pull-request.outputs.pull-request-head-sha }}
+      pr-number: ${{ steps.pull-request.outputs.pull-request-number }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           # Queued dispatches must not reuse the main SHA captured before another sync.
           ref: main
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: "3.12"
           cache: pip
@@ -50,14 +56,59 @@ jobs:
             python scripts/build_index.py --skip-invalid
           fi
       - run: python scripts/validate_index.py
-      - name: Publish changed index
+      - name: Open generated index pull request
+        id: pull-request
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8
+        with:
+          base: main
+          # Independent candidates never rewrite a head while it is validated.
+          branch: automation/index-sync-${{ github.run_id }}-${{ github.run_attempt }}
+          add-paths: index.json
+          delete-branch: true
+          commit-message: Update standard pack index
+          title: Update standard pack index
+          body: |
+            Generated and schema-validated by the standard pack index synchronizer.
+
+            The exact PR head is validated by this workflow and receives an
+            `Index validation` check. Review and merge the PR to publish it;
+            successful generation alone does not change the public index.
+
+  verify:
+    needs: sync
+    if: needs.sync.outputs.pr-number != '' && needs.sync.outputs.head-sha != ''
+    permissions:
+      contents: read
+    uses: ./.github/workflows/validate.yml
+    with:
+      ref: ${{ needs.sync.outputs.head-sha }}
+
+  report-validation:
+    needs: [sync, verify]
+    if: always() && needs.sync.outputs.pr-number != '' && needs.sync.outputs.head-sha != ''
+    runs-on: ubuntu-24.04
+    permissions:
+      checks: write
+    steps:
+      - name: Record validation on the tested PR head
+        env:
+          GH_TOKEN: ${{ github.token }}
+          HEAD_SHA: ${{ needs.sync.outputs.head-sha }}
+          VALIDATION_RESULT: ${{ needs.verify.result }}
+          CHECK_NAME: Index validation
+        shell: bash
         run: |
-          if git diff --quiet -- index.json; then
-            echo "Index is already current"
-            exit 0
-          fi
-          git config user.name "attune-index[bot]"
-          git config user.email "attune-index[bot]@users.noreply.github.com"
-          git add index.json
-          git commit -m "Update standard pack index"
-          git push
+          set -euo pipefail
+          [[ "$HEAD_SHA" =~ ^[0-9a-f]{40}$ ]]
+          case "$VALIDATION_RESULT" in
+            success) conclusion=success ;;
+            failure|cancelled|skipped) conclusion=failure ;;
+            *) echo "Unexpected validation result" >&2; exit 1 ;;
+          esac
+          jq -n \
+            --arg name "$CHECK_NAME" \
+            --arg head_sha "$HEAD_SHA" \
+            --arg conclusion "$conclusion" \
+            --arg details_url "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" \
+            '{name: $name, head_sha: $head_sha, status: "completed", conclusion: $conclusion, details_url: $details_url}' \
+            | gh api --method POST "repos/$GITHUB_REPOSITORY/check-runs" --input -
